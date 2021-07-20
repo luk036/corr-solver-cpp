@@ -64,11 +64,11 @@ auto ldlt_ext::sqrt() -> Mat
 {
     assert(this->is_spd());
 
-    auto M = zeros({this->n, this->n});
-    for (auto i = 0U; i != this->n; ++i)
+    auto M = zeros({this->_n, this->_n});
+    for (auto i = 0U; i != this->_n; ++i)
     {
         M(i, i) = std::sqrt(this->T(i, i));
-        for (auto j = i + 1; j != this->n; ++j)
+        for (auto j = i + 1; j != this->_n; ++j)
         {
             M(i, j) = this->T(j, i) * M(i, i);
         }

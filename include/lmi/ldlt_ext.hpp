@@ -26,7 +26,7 @@ class ldlt_ext
     Vec v;        //!< witness vector
 
   private:
-    const size_t n; //!< dimension
+    const size_t _n; //!< dimension
     Mat T;          //!< temporary storage
 
   public:
@@ -37,7 +37,7 @@ class ldlt_ext
      */
     explicit ldlt_ext(size_t N)
         : v {zeros({N})}
-        , n {N}
+        , _n {N}
         , T {zeros({N, N})}
     {
     }
@@ -75,7 +75,7 @@ class ldlt_ext
         this->p = {0U, 0U};
         auto& [start, stop] = this->p;
 
-        for (auto i = 0U; i != this->n; ++i)
+        for (auto i = 0U; i != this->_n; ++i)
         {
             // auto j = start;
             auto d = getA(i, start);
