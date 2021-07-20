@@ -10,6 +10,8 @@ include(../cmake/tools.cmake)
 
 include(../cmake/CPM.cmake)
 
+include(../specific.cmake)
+
 CPMAddPackage(
   GITHUB_REPOSITORY jarro2783/cxxopts
   VERSION 2.2.1

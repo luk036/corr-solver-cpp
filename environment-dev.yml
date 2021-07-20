@@ -1,0 +1,6 @@
+name: lmi-cpp
+channels:
+  - conda-forge
+dependencies:
+  - cmake
+  - openblas

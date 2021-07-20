@@ -33,6 +33,8 @@ CPMAddPackage(
   OPTIONS "FMT_INSTALL YES" # create an installable target
 )
 
+include(specific.cmake)
+
 # ---- Add source files ----
 
 # Note: globbing sources is considered bad practice as CMake's generators may not detect new files
@@ -52,11 +54,11 @@ set_target_properties(Lmi PROPERTIES CXX_STANDARD 17)
 target_compile_options(Lmi PUBLIC "$<$<COMPILE_LANG_AND_ID:CXX,MSVC>:/permissive->")
 
 # Link dependencies
-target_link_libraries(Lmi PRIVATE fmt::fmt)
+target_link_libraries(Lmi PRIVATE fmt::fmt ${SPECIFIC_LIBS})
 
 target_include_directories(
   Lmi PUBLIC $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
-                 $<INSTALL_INTERFACE:include/${PROJECT_NAME}-${PROJECT_VERSION}>
+             $<INSTALL_INTERFACE:include/${PROJECT_NAME}-${PROJECT_VERSION}>
 )
 
 # ---- Create an installable target ----

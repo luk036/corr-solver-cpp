@@ -24,19 +24,22 @@ else()
   CPMAddPackage(NAME Lmi SOURCE_DIR ${CMAKE_CURRENT_LIST_DIR}/..)
 endif()
 
+include(../specific.cmake)
+
 # ---- Create binary ----
 
 file(GLOB sources CONFIGURE_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/source/*.cpp)
 add_executable(LmiTests ${sources})
-target_link_libraries(LmiTests doctest::doctest Lmi::Lmi)
+target_link_libraries(LmiTests doctest::doctest Lmi::Lmi ${SPECIFIC_LIBS})
 set_target_properties(LmiTests PROPERTIES CXX_STANDARD 17)
 
 # enable compiler warnings
 if(NOT TEST_INSTALLED_VERSION)
   if(CMAKE_CXX_COMPILER_ID MATCHES "Clang" OR CMAKE_CXX_COMPILER_ID MATCHES "GNU")
-    target_compile_options(Lmi PUBLIC -Wall -Wpedantic -Wextra -Werror)
+    # target_compile_options(Lmi PUBLIC -Wall -Wpedantic -Wextra -Werror)
+    target_compile_options(Lmi PUBLIC -Wall -Wextra)
   elseif(MSVC)
-    target_compile_options(Lmi PUBLIC /W4 /WX)
+    target_compile_options(Lmi PUBLIC /W4 /WX /wd4819 /wd4146 /wd4127)
     target_compile_definitions(LmiTests PUBLIC DOCTEST_CONFIG_USE_STD_HEADERS)
   endif()
 endif()
