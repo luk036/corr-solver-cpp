@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>lmi namespace | Lmi</title>
+  <title>qmi_oracle class | Lmi</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600" />
   <link rel="stylesheet" href="m-dark+documentation.compiled.css" />
   <link rel="icon" href="favicon-dark.png" type="image/png" />
@@ -49,50 +49,121 @@
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
         <h1>
-          lmi <span class="m-thin">namespace</span>
+          qmi_oracle <span class="m-thin">class</span>
+          <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="qmi__oracle_8hpp.html">&lt;lmi/qmi_oracle.hpp&gt;</a></div>
         </h1>
-        <p><span></span></p>
+        <p>Oracle for Quadratic Matrix Inequality.</p>
         <div class="m-block m-default">
           <h3>Contents</h3>
           <ul>
             <li>
               Reference
               <ul>
-                <li><a href="#nested-classes">Classes</a></li>
-                <li><a href="#enum-members">Enums</a></li>
+                <li><a href="#typeless-methods">Constructors, destructors, conversion operators</a></li>
+                <li><a href="#pub-methods">Public functions</a></li>
+                <li><a href="#pub-attribs">Public variables</a></li>
               </ul>
             </li>
           </ul>
         </div>
-        <section id="nested-classes">
-          <h2><a href="#nested-classes">Classes</a></h2>
+<p>This oracle solves the following feasibility problem:</p><pre>find  x
+s.t.  t * I - F(x)&#x27; F(x) &gt;= 0
+</pre><p>where</p><pre>F(x) = F0 - (F1 * x1 + F2 * x2 + ...)
+</pre>
+        <section id="typeless-methods">
+          <h2><a href="#typeless-methods">Constructors, destructors, conversion operators</a></h2>
           <dl class="m-doc">
             <dt>
-              class <a href="classlmi_1_1Lmi.html" class="m-doc">Lmi</a>
+              <span class="m-doc-wrap-bumper"><a href="#a541f9f77d4f3426f9ca9fe3706dc3961" class="m-doc">qmi_oracle</a>(</span><span class="m-doc-wrap">gsl::span&lt;const Arr&gt; F,
+              Arr F0)</span>
             </dt>
-            <dd>A class for saying hello in multiple languages.</dd>
+            <dd>Construct a new qmi oracle object.</dd>
           </dl>
         </section>
-        <section id="enum-members">
-          <h2><a href="#enum-members">Enums</a></h2>
+        <section id="pub-methods">
+          <h2><a href="#pub-methods">Public functions</a></h2>
           <dl class="m-doc">
             <dt>
-              <span class="m-doc-wrap-bumper">enum class <a href="#aa475affd82b1c95cca45b926c0e3a839" class="m-doc">LanguageCode</a> { </span><span class="m-doc-wrap"><a href="#aa475affd82b1c95cca45b926c0e3a839aaa85f1840e282d8a8304dbc2c0d7c9b2" class="m-doc">EN</a>,
-              <a href="#aa475affd82b1c95cca45b926c0e3a839a3a52f3c22ed6fcde5bf696a6c02c9e73" class="m-doc">DE</a>,
-              <a href="#aa475affd82b1c95cca45b926c0e3a839a04c19fa1e772ab66f0aad2efe61f25cd" class="m-doc">ES</a>,
-              <a href="#aa475affd82b1c95cca45b926c0e3a839a11aedd0e432747c2bcd97b82808d24a0" class="m-doc">FR</a> }</span>
+              <span class="m-doc-wrap-bumper">auto <a href="#a648435818710c70bd1b75f6901712a4e" class="m-doc">update</a>(</span><span class="m-doc-wrap">double t) -&gt; void -&gt; auto</span>
+            </dt>
+            <dd>Update t.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#a6045c78b17db7098c81088c7194f597c" class="m-doc">operator()</a>(</span><span class="m-doc-wrap">const Arr&amp; x) -&gt; std::optional&lt; Cut &gt; -&gt; auto</span>
             </dt>
             <dd></dd>
           </dl>
         </section>
+        <section id="pub-attribs">
+          <h2><a href="#pub-attribs">Public variables</a></h2>
+          <dl class="m-doc">
+            <dt id="a06e5a72c43e7e545b8589de375afa39f">
+              <a href="classldlt__ext.html" class="m-doc">ldlt_<wbr />ext</a> <a href="#a06e5a72c43e7e545b8589de375afa39f" class="m-doc-self">_Q</a>
+            </dt>
+            <dd><span></span></dd>
+          </dl>
+        </section>
         <section>
-          <h2>Enum documentation</h2>
-          <section class="m-doc-details" id="aa475affd82b1c95cca45b926c0e3a839"><div>
+          <h2>Function documentation</h2>
+          <section class="m-doc-details" id="a541f9f77d4f3426f9ca9fe3706dc3961"><div>
             <h3>
-              enum class lmi::<wbr /><a href="#aa475affd82b1c95cca45b926c0e3a839" class="m-doc-self">LanguageCode</a>
-              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="greeter_8h.html">&lt;lmi/greeter.h&gt;</a></div>
+              <span class="m-doc-wrap-bumper"> qmi_<wbr />oracle::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a541f9f77d4f3426f9ca9fe3706dc3961" class="m-doc-self">qmi_oracle</a>(</span><span class="m-doc-wrap">gsl::span&lt;const Arr&gt; F,
+              Arr F0)</span></span>
             </h3>
-<p>Language codes to be used with the <a href="classlmi_1_1Lmi.html" class="m-doc">Lmi</a> class</p>
+            <p>Construct a new qmi oracle object.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">F&nbsp;<span class="m-label m-flat m-info">in</span></td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>F0&nbsp;<span class="m-label m-flat m-info">in</span></td>
+                  <td></td>
+                </tr>
+              </tbody>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="a648435818710c70bd1b75f6901712a4e"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">auto qmi_<wbr />oracle::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a648435818710c70bd1b75f6901712a4e" class="m-doc-self">update</a>(</span><span class="m-doc-wrap">double t) -&gt; void</span></span>
+            </h3>
+            <p>Update t.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">t&nbsp;<span class="m-label m-flat m-info">in</span></td>
+                  <td>the best-so-far optimal value</td>
+                </tr>
+              </tbody>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="a6045c78b17db7098c81088c7194f597c"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">auto qmi_<wbr />oracle::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a6045c78b17db7098c81088c7194f597c" class="m-doc-self">operator()</a>(</span><span class="m-doc-wrap">const Arr&amp; x) -&gt; std::optional&lt; Cut &gt;</span></span>
+            </h3>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">x&nbsp;<span class="m-label m-flat m-info">in</span></td>
+                  <td></td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>std::optional&lt;Cut&gt;</td>
+                </tr>
+              </tfoot>
+            </table>
           </div></section>
         </section>
       </div>
