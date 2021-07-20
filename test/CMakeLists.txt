@@ -26,7 +26,6 @@ endif()
 
 include(../specific.cmake)
 
-
 CPMAddPackage(
   NAME fmt
   GIT_TAG 7.1.3

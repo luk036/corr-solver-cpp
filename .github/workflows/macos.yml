@@ -36,11 +36,7 @@ jobs:
 
       - name: Install dependent software
         run: |
-          conda info
-          conda list
-          conda config --show-sources
-          conda config --show
-          conda env update --file environment-dev.yml --name base
+          sudo conda env update --file environment-dev.yml --name base
 
       - name: configure
         run: cmake -Stest -Bbuild -DCMAKE_BUILD_TYPE=Debug

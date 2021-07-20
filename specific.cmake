@@ -19,7 +19,6 @@ CPMAddPackage("gh:xtensor-stack/xtensor-blas#0.18.0")
 # if(xtensor-blas_ADDED)
 message(STATUS "Found xtensor-blas: ${xtensor-blas_SOURCE_DIR}")
 include_directories(${xtensor-blas_SOURCE_DIR}/include)
-# endif(xtensor-blas_ADDED)
-# remember to turn off the warnings
+# endif(xtensor-blas_ADDED) remember to turn off the warnings
 
-set (SPECIFIC_LIBS EllAlgo::EllAlgo ${OpenBLAS_LIBRARIES} GSL)
+set(SPECIFIC_LIBS EllAlgo::EllAlgo ${OpenBLAS_LIBRARIES} GSL)
