@@ -12,23 +12,23 @@ using Cut = std::tuple<Arr, double>;
  * @return auto
  */
 std::optional<Cut> lmi0_oracle::operator()(const Arr& x) {
-  auto n = x.size();
+    auto n = x.size();
 
-  auto getA = [&, this](size_t i, size_t j) -> double {
-    auto a = 0.;
-    for (auto k = 0U; k != n; ++k) {
-      a += this->_F[k](i, j) * x(k);
+    auto getA = [&, this](size_t i, size_t j) -> double {
+        auto a = 0.;
+        for (auto k = 0U; k != n; ++k) {
+            a += this->_F[k](i, j) * x(k);
+        }
+        return a;
+    };
+
+    if (this->_Q.factor(getA)) {
+        return {};
     }
-    return a;
-  };
-
-  if (this->_Q.factor(getA)) {
-    return {};
-  }
-  auto ep = this->_Q.witness();
-  auto g = zeros(x);
-  for (auto i = 0U; i != n; ++i) {
-    g(i) = -_Q.sym_quad(this->_F[i]);
-  }
-  return {{std::move(g), ep}};
+    auto ep = this->_Q.witness();
+    auto g = zeros(x);
+    for (auto i = 0U; i != n; ++i) {
+        g(i) = -_Q.sym_quad(this->_F[i]);
+    }
+    return {{std::move(g), ep}};
 }

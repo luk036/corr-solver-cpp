@@ -13,20 +13,20 @@ using Cut = std::tuple<Arr, double>;
  * @return std::optional<Cut>
  */
 std::optional<Cut> lmi_old_oracle::operator()(const Arr& x) {
-  const auto n = x.size();
+    const auto n = x.size();
 
-  auto A = Arr{this->_F0};
-  for (auto k = 0U; k != n; ++k) {
-    A -= this->_F[k] * x(k);
-  }
+    auto A = Arr{this->_F0};
+    for (auto k = 0U; k != n; ++k) {
+        A -= this->_F[k] * x(k);
+    }
 
-  if (this->_Q.factorize(A)) {
-    return {};
-  }
-  const auto ep = this->_Q.witness();
-  auto g = zeros(x);
-  for (auto i = 0U; i != n; ++i) {
-    g(i) = this->_Q.sym_quad(this->_F[i]);
-  }
-  return {{std::move(g), ep}};
+    if (this->_Q.factorize(A)) {
+        return {};
+    }
+    const auto ep = this->_Q.witness();
+    auto g = zeros(x);
+    for (auto i = 0U; i != n; ++i) {
+        g(i) = this->_Q.sym_quad(this->_F[i]);
+    }
+    return {{std::move(g), ep}};
 }
