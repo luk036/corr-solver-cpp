@@ -26,6 +26,13 @@ endif()
 
 include(../specific.cmake)
 
+CPMAddPackage(
+  NAME fmt
+  GIT_TAG 7.1.3
+  GITHUB_REPOSITORY fmtlib/fmt
+  OPTIONS "FMT_INSTALL YES" # create an installable target
+)
+
 # ---- Create binary ----
 
 file(GLOB sources CONFIGURE_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/source/*.cpp)
@@ -51,8 +58,7 @@ enable_testing()
 # Note: doctest and similar testing frameworks can automatically configure CMake tests. For other
 # testing frameworks add the tests target instead: add_test(NAME lmiTests COMMAND LmiTests)
 
-include(${doctest_SOURCE_DIR}/scripts/cmake/doctest.cmake)
-doctest_discover_tests(LmiTests)
+add_test(NAME lmiTests COMMAND LmiTests)
 
 # ---- code coverage ----
 
