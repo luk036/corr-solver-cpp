@@ -31,16 +31,15 @@ jobs:
         # uses: conda-incubator/setup-miniconda@35d1405e78aa3f784fe3ce9a2eb378d5eeb62169
         uses: conda-incubator/setup-miniconda@v2.1.1
         with:
-          auto-activate-base: true
-          activate-environment: ""
-
+          auto-update-conda: ture
+          
       - name: Install dependent software
         run: |
           conda info
           conda list
           conda config --show-sources
           conda config --show
-          conda env update --file environment-dev.yml --name base
+          conda install -c conda-forge cmake openblas
 
       - name: configure
         run: cmake -Stest -Bbuild

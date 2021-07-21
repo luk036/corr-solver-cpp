@@ -18,20 +18,13 @@ include(../cmake/CPM.cmake)
 CPMAddPackage("gh:onqtam/doctest#2.4.5")
 CPMAddPackage("gh:TheLartians/Format.cmake@1.7.0")
 
+include(../specific.cmake)
+
 if(TEST_INSTALLED_VERSION)
   find_package(Lmi REQUIRED)
 else()
   CPMAddPackage(NAME Lmi SOURCE_DIR ${CMAKE_CURRENT_LIST_DIR}/..)
 endif()
-
-include(../specific.cmake)
-
-CPMAddPackage(
-  NAME fmt
-  GIT_TAG 7.1.3
-  GITHUB_REPOSITORY fmtlib/fmt
-  OPTIONS "FMT_INSTALL YES" # create an installable target
-)
 
 # ---- Create binary ----
 
