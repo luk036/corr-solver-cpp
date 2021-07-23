@@ -46,8 +46,8 @@ auto main(int argc, char** argv) -> int {
         return 1;
     }
 
-    lmi::Lmi lmi(name);
-    std::cout << lmi.greet(langIt->second) << std::endl;
+    // lmi::Lmi lmi(name);
+    // std::cout << lmi.greet(langIt->second) << std::endl;
 
     return 0;
 }

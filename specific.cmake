@@ -52,7 +52,6 @@ CPMAddPackage(
   OPTIONS "INSTALL_ONLY YES" # create an installable target
 )
 
-
 if(WIN32)
   add_definitions(-DXTENSOR_USE_FLENS_BLAS)
 endif()
