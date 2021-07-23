@@ -45,7 +45,13 @@ if(xtensor-blas_ADDED)
 endif(xtensor-blas_ADDED)
 # remember to turn off the warnings
 
-CPMAddPackage("gh:luk036/ellalgo-cpp#1.0.2")
+CPMAddPackage(
+  NAME EllAlgo
+  GIT_TAG 1.0.3
+  GITHUB_REPOSITORY luk036/ellalgo-cpp
+  OPTIONS "INSTALL_ONLY YES" # create an installable target
+)
+
 
 if(WIN32)
   add_definitions(-DXTENSOR_USE_FLENS_BLAS)

@@ -33,9 +33,6 @@ jobs:
       - name: Install dependent software
         run: |
           conda info
-          conda list
-          conda config --show-sources
-          conda config --show
           conda env update --file environment-dev.yml --name base
 
       - name: Install format dependencies
@@ -44,7 +41,7 @@ jobs:
           pip3 install cmake_format==0.6.11 pyyaml
 
       - name: configure
-        run: cmake -Stest -Bbuild
+        run: cmake -S. -Bbuild
 
       - name: check style
         run: cmake --build build --target check-format
