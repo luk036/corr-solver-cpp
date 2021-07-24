@@ -1,7 +1,6 @@
 // -*- coding: utf-8 -*-
 #pragma once
 
-#include <ellalgo/ell_assert.hpp>  // ELL_UNLIKELY
 #include <ellalgo/utility.hpp>
 #include <xtensor/xarray.hpp>
 
@@ -87,7 +86,7 @@ class ldlt_ext {
                     stop = i + 1;
                     break;
                 }
-                if (ELL_UNLIKELY(d == 0.)) {
+                if (d == 0.) {
                     start = i + 1;
                     // restart at i + 1, special as an LMI oracle
                 }
