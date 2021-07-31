@@ -1,11 +1,11 @@
 #include <fmt/format.h>
-#include <lmi/greeter.h>
+#include <corrsolver/greeter.h>
 
 using namespace lmi;
 
-Lmi::Lmi(std::string _name) : name(std::move(_name)) {}
+CorrSolver::CorrSolver(std::string _name) : name(std::move(_name)) {}
 
-std::string Lmi::greet(LanguageCode lang) const {
+std::string CorrSolver::greet(LanguageCode lang) const {
     switch (lang) {
         default:
         case LanguageCode::EN:

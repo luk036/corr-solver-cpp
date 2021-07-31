@@ -9,7 +9,7 @@ if(PROJECT_SOURCE_DIR STREQUAL PROJECT_BINARY_DIR)
   )
 endif()
 
-project(Lmi LANGUAGES CXX)
+project(CorrSolver LANGUAGES CXX)
 
 # --- Import tools ----
 

@@ -1,5 +1,5 @@
-#include <lmi/greeter.h>
-#include <lmi/version.h>
+#include <corrsolver/greeter.h>
+#include <corrsolver/version.h>
 
 #include <cxxopts.hpp>
 #include <iostream>
@@ -36,7 +36,7 @@ auto main(int argc, char** argv) -> int {
     }
 
     if (result["version"].as<bool>()) {
-        std::cout << "Lmi, version " << LMI_VERSION << std::endl;
+        std::cout << "CorrSolver, version " << CORRSOLVER_VERSION << std::endl;
         return 0;
     }
 
@@ -46,7 +46,7 @@ auto main(int argc, char** argv) -> int {
         return 1;
     }
 
-    // lmi::Lmi lmi(name);
+    // lmi::CorrSolver lmi(name);
     // std::cout << lmi.greet(langIt->second) << std::endl;
 
     return 0;

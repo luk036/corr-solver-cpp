@@ -1,5 +1,5 @@
 #include <cassert>
-#include <lmi/qmi_oracle.hpp>
+#include <lmi/Qmi_oracle.hpp>
 #include <xtensor-blas/xlinalg.hpp>
 
 #define ROW(X, index) xt::view(X, index, xt::all())
@@ -14,7 +14,7 @@ using Cut = std::tuple<Arr, double>;
  * @param[in] x
  * @return std::optional<Cut>
  */
-std::optional<Cut> qmi_oracle::operator()(const Arr& x) {
+std::optional<Cut> Qmi_oracle::operator()(const Arr& x) {
     using xt::linalg::dot;
 
     this->_count = 0;

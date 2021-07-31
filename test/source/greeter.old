@@ -1,13 +1,13 @@
 #include <doctest/doctest.h>
-#include <lmi/greeter.h>
-#include <lmi/version.h>
+#include <corrsolver/greeter.h>
+#include <corrsolver/version.h>
 
 #include <string>
 
-// TEST_CASE("Lmi") {
+// TEST_CASE("CorrSolver") {
 //     using namespace lmi;
 
-//     Lmi lmi("Tests");
+//     CorrSolver lmi("Tests");
 
 //     CHECK(lmi.greet(LanguageCode::EN) == "Hello, Tests!");
 //     CHECK(lmi.greet(LanguageCode::DE) == "Hallo Tests!");
@@ -15,7 +15,7 @@
 //     CHECK(lmi.greet(LanguageCode::FR) == "Bonjour Tests!");
 // }
 
-TEST_CASE("Lmi version") {
-    static_assert(std::string_view(LMI_VERSION) == std::string_view("1.0"));
-    CHECK(std::string(LMI_VERSION) == std::string("1.0"));
+TEST_CASE("CorrSolver version") {
+    static_assert(std::string_view(CORRSOLVER_VERSION) == std::string_view("1.0"));
+    CHECK(std::string(CORRSOLVER_VERSION) == std::string("1.0"));
 }

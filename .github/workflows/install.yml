@@ -49,4 +49,4 @@ jobs:
         run: cmake --build build --config Debug -j4
 
       - name: run
-        run: ./build/test_installed/Lmi
+        run: ./build/test_installed/CorrSolver

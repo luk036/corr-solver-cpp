@@ -2,9 +2,9 @@
 #include <ellalgo/cutting_plane.hpp>
 #include <ellalgo/ell.hpp>
 #include <ellalgo/utility.hpp>
-#include <lmi/lmi0_oracle.hpp>
-#include <lmi/lmi_oracle.hpp>
-#include <lmi/qmi_oracle.hpp>
+#include <ellalgo/oracles/lmi0_oracle.hpp>
+#include <ellalgo/oracles/lmi_oracle.hpp>
+#include <lmi/Qmi_oracle.hpp>
 // #include <iostream>
 #include <limits>
 #include <tuple>
@@ -132,7 +132,7 @@ class lsq_oracle {
     using Cut = std::tuple<Arr, double>;
 
   private:
-    qmi_oracle _qmi;
+    Qmi_oracle _qmi;
     lmi0_oracle _lmi0;
 
   public:
@@ -343,7 +343,7 @@ std::tuple<Arr, size_t, bool> lsq_corr_poly(const Arr& Y, const Arr& s, size_t m
     auto Sig = construct_poly_matrix(s, m);
     // P = mtx_norm_oracle(Sig, Y, a)
     auto a = zeros({m});
-    auto Q = qmi_oracle(Sig, Y);
+    auto Q = Qmi_oracle(Sig, Y);
     auto E = ell(10., a);
     auto P = bsearch_adaptor<decltype(Q), decltype(E)>(Q, E);
     // double normY = xt::norm_l2(Y);
