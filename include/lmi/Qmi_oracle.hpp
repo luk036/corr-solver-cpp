@@ -5,7 +5,7 @@
 #include <optional>
 #include <xtensor/xarray.hpp>
 
-#include "ldlt_ext.hpp"
+#include <ellalgo/oracles/ldlt_ext.hpp>
 
 /*!
  * @brief Oracle for Quadratic Matrix Inequality
@@ -19,7 +19,7 @@
  *
  *        F(x) = F0 - (F1 * x1 + F2 * x2 + ...)
  */
-class qmi_oracle {
+class Qmi_oracle {
     using Arr = xt::xarray<double, xt::layout_type::row_major>;
     using Cut = std::tuple<Arr, double>;
 
@@ -43,7 +43,7 @@ class qmi_oracle {
      * @param[in] F
      * @param[in] F0
      */
-    qmi_oracle(gsl::span<const Arr> F, Arr F0)
+    Qmi_oracle(gsl::span<const Arr> F, Arr F0)
         : _n{F0.shape()[0]},
           _m{F0.shape()[1]},
           _F{F},

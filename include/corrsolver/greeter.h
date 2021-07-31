@@ -4,13 +4,13 @@
 
 namespace lmi {
 
-    /**  Language codes to be used with the Lmi class */
+    /**  Language codes to be used with the CorrSolver class */
     enum class LanguageCode { EN, DE, ES, FR };
 
     /**
      * @brief A class for saying hello in multiple languages
      */
-    class Lmi {
+    class CorrSolver {
         std::string name;
 
       public:
@@ -18,7 +18,7 @@ namespace lmi {
          * @brief Creates a new lmi
          * @param name the name to greet
          */
-        Lmi(std::string name);
+        CorrSolver(std::string name);
 
         /**
          * @brief Creates a localized string containing the greeting
