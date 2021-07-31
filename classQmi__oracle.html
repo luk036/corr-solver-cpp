@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>qmi_oracle class | Lmi</title>
+  <title>Qmi_oracle class | CorrSolver</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600" />
   <link rel="stylesheet" href="m-dark+documentation.compiled.css" />
   <link rel="icon" href="favicon-dark.png" type="image/png" />
@@ -13,7 +13,7 @@
 <header><nav id="navigation">
   <div class="m-container">
     <div class="m-row">
-      <a href="index.html" id="m-navbar-brand" class="m-col-t-8 m-col-m-none m-left-m">Lmi</a>
+      <a href="index.html" id="m-navbar-brand" class="m-col-t-8 m-col-m-none m-left-m">CorrSolver</a>
       <div class="m-col-t-4 m-hide-m m-text-right m-nopadr">
         <a href="#search" class="m-doc-search-icon" title="Search" onclick="return showSearch()"><svg style="height: 0.9rem;" viewBox="0 0 16 16">
           <path id="m-doc-search-icon-path" d="m6 0c-3.31 0-6 2.69-6 6 0 3.31 2.69 6 6 6 1.49 0 2.85-0.541 3.89-1.44-0.0164 0.338 0.147 0.759 0.5 1.15l3.22 3.79c0.552 0.614 1.45 0.665 2 0.115 0.55-0.55 0.499-1.45-0.115-2l-3.79-3.22c-0.392-0.353-0.812-0.515-1.15-0.5 0.895-1.05 1.44-2.41 1.44-3.89 0-3.31-2.69-6-6-6zm0 1.56a4.44 4.44 0 0 1 4.44 4.44 4.44 4.44 0 0 1-4.44 4.44 4.44 4.44 0 0 1-4.44-4.44 4.44 4.44 0 0 1 4.44-4.44z"/>
@@ -49,8 +49,8 @@
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
         <h1>
-          qmi_oracle <span class="m-thin">class</span>
-          <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="qmi__oracle_8hpp.html">&lt;lmi/qmi_oracle.hpp&gt;</a></div>
+          Qmi_oracle <span class="m-thin">class</span>
+          <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="Qmi__oracle_8hpp.html">&lt;lmi/Qmi_oracle.hpp&gt;</a></div>
         </h1>
         <p>Oracle for Quadratic Matrix Inequality.</p>
         <div class="m-block m-default">
@@ -74,7 +74,7 @@ s.t.  t * I - F(x)&#x27; F(x) &gt;= 0
           <h2><a href="#typeless-methods">Constructors, destructors, conversion operators</a></h2>
           <dl class="m-doc">
             <dt>
-              <span class="m-doc-wrap-bumper"><a href="#a541f9f77d4f3426f9ca9fe3706dc3961" class="m-doc">qmi_oracle</a>(</span><span class="m-doc-wrap">gsl::span&lt;const Arr&gt; F,
+              <span class="m-doc-wrap-bumper"><a href="#a8d68b5d766a123234c525872073a9c22" class="m-doc">Qmi_oracle</a>(</span><span class="m-doc-wrap">gsl::span&lt;const Arr&gt; F,
               Arr F0)</span>
             </dt>
             <dd>Construct a new qmi oracle object.</dd>
@@ -84,11 +84,11 @@ s.t.  t * I - F(x)&#x27; F(x) &gt;= 0
           <h2><a href="#pub-methods">Public functions</a></h2>
           <dl class="m-doc">
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a648435818710c70bd1b75f6901712a4e" class="m-doc">update</a>(</span><span class="m-doc-wrap">double t) -&gt; void -&gt; auto</span>
+              <span class="m-doc-wrap-bumper">auto <a href="#a2fc3a09d5006deea837cd01e8f8acd87" class="m-doc">update</a>(</span><span class="m-doc-wrap">double t) -&gt; void -&gt; auto</span>
             </dt>
             <dd>Update t.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a6045c78b17db7098c81088c7194f597c" class="m-doc">operator()</a>(</span><span class="m-doc-wrap">const Arr&amp; x) -&gt; std::optional&lt; Cut &gt; -&gt; auto</span>
+              <span class="m-doc-wrap-bumper">auto <a href="#a30a7cc89bcd8f2f990bcb491678262d1" class="m-doc">operator()</a>(</span><span class="m-doc-wrap">const Arr&amp; x) -&gt; std::optional&lt; Cut &gt; -&gt; auto</span>
             </dt>
             <dd></dd>
           </dl>
@@ -96,17 +96,17 @@ s.t.  t * I - F(x)&#x27; F(x) &gt;= 0
         <section id="pub-attribs">
           <h2><a href="#pub-attribs">Public variables</a></h2>
           <dl class="m-doc">
-            <dt id="a06e5a72c43e7e545b8589de375afa39f">
-              <a href="classldlt__ext.html" class="m-doc">ldlt_<wbr />ext</a> <a href="#a06e5a72c43e7e545b8589de375afa39f" class="m-doc-self">_Q</a>
+            <dt id="a50a21720ba600b7daf465e77bde83540">
+              ldlt_ext <a href="#a50a21720ba600b7daf465e77bde83540" class="m-doc-self">_Q</a>
             </dt>
             <dd><span></span></dd>
           </dl>
         </section>
         <section>
           <h2>Function documentation</h2>
-          <section class="m-doc-details" id="a541f9f77d4f3426f9ca9fe3706dc3961"><div>
+          <section class="m-doc-details" id="a8d68b5d766a123234c525872073a9c22"><div>
             <h3>
-              <span class="m-doc-wrap-bumper"> qmi_<wbr />oracle::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a541f9f77d4f3426f9ca9fe3706dc3961" class="m-doc-self">qmi_oracle</a>(</span><span class="m-doc-wrap">gsl::span&lt;const Arr&gt; F,
+              <span class="m-doc-wrap-bumper"> Qmi_<wbr />oracle::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a8d68b5d766a123234c525872073a9c22" class="m-doc-self">Qmi_oracle</a>(</span><span class="m-doc-wrap">gsl::span&lt;const Arr&gt; F,
               Arr F0)</span></span>
             </h3>
             <p>Construct a new qmi oracle object.</p>
@@ -126,9 +126,9 @@ s.t.  t * I - F(x)&#x27; F(x) &gt;= 0
               </tbody>
             </table>
           </div></section>
-          <section class="m-doc-details" id="a648435818710c70bd1b75f6901712a4e"><div>
+          <section class="m-doc-details" id="a2fc3a09d5006deea837cd01e8f8acd87"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">auto qmi_<wbr />oracle::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a648435818710c70bd1b75f6901712a4e" class="m-doc-self">update</a>(</span><span class="m-doc-wrap">double t) -&gt; void</span></span>
+              <span class="m-doc-wrap-bumper">auto Qmi_<wbr />oracle::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a2fc3a09d5006deea837cd01e8f8acd87" class="m-doc-self">update</a>(</span><span class="m-doc-wrap">double t) -&gt; void</span></span>
             </h3>
             <p>Update t.</p>
             <table class="m-table m-fullwidth m-flat">
@@ -143,9 +143,9 @@ s.t.  t * I - F(x)&#x27; F(x) &gt;= 0
               </tbody>
             </table>
           </div></section>
-          <section class="m-doc-details" id="a6045c78b17db7098c81088c7194f597c"><div>
+          <section class="m-doc-details" id="a30a7cc89bcd8f2f990bcb491678262d1"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">auto qmi_<wbr />oracle::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a6045c78b17db7098c81088c7194f597c" class="m-doc-self">operator()</a>(</span><span class="m-doc-wrap">const Arr&amp; x) -&gt; std::optional&lt; Cut &gt;</span></span>
+              <span class="m-doc-wrap-bumper">auto Qmi_<wbr />oracle::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a30a7cc89bcd8f2f990bcb491678262d1" class="m-doc-self">operator()</a>(</span><span class="m-doc-wrap">const Arr&amp; x) -&gt; std::optional&lt; Cut &gt;</span></span>
             </h3>
             <table class="m-table m-fullwidth m-flat">
               <thead>
@@ -210,7 +210,7 @@ s.t.  t * I - F(x)&#x27; F(x) &gt;= 0
   <div class="m-container">
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
-        <p>Lmi. Created with <a href="https://doxygen.org/">Doxygen</a> 1.8.17 and <a href="https://mcss.mosra.cz/">m.css</a>.</p>
+        <p>CorrSolver. Created with <a href="https://doxygen.org/">Doxygen</a> 1.8.17 and <a href="https://mcss.mosra.cz/">m.css</a>.</p>
       </div>
     </div>
   </div>
