@@ -11,6 +11,8 @@ endif()
 
 project(CorrSolver LANGUAGES CXX)
 
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/../cmake")
+
 # --- Import tools ----
 
 include(../cmake/tools.cmake)

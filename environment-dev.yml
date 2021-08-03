@@ -1,4 +1,4 @@
-name: lmi-cpp
+name: corr-solver-cpp
 channels:
   - conda-forge
 dependencies:

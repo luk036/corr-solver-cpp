@@ -1,9 +1,9 @@
 // -*- coding: utf-8 -*-
 #include <ellalgo/cutting_plane.hpp>
 #include <ellalgo/ell.hpp>
-#include <ellalgo/utility.hpp>
 #include <ellalgo/oracles/lmi0_oracle.hpp>
 #include <ellalgo/oracles/lmi_oracle.hpp>
+#include <ellalgo/utility.hpp>
 #include <lmi/Qmi_oracle.hpp>
 // #include <iostream>
 #include <limits>
