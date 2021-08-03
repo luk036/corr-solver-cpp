@@ -7,11 +7,11 @@
 #include <unordered_map>
 
 auto main(int argc, char** argv) -> int {
-    const std::unordered_map<std::string, lmi::LanguageCode> languages{
-        {"en", lmi::LanguageCode::EN},
-        {"de", lmi::LanguageCode::DE},
-        {"es", lmi::LanguageCode::ES},
-        {"fr", lmi::LanguageCode::FR},
+    const std::unordered_map<std::string, corrsolver::LanguageCode> languages{
+        {"en", corrsolver::LanguageCode::EN},
+        {"de", corrsolver::LanguageCode::DE},
+        {"es", corrsolver::LanguageCode::ES},
+        {"fr", corrsolver::LanguageCode::FR},
     };
 
     cxxopts::Options options(*argv, "A program to welcome the world!");
@@ -46,8 +46,8 @@ auto main(int argc, char** argv) -> int {
         return 1;
     }
 
-    // lmi::CorrSolver lmi(name);
-    // std::cout << lmi.greet(langIt->second) << std::endl;
+    // corrsolver::CorrSolver corrsolver(name);
+    // std::cout << corrsolver.greet(langIt->second) << std::endl;
 
     return 0;
 }

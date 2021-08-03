@@ -1,7 +1,7 @@
 #include <corrsolver/greeter.h>
 #include <fmt/format.h>
 
-using namespace lmi;
+using namespace corrsolver;
 
 CorrSolver::CorrSolver(std::string _name) : name(std::move(_name)) {}
 

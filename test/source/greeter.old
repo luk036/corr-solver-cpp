@@ -5,14 +5,14 @@
 #include <string>
 
 // TEST_CASE("CorrSolver") {
-//     using namespace lmi;
+//     using namespace corrsolver;
 
-//     CorrSolver lmi("Tests");
+//     CorrSolver corrsolver("Tests");
 
-//     CHECK(lmi.greet(LanguageCode::EN) == "Hello, Tests!");
-//     CHECK(lmi.greet(LanguageCode::DE) == "Hallo Tests!");
-//     CHECK(lmi.greet(LanguageCode::ES) == "¡Hola Tests!");
-//     CHECK(lmi.greet(LanguageCode::FR) == "Bonjour Tests!");
+//     CHECK(corrsolver.greet(LanguageCode::EN) == "Hello, Tests!");
+//     CHECK(corrsolver.greet(LanguageCode::DE) == "Hallo Tests!");
+//     CHECK(corrsolver.greet(LanguageCode::ES) == "¡Hola Tests!");
+//     CHECK(corrsolver.greet(LanguageCode::FR) == "Bonjour Tests!");
 // }
 
 TEST_CASE("CorrSolver version") {

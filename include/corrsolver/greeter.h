@@ -2,7 +2,7 @@
 
 #include <string>
 
-namespace lmi {
+namespace corrsolver {
 
     /**  Language codes to be used with the CorrSolver class */
     enum class LanguageCode { EN, DE, ES, FR };
@@ -15,7 +15,7 @@ namespace lmi {
 
       public:
         /**
-         * @brief Creates a new lmi
+         * @brief Creates a new corrsolver
          * @param name the name to greet
          */
         CorrSolver(std::string name);
@@ -28,4 +28,4 @@ namespace lmi {
         std::string greet(LanguageCode lang = LanguageCode::EN) const;
     };
 
-}  // namespace lmi
+}  // namespace corrsolver

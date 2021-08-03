@@ -1,5 +1,5 @@
 #include <cassert>
-#include <lmi/Qmi_oracle.hpp>
+#include <corrsolver/Qmi_oracle.hpp>
 #include <xtensor-blas/xlinalg.hpp>
 
 #define ROW(X, index) xt::view(X, index, xt::all())

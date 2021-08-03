@@ -9,7 +9,7 @@
   <img src="https://repository-images.githubusercontent.com/254842585/4dfa7580-7ffb-11ea-99d0-46b8fe2f4170" height="175" width="auto" />
 </p>
 
-# lmi-cpp
+# corr-solver-cppcpp
 
 Linear Matrix Inequalities for modern C++
 
@@ -36,7 +36,7 @@ Linear Matrix Inequalities for modern C++
 
 - Use this repo [as a template](https://help.github.com/en/github/creating-cloning-and-archiving-repositories/creating-a-repository-from-a-template).
 - Replace all occurrences of "CorrSolver" in the relevant CMakeLists.txt with the name of your project
-  - Capitalization matters here: `CorrSolver` means the name of the project, while `lmi` is used in file names.
+  - Capitalization matters here: `CorrSolver` means the name of the project, while `corrsolver` is used in file names.
   - Remember to rename the `include/corrsolver` directory to use your project's lowercase name and update all relevant `#include`s accordingly.
 - Replace the source files with your own
 - For header-only libraries: see the comments in [CMakeLists.txt](CMakeLists.txt)
