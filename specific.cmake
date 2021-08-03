@@ -7,7 +7,7 @@ CPMAddPackage(
   OPTIONS "FMT_INSTALL YES" # create an installable target
 )
 
-find_package(OpenBLAS REQUIRED)
+find_package(OpenBLAS QUIET)
 if(OpenBLAS_FOUND)
   message(STATUS "Found OpenBLAS: ${OpenBLAS_LIBRARIES}")
   # target_include_directories(OpenBLAS::OpenBLAS SYSTEM INTERFACE ${OpenBLAS_INCLUDE_DIRS})
