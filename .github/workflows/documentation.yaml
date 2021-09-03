@@ -30,7 +30,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          brew install doxygen
+          brew install doxygen=1.8
           pip3 install jinja2 Pygments
 
       - name: Build
