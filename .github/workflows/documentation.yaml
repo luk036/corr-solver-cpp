@@ -16,7 +16,7 @@ env:
 jobs:
   build:
     name: Build and publish documentation
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
 
@@ -26,11 +26,11 @@ jobs:
           key: ${{ github.workflow }}-cpm-modules-${{ hashFiles('**/CMakeLists.txt', '**/*.cmake') }}
 
       - name: Install project dependencies
-        run: brew install openblas
+        run: sudo apt-get install libopenblas-dev
 
       - name: Install dependencies
         run: |
-          brew install doxygen=1.8
+          sudo apt-get install doxygen
           pip3 install jinja2 Pygments
 
       - name: Build
