@@ -1,0 +1,7 @@
+name: corr-solver-cpp
+channels:
+  - conda-forge
+dependencies:
+  - cmake
+  - openblas
+  - doxygen
