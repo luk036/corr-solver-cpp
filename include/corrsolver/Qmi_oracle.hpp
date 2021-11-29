@@ -1,7 +1,7 @@
 // -*- coding: utf-8 -*-
 #pragma once
 
-#include <ellalgo/oracles/ldlt_ext.hpp>
+#include <lmisolver/ldlt_ext.hpp>
 #include <gsl/span>
 #include <optional>
 #include <xtensor/xarray.hpp>

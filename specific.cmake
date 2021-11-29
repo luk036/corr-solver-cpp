@@ -11,6 +11,40 @@ cpmaddpackage(
   "FMT_INSTALL YES" # create an installable target
 )
 
+cpmaddpackage("gh:xtensor-stack/xtl#0.6.23")
+if(xtl_ADDED)
+  message(STATUS "Found xtl: ${xtl_SOURCE_DIR}")
+  include_directories(${xtl_SOURCE_DIR}/include)
+endif(xtl_ADDED)
+
+cpmaddpackage("gh:xtensor-stack/xtensor#0.22.0")
+if(xtensor_ADDED)
+  message(STATUS "Found xtensor: ${xtensor_SOURCE_DIR}")
+  include_directories(${xtensor_SOURCE_DIR}/include)
+endif(xtensor_ADDED)
+
+cpmaddpackage(
+  NAME
+  EllAlgo
+  GIT_TAG
+  1.0.4
+  GITHUB_REPOSITORY
+  luk036/ellalgo-cpp
+  OPTIONS
+  "INSTALL_ONLY YES" # create an installable target
+)
+
+cpmaddpackage(
+  NAME
+  LmiSolver
+  GIT_TAG
+  0.1
+  GITHUB_REPOSITORY
+  luk036/lmi-solver-cpp
+  OPTIONS
+  "INSTALL_ONLY YES" # create an installable target
+)
+
 find_package(OpenBLAS QUIET)
 if(OpenBLAS_FOUND)
   message(STATUS "Found OpenBLAS: ${OpenBLAS_LIBRARIES}")
@@ -31,18 +65,6 @@ if(BLAS_FOUND)
   include_directories(${BLAS_INCLUDE_DIRS})
 endif(BLAS_FOUND)
 
-cpmaddpackage("gh:xtensor-stack/xtl#0.6.23")
-if(xtl_ADDED)
-  message(STATUS "Found xtl: ${xtl_SOURCE_DIR}")
-  include_directories(${xtl_SOURCE_DIR}/include)
-endif(xtl_ADDED)
-
-cpmaddpackage("gh:xtensor-stack/xtensor#0.22.0")
-if(xtensor_ADDED)
-  message(STATUS "Found xtensor: ${xtensor_SOURCE_DIR}")
-  include_directories(${xtensor_SOURCE_DIR}/include)
-endif(xtensor_ADDED)
-
 cpmaddpackage("gh:xtensor-stack/xtensor-blas#0.18.0")
 if(xtensor-blas_ADDED)
   message(STATUS "Found xtensor-blas: ${xtensor-blas_SOURCE_DIR}")
@@ -50,20 +72,9 @@ if(xtensor-blas_ADDED)
 endif(xtensor-blas_ADDED)
 # remember to turn off the warnings
 
-cpmaddpackage(
-  NAME
-  EllAlgo
-  GIT_TAG
-  1.0.4
-  GITHUB_REPOSITORY
-  luk036/ellalgo-cpp
-  OPTIONS
-  "INSTALL_ONLY YES" # create an installable target
-)
-
 if(WIN32)
   add_definitions(-DXTENSOR_USE_FLENS_BLAS)
 endif()
 
-set(SPECIFIC_LIBS EllAlgo::EllAlgo ${OpenBLAS_LIBRARIES} ${LAPACK_LIBRARIES}
+set(SPECIFIC_LIBS LmiSolver::LmiSolver EllAlgo::EllAlgo ${OpenBLAS_LIBRARIES} ${LAPACK_LIBRARIES}
                   ${BLAS_LIBRARIES} fmt::fmt GSL)
