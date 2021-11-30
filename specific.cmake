@@ -76,5 +76,11 @@ if(WIN32)
   add_definitions(-DXTENSOR_USE_FLENS_BLAS)
 endif()
 
-set(SPECIFIC_LIBS LmiSolver::LmiSolver EllAlgo::EllAlgo ${OpenBLAS_LIBRARIES} ${LAPACK_LIBRARIES}
-                  ${BLAS_LIBRARIES} fmt::fmt GSL)
+set(SPECIFIC_LIBS
+    LmiSolver::LmiSolver
+    EllAlgo::EllAlgo
+    ${OpenBLAS_LIBRARIES}
+    ${LAPACK_LIBRARIES}
+    ${BLAS_LIBRARIES}
+    fmt::fmt
+    GSL)

@@ -2,9 +2,9 @@
 #include <corrsolver/Qmi_oracle.hpp>
 #include <ellalgo/cutting_plane.hpp>
 #include <ellalgo/ell.hpp>
+#include <ellalgo/utility.hpp>
 #include <lmisolver/lmi0_oracle.hpp>
 #include <lmisolver/lmi_oracle.hpp>
-#include <ellalgo/utility.hpp>
 // #include <iostream>
 #include <limits>
 #include <tuple>

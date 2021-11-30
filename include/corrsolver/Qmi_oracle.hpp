@@ -1,8 +1,8 @@
 // -*- coding: utf-8 -*-
 #pragma once
 
-#include <lmisolver/ldlt_ext.hpp>
 #include <gsl/span>
+#include <lmisolver/ldlt_ext.hpp>
 #include <optional>
 #include <xtensor/xarray.hpp>
 
