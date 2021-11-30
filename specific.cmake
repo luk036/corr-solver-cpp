@@ -1,5 +1,3 @@
-cpmaddpackage("gh:microsoft/GSL@3.1.0")
-
 cpmaddpackage(
   NAME
   fmt
@@ -34,11 +32,13 @@ cpmaddpackage(
   "INSTALL_ONLY YES" # create an installable target
 )
 
+cpmaddpackage("gh:microsoft/GSL@3.1.0")
+
 cpmaddpackage(
   NAME
   LmiSolver
   GIT_TAG
-  0.1
+  1.0
   GITHUB_REPOSITORY
   luk036/lmi-solver-cpp
   OPTIONS
