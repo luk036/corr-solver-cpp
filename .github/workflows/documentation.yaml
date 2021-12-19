@@ -38,7 +38,7 @@ jobs:
       - name: Install dependent software
         run: |
           conda info
-          conda env update --file doc-dev.yml --name base 
+          conda env update --file doc-dev.yml --name base
 
       - name: Install dependencies
         run: |

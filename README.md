@@ -46,7 +46,7 @@ Correlation solver for modern C++
 Eventually, you can remove any unused files, such as the standalone directory or irrelevant github workflows for your project.
 Feel free to replace the License with one suited for your project.
 
-To cleanly separate the library and subproject code, the outer `CMakeList.txt` only defines the library itself while the tests and other subprojects are self-contained in their own directories. 
+To cleanly separate the library and subproject code, the outer `CMakeList.txt` only defines the library itself while the tests and other subprojects are self-contained in their own directories.
 During development it is usually convenient to [build all subprojects at once](#build-everything-at-once).
 
 ### Build and run the standalone target
@@ -69,7 +69,7 @@ cmake --build build
 cd build/test
 CTEST_OUTPUT_ON_FAILURE=1 ctest
 
-# or maybe simply call the executable: 
+# or maybe simply call the executable:
 ./build/test/CorrSolverTests
 ```
 
