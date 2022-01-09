@@ -1,0 +1,212 @@
+Consolidate compiler generated dependencies of target CorrSolver
+[ 11%] Building CXX object CMakeFiles/CorrSolver.dir/source/Qmi_oracle.cpp.o
+Warning: include-what-you-use reported diagnostics:
+
+/data/data/com.termux/files/home/github/corr-solver-cpp/source/Qmi_oracle.cpp should add these lines:
+#include <stddef.h>                        // for size_t
+#include <__tuple>                         // for tuple_element<>::type
+#include <ellalgo/utility.hpp>             // for zeros
+#include <gsl/span>                        // for span, span<>::reference
+#include <lmisolver/ldlt_ext.hpp>          // for ldlt_ext
+#include <optional>                        // for optional
+#include <tuple>                           // for tuple
+#include <type_traits>                     // for move
+#include <xflens/cxxblas/level1/dot.tcc>   // for dot, dotu
+#include <xflens/cxxblas/level2/gemv.tcc>  // for gemv
+#include <xtensor/xarray.hpp>              // for xarray_container
+#include <xtensor/xcontainer.hpp>          // for xcontainer<>::const_reference
+#include <xtensor/xlayout.hpp>             // for layout_type, layout_type::...
+#include <xtensor/xoperation.hpp>          // for operator*, xfunction_type_t
+#include <xtensor/xsemantic.hpp>           // for xsemantic_base
+#include <xtensor/xslice.hpp>              // for range, all
+#include <xtensor/xtensor_forward.hpp>     // for xarray
+#include <xtensor/xview.hpp>               // for xview, row, view, col
+
+/data/data/com.termux/files/home/github/corr-solver-cpp/source/Qmi_oracle.cpp should remove these lines:
+
+The full include-list for /data/data/com.termux/files/home/github/corr-solver-cpp/source/Qmi_oracle.cpp:
+#include <stddef.h>                        // for size_t
+#include <__tuple>                         // for tuple_element<>::type
+#include <cassert>                         // for assert
+#include <corrsolver/Qmi_oracle.hpp>       // for Qmi_oracle, Qmi_oracle::Arr
+#include <ellalgo/utility.hpp>             // for zeros
+#include <gsl/span>                        // for span, span<>::reference
+#include <lmisolver/ldlt_ext.hpp>          // for ldlt_ext
+#include <optional>                        // for optional
+#include <tuple>                           // for tuple
+#include <type_traits>                     // for move
+#include <xflens/cxxblas/level1/dot.tcc>   // for dot, dotu
+#include <xflens/cxxblas/level2/gemv.tcc>  // for gemv
+#include <xtensor-blas/xlinalg.hpp>        // for dot
+#include <xtensor/xarray.hpp>              // for xarray_container
+#include <xtensor/xcontainer.hpp>          // for xcontainer<>::const_reference
+#include <xtensor/xlayout.hpp>             // for layout_type, layout_type::...
+#include <xtensor/xoperation.hpp>          // for operator*, xfunction_type_t
+#include <xtensor/xsemantic.hpp>           // for xsemantic_base
+#include <xtensor/xslice.hpp>              // for range, all
+#include <xtensor/xtensor_forward.hpp>     // for xarray
+#include <xtensor/xview.hpp>               // for xview, row, view, col
+---
+
+[ 22%] Building CXX object CMakeFiles/CorrSolver.dir/source/greeter.cpp.o
+Warning: include-what-you-use reported diagnostics:
+
+/data/data/com.termux/files/home/github/corr-solver-cpp/include/corrsolver/greeter.h should add these lines:
+#include <iosfwd>  // for string
+
+/data/data/com.termux/files/home/github/corr-solver-cpp/include/corrsolver/greeter.h should remove these lines:
+
+The full include-list for /data/data/com.termux/files/home/github/corr-solver-cpp/include/corrsolver/greeter.h:
+#include <iosfwd>  // for string
+#include <string>  // for basic_string
+---
+
+/data/data/com.termux/files/home/github/corr-solver-cpp/source/greeter.cpp should add these lines:
+#include <type_traits>   // for move
+
+/data/data/com.termux/files/home/github/corr-solver-cpp/source/greeter.cpp should remove these lines:
+
+The full include-list for /data/data/com.termux/files/home/github/corr-solver-cpp/source/greeter.cpp:
+#include <corrsolver/greeter.h>
+#include <fmt/format.h>  // for format
+#include <type_traits>   // for move
+---
+
+[ 33%] Building CXX object CMakeFiles/CorrSolver.dir/source/lsq_corr_ell.cpp.o
+Warning: include-what-you-use reported diagnostics:
+
+/data/data/com.termux/files/home/github/corr-solver-cpp/source/lsq_corr_ell.cpp should add these lines:
+#include <__tuple>                         // for tuple_element<>::type
+#include <algorithm>                       // for copy
+#include <cmath>                           // for sqrt, exp
+#include <cstddef>                         // for size_t
+#include <ellalgo/cut_config.hpp>          // for CInfo
+#include <gsl/span>                        // for span
+#include <lmisolver/ldlt_ext.hpp>          // for ldlt_ext
+#include <optional>                        // for optional
+#include <type_traits>                     // for move, add_const<>::type
+#include <utility>                         // for make_pair, pair
+#include <xflens/cxxblas/level1/dot.tcc>   // for dot, dotu
+#include <xflens/cxxblas/level2/gemv.tcc>  // for gemv
+#include <xtensor/xaccessible.hpp>         // for xconst_accessible
+#include <xtensor/xarray.hpp>              // for xarray_container
+#include <xtensor/xbroadcast.hpp>          // for xbroadcast
+#include <xtensor/xbuilder.hpp>            // for linspace, ones, diagonal
+#include <xtensor/xcontainer.hpp>          // for xcontainer, xcontainer<>::...
+#include <xtensor/xfunction.hpp>           // for xfunction
+#include <xtensor/xgenerator.hpp>          // for xgenerator
+#include <xtensor/xiterator.hpp>           // for operator==, linear_begin
+#include <xtensor/xlayout.hpp>             // for layout_type, layout_type::...
+#include <xtensor/xmanipulation.hpp>       // for transpose, flatten
+#include <xtensor/xoperation.hpp>          // for xfunction_type_t, operator*
+#include <xtensor/xreducer.hpp>            // for xreducer
+#include <xtensor/xsemantic.hpp>           // for xsemantic_base
+#include <xtensor/xslice.hpp>              // for all, range
+#include <xtensor/xstrided_view.hpp>       // for xstrided_view
+#include <xtensor/xtensor.hpp>             // for xtensor_container
+#include <xtensor/xtensor_forward.hpp>     // for xarray
+#include <xtensor/xview.hpp>               // for xview, view
+#include <xtl/xiterator_base.hpp>          // for operator!=
+
+/data/data/com.termux/files/home/github/corr-solver-cpp/source/lsq_corr_ell.cpp should remove these lines:
+- #include <limits>  // lines 9-9
+- #include <xtensor/xnorm.hpp>  // lines 15-15
+
+The full include-list for /data/data/com.termux/files/home/github/corr-solver-cpp/source/lsq_corr_ell.cpp:
+#include <__tuple>                         // for tuple_element<>::type
+#include <algorithm>                       // for copy
+#include <cmath>                           // for sqrt, exp
+#include <corrsolver/Qmi_oracle.hpp>       // for Qmi_oracle
+#include <cstddef>                         // for size_t
+#include <ellalgo/cut_config.hpp>          // for CInfo
+#include <ellalgo/cutting_plane.hpp>       // for cutting_plane_dc, bsearch
+#include <ellalgo/ell.hpp>                 // for ell
+#include <ellalgo/utility.hpp>             // for zeros
+#include <gsl/span>                        // for span
+#include <lmisolver/ldlt_ext.hpp>          // for ldlt_ext
+#include <lmisolver/lmi0_oracle.hpp>       // for lmi0_oracle
+#include <lmisolver/lmi_oracle.hpp>        // for lmi_oracle, lmi_oracle::Arr
+#include <optional>                        // for optional
+#include <tuple>                           // for tuple, make_tuple
+#include <type_traits>                     // for move, add_const<>::type
+#include <utility>                         // for make_pair, pair
+#include <vector>                          // for vector, __vector_base<>::v...
+#include <xflens/cxxblas/level1/dot.tcc>   // for dot, dotu
+#include <xflens/cxxblas/level2/gemv.tcc>  // for gemv
+#include <xtensor-blas/xlinalg.hpp>        // for dot, trace, cholesky, inv
+#include <xtensor/xaccessible.hpp>         // for xconst_accessible
+#include <xtensor/xarray.hpp>              // for xarray_container
+#include <xtensor/xbroadcast.hpp>          // for xbroadcast
+#include <xtensor/xbuilder.hpp>            // for linspace, ones, diagonal
+#include <xtensor/xcontainer.hpp>          // for xcontainer, xcontainer<>::...
+#include <xtensor/xfunction.hpp>           // for xfunction
+#include <xtensor/xgenerator.hpp>          // for xgenerator
+#include <xtensor/xiterator.hpp>           // for operator==, linear_begin
+#include <xtensor/xlayout.hpp>             // for layout_type, layout_type::...
+#include <xtensor/xmanipulation.hpp>       // for transpose, flatten
+#include <xtensor/xmath.hpp>               // for log, sum, log_fun
+#include <xtensor/xoperation.hpp>          // for xfunction_type_t, operator*
+#include <xtensor/xrandom.hpp>             // for default_engine_type, randn
+#include <xtensor/xreducer.hpp>            // for xreducer
+#include <xtensor/xsemantic.hpp>           // for xsemantic_base
+#include <xtensor/xslice.hpp>              // for all, range
+#include <xtensor/xstrided_view.hpp>       // for xstrided_view
+#include <xtensor/xtensor.hpp>             // for xtensor_container
+#include <xtensor/xtensor_forward.hpp>     // for xarray
+#include <xtensor/xview.hpp>               // for xview, view
+#include <xtl/xiterator_base.hpp>          // for operator!=
+---
+
+[ 44%] Linking CXX static library libCorrSolver.a
+[ 44%] Built target CorrSolver
+Consolidate compiler generated dependencies of target CorrSolverTests
+[ 55%] Building CXX object test/CMakeFiles/CorrSolverTests.dir/source/corr_fn_ell.cpp.o
+Warning: include-what-you-use reported diagnostics:
+
+/data/data/com.termux/files/home/github/corr-solver-cpp/test/source/corr_fn_ell.cpp should add these lines:
+#include <stddef.h>                     // for size_t
+#include <__tuple>                      // for tuple_element<>::type
+#include <tuple>                        // for tuple
+#include <xtensor/xaccessible.hpp>      // for xconst_accessible
+#include <xtensor/xcontainer.hpp>       // for xcontainer
+#include <xtensor/xlayout.hpp>          // for layout_type, layout_type::row...
+#include <xtensor/xtensor_forward.hpp>  // for xarray
+
+/data/data/com.termux/files/home/github/corr-solver-cpp/test/source/corr_fn_ell.cpp should remove these lines:
+
+The full include-list for /data/data/com.termux/files/home/github/corr-solver-cpp/test/source/corr_fn_ell.cpp:
+#include <doctest/doctest.h>            // for ResultBuilder, CHECK, TestCase
+#include <stddef.h>                     // for size_t
+#include <__tuple>                      // for tuple_element<>::type
+#include <tuple>                        // for tuple
+#include <xtensor/xaccessible.hpp>      // for xconst_accessible
+#include <xtensor/xarray.hpp>           // for xarray_container
+#include <xtensor/xcontainer.hpp>       // for xcontainer
+#include <xtensor/xlayout.hpp>          // for layout_type, layout_type::row...
+#include <xtensor/xtensor_forward.hpp>  // for xarray
+---
+
+[ 66%] Building CXX object test/CMakeFiles/CorrSolverTests.dir/source/main.cpp.o
+[ 77%] Linking CXX executable CorrSolverTests
+[ 77%] Built target CorrSolverTests
+Consolidate compiler generated dependencies of target CorrSolverStandalone
+[ 88%] Building CXX object standalone/CMakeFiles/CorrSolverStandalone.dir/source/main.cpp.o
+Warning: include-what-you-use reported diagnostics:
+
+/data/data/com.termux/files/home/github/corr-solver-cpp/standalone/source/main.cpp should add these lines:
+#include <memory>                // for shared_ptr
+
+/data/data/com.termux/files/home/github/corr-solver-cpp/standalone/source/main.cpp should remove these lines:
+
+The full include-list for /data/data/com.termux/files/home/github/corr-solver-cpp/standalone/source/main.cpp:
+#include <corrsolver/greeter.h>  // for LanguageCode, LanguageCode::DE, Lang...
+#include <corrsolver/version.h>  // for CORRSOLVER_VERSION
+#include <cxxopts.hpp>           // for value, OptionAdder, Options, OptionV...
+#include <iostream>              // for string, operator<<, endl, basic_ostream
+#include <memory>                // for shared_ptr
+#include <string>                // for char_traits, hash, operator==
+#include <unordered_map>         // for operator==, unordered_map, __hash_ma...
+---
+
+[100%] Linking CXX executable CorrSolver
+[100%] Built target CorrSolverStandalone
