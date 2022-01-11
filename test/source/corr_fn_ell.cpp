@@ -2,7 +2,6 @@
 #include <doctest/doctest.h>  // for ResultBuilder, CHECK, TestCase
 #include <stddef.h>           // for size_t
 
-#include <__tuple>                      // for tuple_element<>::type
 #include <tuple>                        // for tuple
 #include <xtensor/xaccessible.hpp>      // for xconst_accessible
 #include <xtensor/xarray.hpp>           // for xarray_container

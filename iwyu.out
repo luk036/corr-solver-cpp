@@ -4,7 +4,7 @@ Warning: include-what-you-use reported diagnostics:
 
 /data/data/com.termux/files/home/github/corr-solver-cpp/source/Qmi_oracle.cpp should add these lines:
 #include <stddef.h>                        // for size_t
-#include <__tuple>                         // for tuple_element<>::type
+#include <tuple>                         // for tuple_element<>::type
 #include <ellalgo/utility.hpp>             // for zeros
 #include <gsl/span>                        // for span, span<>::reference
 #include <lmisolver/ldlt_ext.hpp>          // for ldlt_ext
@@ -26,7 +26,7 @@ Warning: include-what-you-use reported diagnostics:
 
 The full include-list for /data/data/com.termux/files/home/github/corr-solver-cpp/source/Qmi_oracle.cpp:
 #include <stddef.h>                        // for size_t
-#include <__tuple>                         // for tuple_element<>::type
+#include <tuple>                         // for tuple_element<>::type
 #include <cassert>                         // for assert
 #include <corrsolver/Qmi_oracle.hpp>       // for Qmi_oracle, Qmi_oracle::Arr
 #include <ellalgo/utility.hpp>             // for zeros
@@ -76,7 +76,7 @@ The full include-list for /data/data/com.termux/files/home/github/corr-solver-cp
 Warning: include-what-you-use reported diagnostics:
 
 /data/data/com.termux/files/home/github/corr-solver-cpp/source/lsq_corr_ell.cpp should add these lines:
-#include <__tuple>                         // for tuple_element<>::type
+#include <tuple>                         // for tuple_element<>::type
 #include <algorithm>                       // for copy
 #include <cmath>                           // for sqrt, exp
 #include <cstddef>                         // for size_t
@@ -113,7 +113,7 @@ Warning: include-what-you-use reported diagnostics:
 - #include <xtensor/xnorm.hpp>  // lines 15-15
 
 The full include-list for /data/data/com.termux/files/home/github/corr-solver-cpp/source/lsq_corr_ell.cpp:
-#include <__tuple>                         // for tuple_element<>::type
+#include <tuple>                         // for tuple_element<>::type
 #include <algorithm>                       // for copy
 #include <cmath>                           // for sqrt, exp
 #include <corrsolver/Qmi_oracle.hpp>       // for Qmi_oracle
@@ -165,7 +165,7 @@ Warning: include-what-you-use reported diagnostics:
 
 /data/data/com.termux/files/home/github/corr-solver-cpp/test/source/corr_fn_ell.cpp should add these lines:
 #include <stddef.h>                     // for size_t
-#include <__tuple>                      // for tuple_element<>::type
+#include <tuple>                      // for tuple_element<>::type
 #include <tuple>                        // for tuple
 #include <xtensor/xaccessible.hpp>      // for xconst_accessible
 #include <xtensor/xcontainer.hpp>       // for xcontainer
@@ -177,7 +177,7 @@ Warning: include-what-you-use reported diagnostics:
 The full include-list for /data/data/com.termux/files/home/github/corr-solver-cpp/test/source/corr_fn_ell.cpp:
 #include <doctest/doctest.h>            // for ResultBuilder, CHECK, TestCase
 #include <stddef.h>                     // for size_t
-#include <__tuple>                      // for tuple_element<>::type
+#include <tuple>                      // for tuple_element<>::type
 #include <tuple>                        // for tuple
 #include <xtensor/xaccessible.hpp>      // for xconst_accessible
 #include <xtensor/xarray.hpp>           // for xarray_container
