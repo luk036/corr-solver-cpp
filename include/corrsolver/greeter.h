@@ -1,6 +1,7 @@
 #pragma once
 
-#include <string>
+#include <iosfwd>  // for string
+#include <string>  // for basic_string
 
 namespace corrsolver {
 

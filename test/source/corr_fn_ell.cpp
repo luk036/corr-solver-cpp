@@ -1,7 +1,14 @@
 // -*- coding: utf-8 -*-
-#include <doctest/doctest.h>
+#include <doctest/doctest.h>  // for ResultBuilder, CHECK, TestCase
+#include <stddef.h>           // for size_t
 
-#include <xtensor/xarray.hpp>
+#include <__tuple>                      // for tuple_element<>::type
+#include <tuple>                        // for tuple
+#include <xtensor/xaccessible.hpp>      // for xconst_accessible
+#include <xtensor/xarray.hpp>           // for xarray_container
+#include <xtensor/xcontainer.hpp>       // for xcontainer
+#include <xtensor/xlayout.hpp>          // for layout_type, layout_type::row...
+#include <xtensor/xtensor_forward.hpp>  // for xarray
 
 using Arr = xt::xarray<double, xt::layout_type::row_major>;
 

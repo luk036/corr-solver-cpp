@@ -1,19 +1,47 @@
 // -*- coding: utf-8 -*-
-#include <corrsolver/Qmi_oracle.hpp>
-#include <ellalgo/cutting_plane.hpp>
-#include <ellalgo/ell.hpp>
-#include <ellalgo/utility.hpp>
-#include <lmisolver/lmi0_oracle.hpp>
-#include <lmisolver/lmi_oracle.hpp>
-// #include <iostream>
-#include <limits>
-#include <tuple>
-#include <vector>
-#include <xtensor-blas/xlinalg.hpp>
+#include <corrsolver/Qmi_oracle.hpp>  // for Qmi_oracle
+#include <ellalgo/cutting_plane.hpp>  // for cutting_plane_dc, bsearch
+#include <ellalgo/ell.hpp>            // for ell
+#include <ellalgo/utility.hpp>        // for zeros
+#include <lmisolver/lmi0_oracle.hpp>  // for lmi0_oracle
+#include <lmisolver/lmi_oracle.hpp>   // for lmi_oracle, lmi_oracle::Arr
+#include <xtensor-blas/xlinalg.hpp>   // for dot, trace, cholesky, inv
 // #include <xtensor/xarray.hpp>
-#include <xtensor/xmath.hpp>
-#include <xtensor/xnorm.hpp>
-#include <xtensor/xrandom.hpp>
+#include <__tuple>                         // for tuple_element<>::type
+#include <algorithm>                       // for copy
+#include <cmath>                           // for sqrt, exp
+#include <cstddef>                         // for size_t
+#include <ellalgo/cut_config.hpp>          // for CInfo
+#include <gsl/span>                        // for span
+#include <lmisolver/ldlt_ext.hpp>          // for ldlt_ext
+#include <optional>                        // for optional
+#include <tuple>                           // for tuple, make_tuple
+#include <type_traits>                     // for move, add_const<>::type
+#include <utility>                         // for make_pair, pair
+#include <vector>                          // for vector, __vector_base<>::v...
+#include <xflens/cxxblas/level1/dot.tcc>   // for dot, dotu
+#include <xflens/cxxblas/level2/gemv.tcc>  // for gemv
+#include <xtensor/xaccessible.hpp>         // for xconst_accessible
+#include <xtensor/xarray.hpp>              // for xarray_container
+#include <xtensor/xbroadcast.hpp>          // for xbroadcast
+#include <xtensor/xbuilder.hpp>            // for linspace, ones, diagonal
+#include <xtensor/xcontainer.hpp>          // for xcontainer, xcontainer<>::...
+#include <xtensor/xfunction.hpp>           // for xfunction
+#include <xtensor/xgenerator.hpp>          // for xgenerator
+#include <xtensor/xiterator.hpp>           // for operator==, linear_begin
+#include <xtensor/xlayout.hpp>             // for layout_type, layout_type::...
+#include <xtensor/xmanipulation.hpp>       // for transpose, flatten
+#include <xtensor/xmath.hpp>               // for log, sum, log_fun
+#include <xtensor/xoperation.hpp>          // for xfunction_type_t, operator*
+#include <xtensor/xrandom.hpp>             // for default_engine_type, randn
+#include <xtensor/xreducer.hpp>            // for xreducer
+#include <xtensor/xsemantic.hpp>           // for xsemantic_base
+#include <xtensor/xslice.hpp>              // for all, range
+#include <xtensor/xstrided_view.hpp>       // for xstrided_view
+#include <xtensor/xtensor.hpp>             // for xtensor_container
+#include <xtensor/xtensor_forward.hpp>     // for xarray
+#include <xtensor/xview.hpp>               // for xview, view
+#include <xtl/xiterator_base.hpp>          // for operator!=
 
 using Arr = xt::xarray<double, xt::layout_type::row_major>;
 
