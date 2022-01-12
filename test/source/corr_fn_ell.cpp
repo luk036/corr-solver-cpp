@@ -29,7 +29,7 @@ TEST_CASE("lsq_corr_fn") {
     CHECK(a[0] >= 0.);
     CHECK(feasible);
     CHECK(num_iters >= 673);
-    CHECK(num_iters <= 718);
+    CHECK(num_iters <= 722);
 }
 
 TEST_CASE("mle_corr_fn") {
