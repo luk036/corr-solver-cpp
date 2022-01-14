@@ -47,7 +47,7 @@ class Qmi_oracle {
           _m{F0.shape()[1]},
           _F{F},
           _F0{std::move(F0)},
-          _Fx{zeros({_m, _n})}  // transposed
+          _Fx{xt::zeros<double>({_m, _n})}  // transposed
           ,
           _Q(_m)  // take column
     {}

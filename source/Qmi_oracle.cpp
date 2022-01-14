@@ -61,7 +61,7 @@ std::optional<Cut> Qmi_oracle::operator()(const Arr& x) {
     const auto v = xt::view(this->_Q.witness_vec, xt::range(start, stop), xt::all());
     const auto Fxp = xt::view(this->_Fx, xt::range(start, stop));
     const auto Av = dot(v, Fxp);
-    auto g = zeros({this->_nx});
+    Arr g = xt::zeros<double>({this->_nx});
     for (auto k = 0U; k != this->_nx; ++k) {
         const auto Fkp = xt::view(this->_F[k], xt::range(start, stop), xt::all());
         g(k) = -2 * dot(dot(v, Fkp), Av)();

@@ -2,7 +2,6 @@
 #include <corrsolver/Qmi_oracle.hpp>  // for Qmi_oracle
 #include <ellalgo/cutting_plane.hpp>  // for cutting_plane_dc, bsearch
 #include <ellalgo/ell.hpp>            // for ell
-#include <ellalgo/utility.hpp>        // for zeros
 #include <lmisolver/lmi0_oracle.hpp>  // for lmi0_oracle
 #include <lmisolver/lmi_oracle.hpp>   // for lmi_oracle, lmi_oracle::Arr
 #include <xtensor-blas/xlinalg.hpp>   // for dot, trace, cholesky, inv
@@ -76,7 +75,7 @@ Arr create_2d_isotropic(const Arr& s, size_t N = 3000U) {
     const auto tau = 0.00001;  // standard derivation of white noise
     xt::random::seed(5);
 
-    auto Sig = zeros({n, n});
+    Arr Sig = xt::zeros<double>({n, n});
     for (auto i = 0U; i != n; ++i) {
         for (auto j = i; j != n; ++j) {
             auto d = xt::view(s, j, xt::all()) - xt::view(s, i, xt::all());
@@ -87,7 +86,7 @@ Arr create_2d_isotropic(const Arr& s, size_t N = 3000U) {
     }
 
     auto A = xt::linalg::cholesky(Sig);
-    auto Y = zeros({n, n});
+    Arr Y = xt::zeros<double>({n, n});
     for (auto k = 0U; k != N; ++k) {
         auto x = var * xt::random::randn<double>({n});
         auto y = dot(A, x) + tau * xt::random::randn<double>({n});
@@ -107,7 +106,7 @@ Arr create_2d_isotropic(const Arr& s, size_t N = 3000U) {
  */
 Arr construct_distance_matrix(const Arr& s) {
     auto n = s.shape()[0];
-    auto D1 = zeros({n, n});
+    Arr D1 = xt::zeros<double>({n, n});
     for (auto i = 0U; i != n; ++i) {
         for (auto j = i + 1; j != n; ++j) {
             auto h = xt::view(s, j, xt::all()) - xt::view(s, i, xt::all());
@@ -179,7 +178,7 @@ class lsq_oracle {
      */
     std::tuple<Cut, bool> operator()(const Arr& x, double& t) {
         const auto n = x.size();
-        auto g = zeros(x);
+        Arr g = xt::zeros<double>(x);
         if (const auto cut0 = this->_lmi0(xt::view(x, xt::range(0, n - 1)))) {
             const auto& [g0, f0] = *cut0;
             xt::view(g, xt::range(0, n - 1)) = g0;
@@ -223,7 +222,7 @@ auto lsq_corr_core2(const Arr& Y, size_t m, lsq_oracle& P) {
     auto val = Arr{256. * xt::ones<double>({m + 1})};
 
     val(m) = normY2 * normY2;
-    auto x = zeros({m + 1});
+    Arr x = xt::zeros<double>({m + 1});
     x(0) = 4;
     x(m) = normY2 / 2.;
     auto E = ell(val, x);
@@ -313,7 +312,7 @@ class mle_oracle {
             shrunk = true;
         }
 
-        auto g = zeros(x);
+        Arr g = xt::zeros<double>(x);
 
         for (auto i = 0U; i != n; ++i) {
             auto SFsi = dot(S, this->_Sig[i]);
@@ -335,7 +334,7 @@ class mle_oracle {
  * @return auto
  */
 auto mle_corr_core(const Arr& /* Y */, size_t m, mle_oracle& P) {
-    auto x = zeros({m});
+    Arr x = xt::zeros<double>({m});
     x(0) = 4.;
     auto E = ell(500., x);
     auto t = 1.e100;  // std::numeric_limits<double>::max()
@@ -368,7 +367,7 @@ std::tuple<Arr, size_t, bool> mle_corr_poly(const Arr& Y, const Arr& s, size_t m
 std::tuple<Arr, size_t, bool> lsq_corr_poly(const Arr& Y, const Arr& s, size_t m) {
     auto Sig = construct_poly_matrix(s, m);
     // P = mtx_norm_oracle(Sig, Y, a)
-    auto a = zeros({m});
+    auto a = xt::zeros<double>({m});
     auto Q = Qmi_oracle(Sig, Y);
     auto E = ell(10., a);
     auto P = bsearch_adaptor<decltype(Q), decltype(E)>(Q, E);
