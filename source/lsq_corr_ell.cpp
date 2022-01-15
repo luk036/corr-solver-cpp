@@ -178,7 +178,7 @@ class lsq_oracle {
      */
     std::tuple<Cut, bool> operator()(const Arr& x, double& t) {
         const auto n = x.size();
-        Arr g = xt::zeros<double>(x);
+        Arr g = xt::zeros<double>({n});
         if (const auto cut0 = this->_lmi0(xt::view(x, xt::range(0, n - 1)))) {
             const auto& [g0, f0] = *cut0;
             xt::view(g, xt::range(0, n - 1)) = g0;
@@ -312,7 +312,7 @@ class mle_oracle {
             shrunk = true;
         }
 
-        Arr g = xt::zeros<double>(x);
+        Arr g = xt::zeros<double>({n});
 
         for (auto i = 0U; i != n; ++i) {
             auto SFsi = dot(S, this->_Sig[i]);
