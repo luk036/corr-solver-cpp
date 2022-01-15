@@ -4,7 +4,7 @@
 #include <gsl/span>
 #include <lmisolver/ldlt_ext.hpp>
 #include <optional>
-#include <xtensor/xarray.hpp>
+// #include <xtensor/xarray.hpp>
 
 /*!
  * @brief Oracle for Quadratic Matrix Inequality
@@ -18,9 +18,8 @@
  *
  *        F(x) = F0 - (F1 * x1 + F2 * x2 + ...)
  */
-class Qmi_oracle {
-    using Arr = xt::xarray<double, xt::layout_type::row_major>;
-    using Cut = std::tuple<Arr, double>;
+template <typename Arr036> class Qmi_oracle {
+    using Cut = std::tuple<Arr036, double>;
 
   private:
     double _t = 0.;
@@ -29,12 +28,12 @@ class Qmi_oracle {
 
     const size_t _n;
     const size_t _m;
-    const gsl::span<const Arr> _F;
-    const Arr _F0;
-    Arr _Fx;
+    const gsl::span<const Arr036> _F;
+    const Arr036 _F0;
+    Arr036 _Fx;
 
   public:
-    ldlt_ext _Q;
+    ldlt_ext<Arr036> _Q;
 
     /*!
      * @brief Construct a new qmi oracle object
@@ -42,15 +41,7 @@ class Qmi_oracle {
      * @param[in] F
      * @param[in] F0
      */
-    Qmi_oracle(gsl::span<const Arr> F, Arr F0)
-        : _n{F0.shape()[0]},
-          _m{F0.shape()[1]},
-          _F{F},
-          _F0{std::move(F0)},
-          _Fx{xt::zeros<double>({_m, _n})}  // transposed
-          ,
-          _Q(_m)  // take column
-    {}
+    Qmi_oracle(gsl::span<const Arr036> F, Arr036 F0);
 
     /*!
      * @brief Update t
@@ -65,5 +56,5 @@ class Qmi_oracle {
      * @param[in] x
      * @return std::optional<Cut>
      */
-    auto operator()(const Arr& x) -> std::optional<Cut>;
+    auto operator()(const Arr036& x) -> std::optional<Cut>;
 };

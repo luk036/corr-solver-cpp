@@ -1,23 +1,22 @@
 // -*- coding: utf-8 -*-
-#include <corrsolver/Qmi_oracle.hpp>  // for Qmi_oracle
-#include <ellalgo/cutting_plane.hpp>  // for cutting_plane_dc, bsearch
-#include <ellalgo/ell.hpp>            // for ell
-#include <lmisolver/lmi0_oracle.hpp>  // for lmi0_oracle
-#include <lmisolver/lmi_oracle.hpp>   // for lmi_oracle, lmi_oracle::Arr
-#include <xtensor-blas/xlinalg.hpp>   // for dot, trace, cholesky, inv
-// #include <xtensor/xarray.hpp>
 #include <algorithm>                    // for copy
 #include <cmath>                        // for sqrt, exp
+#include <corrsolver/Qmi_oracle.hpp>    // for Qmi_oracle
 #include <cstddef>                      // for size_t
 #include <ellalgo/cut_config.hpp>       // for CInfo
+#include <ellalgo/cutting_plane.hpp>    // for cutting_plane_dc, bsearch
+#include <ellalgo/ell.hpp>              // for ell
 #include <gsl/span>                     // for span
 #include <lmisolver/ldlt_ext.hpp>       // for ldlt_ext
+#include <lmisolver/lmi0_oracle.hpp>    // for lmi0_oracle
+#include <lmisolver/lmi_oracle.hpp>     // for lmi_oracle, lmi_oracle::Arr
 #include <optional>                     // for optional
 #include <tuple>                        // for tuple_element<>::type
 #include <tuple>                        // for tuple, make_tuple
 #include <type_traits>                  // for move, add_const<>::type
 #include <utility>                      // for make_pair, pair
 #include <vector>                       // for vector, __vector_base<>::v...
+#include <xtensor-blas/xlinalg.hpp>     // for dot, trace, cholesky, inv
 #include <xtensor/xaccessible.hpp>      // for xconst_accessible
 #include <xtensor/xarray.hpp>           // for xarray_container
 #include <xtensor/xbroadcast.hpp>       // for xbroadcast
@@ -157,8 +156,8 @@ class lsq_oracle {
     using Cut = std::tuple<Arr, double>;
 
   private:
-    Qmi_oracle _qmi;
-    lmi0_oracle _lmi0;
+    Qmi_oracle<Arr> _qmi;
+    lmi0_oracle<Arr> _lmi0;
 
   public:
     /*!
@@ -258,8 +257,8 @@ class mle_oracle {
   private:
     const Arr& _Y;
     const std::vector<Arr>& _Sig;
-    lmi0_oracle _lmi0;
-    lmi_oracle _lmi;
+    lmi0_oracle<Arr> _lmi0;
+    lmi_oracle<Arr> _lmi;
 
   public:
     /*!
@@ -368,7 +367,7 @@ std::tuple<Arr, size_t, bool> lsq_corr_poly(const Arr& Y, const Arr& s, size_t m
     auto Sig = construct_poly_matrix(s, m);
     // P = mtx_norm_oracle(Sig, Y, a)
     auto a = xt::zeros<double>({m});
-    auto Q = Qmi_oracle(Sig, Y);
+    auto Q = Qmi_oracle<Arr>(Sig, Y);
     auto E = ell(10., a);
     auto P = bsearch_adaptor<decltype(Q), decltype(E)>(Q, E);
     // double normY = xt::norm_l2(Y);

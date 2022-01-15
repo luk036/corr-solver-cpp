@@ -2,7 +2,6 @@
 
 #include <cassert>                      // for assert
 #include <corrsolver/Qmi_oracle.hpp>    // for Qmi_oracle, Qmi_oracle::Arr
-#include <ellalgo/utility.hpp>          // for zeros
 #include <gsl/span>                     // for span, span<>::reference
 #include <lmisolver/ldlt_ext.hpp>       // for ldlt_ext
 #include <optional>                     // for optional
@@ -21,8 +20,20 @@
 // #define ROW(X, index) xt::view(X, index, xt::all())
 // #define COLUMN(X, index) xt::view(X, xt::all(), index)
 
-using Arr = xt::xarray<double, xt::layout_type::row_major>;
-using Cut = std::tuple<Arr, double>;
+/*!
+ * @brief Construct a new qmi oracle object
+ *
+ * @param[in] F
+ * @param[in] F0
+ */
+template <typename Arr036> Qmi_oracle<Arr036>::Qmi_oracle(gsl::span<const Arr036> F, Arr036 F0)
+    : _n{F0.shape()[0]},
+      _m{F0.shape()[1]},
+      _F{F},
+      _F0{std::move(F0)},
+      _Fx{xt::zeros<double>({_m, _n})},  // transposed
+      _Q(_m)                             // take column
+{}
 
 /*!
  * @brief
@@ -30,7 +41,8 @@ using Cut = std::tuple<Arr, double>;
  * @param[in] x
  * @return std::optional<Cut>
  */
-std::optional<Cut> Qmi_oracle::operator()(const Arr& x) {
+template <typename Arr036> auto Qmi_oracle<Arr036>::operator()(const Arr036& x)
+    -> std::optional<typename Qmi_oracle<Arr036>::Cut> {
     using xt::linalg::dot;
 
     this->_count = 0;
@@ -61,10 +73,13 @@ std::optional<Cut> Qmi_oracle::operator()(const Arr& x) {
     const auto v = xt::view(this->_Q.witness_vec, xt::range(start, stop), xt::all());
     const auto Fxp = xt::view(this->_Fx, xt::range(start, stop));
     const auto Av = dot(v, Fxp);
-    Arr g = xt::zeros<double>({this->_nx});
+    Arr036 g = xt::zeros<double>({this->_nx});
     for (auto k = 0U; k != this->_nx; ++k) {
         const auto Fkp = xt::view(this->_F[k], xt::range(start, stop), xt::all());
         g(k) = -2 * dot(dot(v, Fkp), Av)();
     }
     return {{std::move(g), ep}};
 }
+
+using Arr = xt::xarray<double, xt::layout_type::row_major>;
+template class Qmi_oracle<Arr>;
