@@ -50,9 +50,9 @@ using Arr = xt::xarray<double, xt::layout_type::row_major>;
  */
 Arr create_2d_sites(size_t nx = 10U, size_t ny = 8U) {
     // const auto n = nx * ny;
-    const auto s_end = Arr{10., 8.};
-    const auto sx = xt::linspace<double>(0., s_end[0], nx);
-    const auto sy = xt::linspace<double>(0., s_end[1], ny);
+    const auto s_end = Arr{10.0, 8.0};
+    const auto sx = xt::linspace<double>(0.0, s_end[0], nx);
+    const auto sy = xt::linspace<double>(0.0, s_end[1], ny);
     const auto [xx, yy] = xt::meshgrid(sx, sy);
     const auto st = Arr{xt::stack(xt::xtuple(xt::flatten(xx), xt::flatten(yy)), 0)};
     return xt::transpose(st);
@@ -203,7 +203,7 @@ class lsq_oracle {
         }
 
         t = x(n - 1);
-        return {{std::move(g), 0.}, true};
+        return {{std::move(g), 0.0}, true};
     }
 };
 
@@ -216,16 +216,16 @@ class lsq_oracle {
  * @return auto
  */
 auto lsq_corr_core2(const Arr& Y, size_t m, lsq_oracle& P) {
-    auto normY = 100. * xt::linalg::norm(Y);
-    auto normY2 = 32. * normY * normY;
-    auto val = Arr{256. * xt::ones<double>({m + 1})};
+    auto normY = 100.0 * xt::linalg::norm(Y);
+    auto normY2 = 32.0 * normY * normY;
+    auto val = Arr{256.0 * xt::ones<double>({m + 1})};
 
     val(m) = normY2 * normY2;
     Arr x = xt::zeros<double>({m + 1});
     x(0) = 4;
     x(m) = normY2 / 2.;
     auto E = ell(val, x);
-    auto t = 1.e100;  // std::numeric_limits<double>::max()
+    auto t = 1e100;  // std::numeric_limits<double>::max()
     const auto [x_best, ell_info] = cutting_plane_dc(P, E, t);
     Arr a = xt::view(x_best, xt::range(0, m));
     return std::make_tuple(std::move(a), ell_info.num_iters, ell_info.feasible);
@@ -268,7 +268,7 @@ class mle_oracle {
      * @param[in] Y
      */
     mle_oracle(const std::vector<Arr>& Sig, const Arr& Y)
-        : _Y{Y}, _Sig{Sig}, _lmi0(Sig), _lmi(Sig, 2 * Y) {}
+        : _Y{Y}, _Sig{Sig}, _lmi0(Sig), _lmi(Sig, 2.0 * Y) {}
 
     /*!
      * @brief
@@ -299,7 +299,7 @@ class mle_oracle {
         auto SY = Arr{dot(S, this->_Y)};
 
         auto diag = xt::diagonal(R);
-        auto f1 = double{2. * xt::sum(xt::log(diag))() + xt::linalg::trace(SY)()};
+        auto f1 = double{2.0 * xt::sum(xt::log(diag))() + xt::linalg::trace(SY)()};
         // auto f1 = 0.;
 
         auto f = f1 - t;
@@ -335,8 +335,8 @@ class mle_oracle {
 auto mle_corr_core(const Arr& /* Y */, size_t m, mle_oracle& P) {
     Arr x = xt::zeros<double>({m});
     x(0) = 4.;
-    auto E = ell(500., x);
-    auto t = 1.e100;  // std::numeric_limits<double>::max()
+    auto E = ell(500.0, x);
+    auto t = 1e100;  // std::numeric_limits<double>::max()
     auto [x_best, ell_info] = cutting_plane_dc(P, E, t);
     return std::make_tuple(std::move(x_best), ell_info.num_iters, ell_info.feasible);
 }
@@ -368,10 +368,10 @@ std::tuple<Arr, size_t, bool> lsq_corr_poly(const Arr& Y, const Arr& s, size_t m
     // P = mtx_norm_oracle(Sig, Y, a)
     auto a = xt::zeros<double>({m});
     auto Q = Qmi_oracle<Arr>(Sig, Y);
-    auto E = ell(10., a);
+    auto E = ell(10.0, a);
     auto P = bsearch_adaptor<decltype(Q), decltype(E)>(Q, E);
     // double normY = xt::norm_l2(Y);
-    auto bs_info = bsearch(P, std::make_pair(0., 100. * 100.));
+    auto bs_info = bsearch(P, std::make_pair(0.0, 100.0 * 100.0));
 
     // std::cout << niter << ", " << feasible << '\n';
     return {P.x_best(), bs_info.num_iters, bs_info.feasible};

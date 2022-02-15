@@ -76,7 +76,7 @@ template <typename Arr036> auto Qmi_oracle<Arr036>::operator()(const Arr036& x)
     Arr036 g = xt::zeros<double>({this->_nx});
     for (auto k = 0U; k != this->_nx; ++k) {
         const auto Fkp = xt::view(this->_F[k], xt::range(start, stop), xt::all());
-        g(k) = -2 * dot(dot(v, Fkp), Av)();
+        g(k) = -2.0 * dot(dot(v, Fkp), Av)();
     }
     return {{std::move(g), ep}};
 }
