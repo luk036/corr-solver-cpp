@@ -25,7 +25,7 @@ cpmaddpackage(
   NAME
   EllAlgo
   GIT_TAG
-  1.0.4
+  1.2
   GITHUB_REPOSITORY
   luk036/ellalgo-cpp
   OPTIONS
@@ -38,7 +38,7 @@ cpmaddpackage(
   NAME
   LmiSolver
   GIT_TAG
-  1.1
+  1.2
   GITHUB_REPOSITORY
   luk036/lmi-solver-cpp
   OPTIONS
