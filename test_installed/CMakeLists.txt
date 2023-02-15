@@ -11,8 +11,7 @@ endif()
 
 project(CorrSolver LANGUAGES CXX)
 
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH}
-                      "${CMAKE_CURRENT_SOURCE_DIR}/../cmake")
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/../cmake")
 
 # --- Import tools ----
 
@@ -25,5 +24,4 @@ include(../specific.cmake)
 
 find_package(${PROJECT_NAME} REQUIRED)
 
-add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/../standalone
-                 ${CMAKE_BINARY_DIR}/test_installed)
+add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/../standalone ${CMAKE_BINARY_DIR}/test_installed)
