@@ -153,7 +153,7 @@ std::vector<Arr> construct_poly_matrix(const Arr& s, size_t m) {
 class lsq_oracle {
     using Arr = xt::xarray<double, xt::layout_type::row_major>;
     using shape_type = Arr::shape_type;
-    using Cut = std::tuple<Arr, double>;
+    using Cut = std::pair<Arr, double>;
 
   private:
     Qmi_oracle<Arr> _qmi;
@@ -252,7 +252,7 @@ std::tuple<Arr, size_t, bool> lsq_corr_poly2(const Arr& Y, const Arr& s, size_t 
 class mle_oracle {
     using Arr = xt::xarray<double, xt::layout_type::row_major>;
     using shape_type = Arr::shape_type;
-    using Cut = std::tuple<Arr, double>;
+    using Cut = std::pair<Arr, double>;
 
   private:
     const Arr& _Y;

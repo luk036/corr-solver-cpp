@@ -19,7 +19,7 @@
  *        F(x) = F0 - (F1 * x1 + F2 * x2 + ...)
  */
 template <typename Arr036> class Qmi_oracle {
-    using Cut = std::tuple<Arr036, double>;
+    using Cut = std::pair<Arr036, double>;
 
   private:
     double _t = 0.;
