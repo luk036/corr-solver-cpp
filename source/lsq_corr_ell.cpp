@@ -4,8 +4,8 @@
 #include <corrsolver/Qmi_oracle.hpp>    // for Qmi_oracle
 #include <cstddef>                      // for size_t
 #include <ellalgo/cut_config.hpp>       // for CInfo
-#include <ellalgo/cutting_plane.hpp>    // for cutting_plane_dc, bsearch
-#include <ellalgo/ell.hpp>              // for ell
+#include <ellalgo/cutting_plane.hpp>    // for cutting_plane_optim, bsearch
+#include <ellalgo/ell.hpp>              // for Ell
 #include <gsl/span>                     // for span
 #include <lmisolver/ldlt_ext.hpp>       // for ldlt_ext
 #include <lmisolver/lmi0_oracle.hpp>    // for lmi0_oracle
@@ -224,9 +224,9 @@ auto lsq_corr_core2(const Arr& Y, size_t m, lsq_oracle& P) {
     Arr x = xt::zeros<double>({m + 1});
     x(0) = 4;
     x(m) = normY2 / 2.;
-    auto E = ell(val, x);
+    auto E = Ell(val, x);
     auto t = 1e100;  // std::numeric_limits<double>::max()
-    const auto [x_best, ell_info] = cutting_plane_dc(P, E, t);
+    const auto [x_best, ell_info] = cutting_plane_optim(P, E, t);
     Arr a = xt::view(x_best, xt::range(0, m));
     return std::make_tuple(std::move(a), ell_info.num_iters, ell_info.feasible);
 }
@@ -335,9 +335,9 @@ class mle_oracle {
 auto mle_corr_core(const Arr& /* Y */, size_t m, mle_oracle& P) {
     Arr x = xt::zeros<double>({m});
     x(0) = 4.;
-    auto E = ell(500.0, x);
+    auto E = Ell(500.0, x);
     auto t = 1e100;  // std::numeric_limits<double>::max()
-    auto [x_best, ell_info] = cutting_plane_dc(P, E, t);
+    auto [x_best, ell_info] = cutting_plane_optim(P, E, t);
     return std::make_tuple(std::move(x_best), ell_info.num_iters, ell_info.feasible);
 }
 
@@ -368,7 +368,7 @@ std::tuple<Arr, size_t, bool> lsq_corr_poly(const Arr& Y, const Arr& s, size_t m
     // P = mtx_norm_oracle(Sig, Y, a)
     auto a = xt::zeros<double>({m});
     auto Q = Qmi_oracle<Arr>(Sig, Y);
-    auto E = ell(10.0, a);
+    auto E = Ell(10.0, a);
     auto P = bsearch_adaptor<decltype(Q), decltype(E)>(Q, E);
     // double normY = xt::norm_l2(Y);
     auto bs_info = bsearch(P, std::make_pair(0.0, 100.0 * 100.0));
