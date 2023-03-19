@@ -3,13 +3,12 @@
 #include <cmath>                        // for sqrt, exp
 #include <corrsolver/Qmi_oracle.hpp>    // for Qmi_oracle
 #include <cstddef>                      // for size_t
-#include <ellalgo/cut_config.hpp>       // for CInfo
 #include <ellalgo/cutting_plane.hpp>    // for cutting_plane_optim, bsearch
 #include <ellalgo/ell.hpp>              // for Ell
 #include <gsl/span>                     // for span
 #include <lmisolver/ldlt_ext.hpp>       // for ldlt_ext
-#include <lmisolver/lmi0_oracle.hpp>    // for lmi0_oracle
-#include <lmisolver/lmi_oracle.hpp>     // for lmi_oracle, lmi_oracle::Arr
+#include <lmisolver/lmi0_oracle.hpp>    // for Lmi0Oracle
+#include <lmisolver/lmi_oracle.hpp>     // for LmiOracle, LmiOracle::Arr
 #include <optional>                     // for optional
 #include <tuple>                        // for tuple_element<>::type
 #include <tuple>                        // for tuple, make_tuple
@@ -157,7 +156,7 @@ class lsq_oracle {
 
   private:
     Qmi_oracle<Arr> _qmi;
-    lmi0_oracle<Arr> _lmi0;
+    Lmi0Oracle<Arr> _lmi0;
 
   public:
     /*!
@@ -175,7 +174,7 @@ class lsq_oracle {
      * @param[in] t the best-so-far optimal value
      * @return auto
      */
-    std::tuple<Cut, bool> operator()(const Arr& x, double& t) {
+    std::tuple<Cut, bool> assess_optim(const Arr& x, double& t) {
         const auto n = x.size();
         Arr g = xt::zeros<double>({n});
         if (const auto cut0 = this->_lmi0(xt::view(x, xt::range(0, n - 1)))) {
@@ -205,6 +204,15 @@ class lsq_oracle {
         t = x(n - 1);
         return {{std::move(g), 0.0}, true};
     }
+
+    /*!
+     * @brief
+     *
+     * @param[in] x
+     * @param[in] t the best-so-far optimal value
+     * @return auto
+     */
+    std::tuple<Cut, bool> operator()(const Arr& x, double& t) { return this->assess_optim(x, t); }
 };
 
 /*!
@@ -257,8 +265,8 @@ class mle_oracle {
   private:
     const Arr& _Y;
     const std::vector<Arr>& _Sig;
-    lmi0_oracle<Arr> _lmi0;
-    lmi_oracle<Arr> _lmi;
+    Lmi0Oracle<Arr> _lmi0;
+    LmiOracle<Arr> _lmi;
 
   public:
     /*!
@@ -277,7 +285,7 @@ class mle_oracle {
      * @param[in] t the best-so-far optimal value
      * @return auto
      */
-    std::tuple<Cut, bool> operator()(const Arr& x, double& t) {
+    std::tuple<Cut, bool> assess_optim(const Arr& x, double& t) {
         using xt::linalg::dot;
 
         const auto cut1 = this->_lmi(x);
@@ -322,6 +330,15 @@ class mle_oracle {
         }
         return {{std::move(g), f}, shrunk};
     }
+
+    /*!
+     * @brief
+     *
+     * @param[in] x
+     * @param[in] t the best-so-far optimal value
+     * @return auto
+     */
+    std::tuple<Cut, bool> operator()(const Arr& x, double& t) { return this->assess_optim(x, t); }
 };
 
 /*!

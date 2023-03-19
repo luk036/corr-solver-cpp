@@ -56,5 +56,13 @@ template <typename Arr036> class Qmi_oracle {
      * @param[in] x
      * @return std::optional<Cut>
      */
-    auto operator()(const Arr036& x) -> std::optional<Cut>;
+    auto assess_feas(const Arr036& x) -> std::optional<Cut>;
+
+    /*!
+     * @brief
+     *
+     * @param[in] x
+     * @return std::optional<Cut>
+     */
+    auto operator()(const Arr036& x) -> std::optional<Cut> { return this->assess_feas(x); }
 };

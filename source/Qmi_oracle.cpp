@@ -41,7 +41,7 @@ template <typename Arr036> Qmi_oracle<Arr036>::Qmi_oracle(gsl::span<const Arr036
  * @param[in] x
  * @return std::optional<Cut>
  */
-template <typename Arr036> auto Qmi_oracle<Arr036>::operator()(const Arr036& x)
+template <typename Arr036> auto Qmi_oracle<Arr036>::assess_feas(const Arr036& x)
     -> std::optional<typename Qmi_oracle<Arr036>::Cut> {
     using xt::linalg::dot;
 
