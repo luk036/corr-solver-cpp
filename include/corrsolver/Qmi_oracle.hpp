@@ -27,7 +27,11 @@ template <typename Arr036> class Qmi_oracle {
     size_t _count = 0;
 
     const size_t _n;
-    const size_t _m;
+
+  public:
+    const size_t _m;  // need better sol'n
+
+  private:
     const gsl::span<const Arr036> _F;
     const Arr036 _F0;
     Arr036 _Fx;

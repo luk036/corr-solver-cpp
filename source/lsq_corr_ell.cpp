@@ -64,7 +64,7 @@ Arr create_2d_sites(size_t nx = 10U, size_t ny = 8U) {
  * @param[in] N
  * @return Arr Biased covariance matrix
  */
-Arr create_2d_isotropic(const Arr& s, size_t N = 3000U) {
+Arr create_2d_isotropic(const Arr &s, size_t N = 3000U) {
     using xt::linalg::dot;
 
     const auto n = s.shape()[0];
@@ -102,7 +102,7 @@ Arr create_2d_isotropic(const Arr& s, size_t N = 3000U) {
  * @param[in] s location of sites
  * @return std::vector<Arr>
  */
-Arr construct_distance_matrix(const Arr& s) {
+Arr construct_distance_matrix(const Arr &s) {
     auto n = s.shape()[0];
     Arr D1 = xt::zeros<double>({n, n});
     for (auto i = 0U; i != n; ++i) {
@@ -123,7 +123,7 @@ Arr construct_distance_matrix(const Arr& s) {
  * @param[in] m degree of polynomial
  * @return std::vector<Arr>
  */
-std::vector<Arr> construct_poly_matrix(const Arr& s, size_t m) {
+std::vector<Arr> construct_poly_matrix(const Arr &s, size_t m) {
     auto n = s.shape()[0];
     auto D1 = construct_distance_matrix(s);
     auto D = Arr{xt::ones<double>({n, n})};
@@ -165,7 +165,7 @@ class lsq_oracle {
      * @param[in] F
      * @param[in] F0
      */
-    lsq_oracle(const std::vector<Arr>& F, const Arr& F0) : _qmi(F, F0), _lmi0(F) {}
+    lsq_oracle(const std::vector<Arr> &F, const Arr &F0) : _qmi(F, F0), _lmi0(F) {}
 
     /*!
      * @brief
@@ -174,11 +174,11 @@ class lsq_oracle {
      * @param[in] t the best-so-far optimal value
      * @return auto
      */
-    std::tuple<Cut, bool> assess_optim(const Arr& x, double& t) {
+    std::tuple<Cut, bool> assess_optim(const Arr &x, double &t) {
         const auto n = x.size();
         Arr g = xt::zeros<double>({n});
         if (const auto cut0 = this->_lmi0(xt::view(x, xt::range(0, n - 1)))) {
-            const auto& [g0, f0] = *cut0;
+            const auto &[g0, f0] = *cut0;
             xt::view(g, xt::range(0, n - 1)) = g0;
             g(n - 1) = 0.;
             return {{std::move(g), f0}, false};
@@ -186,10 +186,12 @@ class lsq_oracle {
         this->_qmi.update(x(n - 1));
 
         if (const auto cut1 = this->_qmi(xt::view(x, xt::range(0, n - 1)))) {
-            const auto& [g1, f1] = *cut1;
-            const auto& Q = this->_qmi._Q;
-            const auto& [start, stop] = Q.p;
-            const auto v = xt::view(Q.witness_vec, xt::range(start, stop));
+            const auto &[g1, f1] = *cut1;
+            const auto &Q = this->_qmi._Q;
+            const auto &[start, stop] = Q.p;
+            Arr wit_vec = xt::zeros<double>({this->_qmi._m});  // need better sol'n
+            Q.set_witness_vec(wit_vec);
+            const auto v = xt::view(wit_vec, xt::range(start, stop));
             xt::view(g, xt::range(0, n - 1)) = g1;
             g(n - 1) = -xt::linalg::dot(v, v)();
             return {{std::move(g), f1}, false};
@@ -212,7 +214,7 @@ class lsq_oracle {
      * @param[in] t the best-so-far optimal value
      * @return auto
      */
-    std::tuple<Cut, bool> operator()(const Arr& x, double& t) { return this->assess_optim(x, t); }
+    std::tuple<Cut, bool> operator()(const Arr &x, double &t) { return this->assess_optim(x, t); }
 };
 
 /*!
@@ -223,7 +225,7 @@ class lsq_oracle {
  * @param[in] P
  * @return auto
  */
-auto lsq_corr_core2(const Arr& Y, size_t m, lsq_oracle& P) {
+auto lsq_corr_core2(const Arr &Y, size_t m, lsq_oracle &P) {
     auto normY = 100.0 * xt::linalg::norm(Y);
     auto normY2 = 32.0 * normY * normY;
     auto val = Arr{256.0 * xt::ones<double>({m + 1})};
@@ -232,7 +234,7 @@ auto lsq_corr_core2(const Arr& Y, size_t m, lsq_oracle& P) {
     Arr x = xt::zeros<double>({m + 1});
     x(0) = 4;
     x(m) = normY2 / 2.;
-    auto E = Ell(val, x);
+    auto E = Ell<Arr>(val, x);
     auto t = 1e100;  // std::numeric_limits<double>::max()
     const auto [x_best, ell_info] = cutting_plane_optim(P, E, t);
     Arr a = xt::view(x_best, xt::range(0, m));
@@ -247,7 +249,7 @@ auto lsq_corr_core2(const Arr& Y, size_t m, lsq_oracle& P) {
  * @param[in] m
  * @return std::tuple<size_t, bool>
  */
-std::tuple<Arr, size_t, bool> lsq_corr_poly2(const Arr& Y, const Arr& s, size_t m) {
+std::tuple<Arr, size_t, bool> lsq_corr_poly2(const Arr &Y, const Arr &s, size_t m) {
     auto Sig = construct_poly_matrix(s, m);
     auto P = lsq_oracle(Sig, Y);
     return lsq_corr_core2(Y, m, P);
@@ -263,8 +265,8 @@ class mle_oracle {
     using Cut = std::pair<Arr, double>;
 
   private:
-    const Arr& _Y;
-    const std::vector<Arr>& _Sig;
+    const Arr &_Y;
+    const std::vector<Arr> &_Sig;
     Lmi0Oracle<Arr> _lmi0;
     LmiOracle<Arr> _lmi;
 
@@ -275,7 +277,7 @@ class mle_oracle {
      * @param[in] Sig
      * @param[in] Y
      */
-    mle_oracle(const std::vector<Arr>& Sig, const Arr& Y)
+    mle_oracle(const std::vector<Arr> &Sig, const Arr &Y)
         : _Y{Y}, _Sig{Sig}, _lmi0(Sig), _lmi(Sig, 2.0 * Y) {}
 
     /*!
@@ -285,15 +287,15 @@ class mle_oracle {
      * @param[in] t the best-so-far optimal value
      * @return auto
      */
-    std::tuple<Cut, bool> assess_optim(const Arr& x, double& t) {
+    std::tuple<Cut, bool> assess_optim(const Arr &x, double &t) {
         using xt::linalg::dot;
 
-        const auto cut1 = this->_lmi(x);
+        const auto cut1 = this->_lmi.assess_feas(x);
         if (cut1) {
             return {*cut1, false};
         }
 
-        const auto cut0 = this->_lmi0(x);
+        const auto cut0 = this->_lmi0.assess_feas(x);
         if (cut0) {
             return {*cut0, false};
         }
@@ -301,7 +303,7 @@ class mle_oracle {
         auto n = x.shape()[0];
         auto m = this->_Y.shape()[0];
 
-        const auto& R = this->_lmi0._Q.sqrt();
+        const auto &R = this->_lmi0._Q.sqrt();
         auto invR = Arr{xt::linalg::inv(R)};
         auto S = Arr{dot(invR, xt::transpose(invR))};
         auto SY = Arr{dot(S, this->_Y)};
@@ -338,7 +340,7 @@ class mle_oracle {
      * @param[in] t the best-so-far optimal value
      * @return auto
      */
-    std::tuple<Cut, bool> operator()(const Arr& x, double& t) { return this->assess_optim(x, t); }
+    std::tuple<Cut, bool> operator()(const Arr &x, double &t) { return this->assess_optim(x, t); }
 };
 
 /*!
@@ -349,10 +351,10 @@ class mle_oracle {
  * @param[in] P
  * @return auto
  */
-auto mle_corr_core(const Arr& /* Y */, size_t m, mle_oracle& P) {
+auto mle_corr_core(const Arr & /* Y */, size_t m, mle_oracle &P) {
     Arr x = xt::zeros<double>({m});
     x(0) = 4.;
-    auto E = Ell(500.0, x);
+    auto E = Ell<Arr>(500.0, x);
     auto t = 1e100;  // std::numeric_limits<double>::max()
     auto [x_best, ell_info] = cutting_plane_optim(P, E, t);
     return std::make_tuple(std::move(x_best), ell_info.num_iters, ell_info.feasible);
@@ -366,7 +368,7 @@ auto mle_corr_core(const Arr& /* Y */, size_t m, mle_oracle& P) {
  * @param[in] m
  * @return std::tuple<size_t, bool>
  */
-std::tuple<Arr, size_t, bool> mle_corr_poly(const Arr& Y, const Arr& s, size_t m) {
+std::tuple<Arr, size_t, bool> mle_corr_poly(const Arr &Y, const Arr &s, size_t m) {
     const auto Sig = construct_poly_matrix(s, m);
     auto P = mle_oracle(Sig, Y);
     return mle_corr_core(Y, m, P);
@@ -380,12 +382,12 @@ std::tuple<Arr, size_t, bool> mle_corr_poly(const Arr& Y, const Arr& s, size_t m
  * @param[in] m
  * @return std::tuple<size_t, bool>
  */
-std::tuple<Arr, size_t, bool> lsq_corr_poly(const Arr& Y, const Arr& s, size_t m) {
+std::tuple<Arr, size_t, bool> lsq_corr_poly(const Arr &Y, const Arr &s, size_t m) {
     auto Sig = construct_poly_matrix(s, m);
     // P = mtx_norm_oracle(Sig, Y, a)
     auto a = xt::zeros<double>({m});
     auto Q = Qmi_oracle<Arr>(Sig, Y);
-    auto E = Ell(10.0, a);
+    auto E = Ell<Arr>(10.0, a);
     auto P = bsearch_adaptor<decltype(Q), decltype(E)>(Q, E);
     // double normY = xt::norm_l2(Y);
     auto bs_info = bsearch(P, std::make_pair(0.0, 100.0 * 100.0));

@@ -41,7 +41,7 @@ template <typename Arr036> Qmi_oracle<Arr036>::Qmi_oracle(gsl::span<const Arr036
  * @param[in] x
  * @return std::optional<Cut>
  */
-template <typename Arr036> auto Qmi_oracle<Arr036>::assess_feas(const Arr036& x)
+template <typename Arr036> auto Qmi_oracle<Arr036>::assess_feas(const Arr036 &x)
     -> std::optional<typename Qmi_oracle<Arr036>::Cut> {
     using xt::linalg::dot;
 
@@ -70,7 +70,9 @@ template <typename Arr036> auto Qmi_oracle<Arr036>::assess_feas(const Arr036& x)
 
     const auto ep = this->_Q.witness();
     const auto [start, stop] = this->_Q.p;
-    const auto v = xt::view(this->_Q.witness_vec, xt::range(start, stop), xt::all());
+    Arr036 wit_vec = xt::zeros<double>({this->_m});
+    this->_Q.set_witness_vec(wit_vec);
+    const auto v = xt::view(wit_vec, xt::range(start, stop), xt::all());
     const auto Fxp = xt::view(this->_Fx, xt::range(start, stop));
     const auto Av = dot(v, Fxp);
     Arr036 g = xt::zeros<double>({this->_nx});

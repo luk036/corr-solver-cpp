@@ -19,7 +19,7 @@ endif(xtensor_ADDED)
 
 CPMAddPackage(
   NAME EllAlgo
-  GIT_TAG 1.3.2
+  GIT_TAG 1.3.5
   GITHUB_REPOSITORY luk036/ellalgo-cpp
   OPTIONS "INSTALL_ONLY YES" # create an installable target
 )
@@ -28,7 +28,7 @@ CPMAddPackage("gh:microsoft/GSL@3.1.0")
 
 CPMAddPackage(
   NAME LmiSolver
-  GIT_TAG 1.3.2
+  GIT_TAG 1.3.4
   GITHUB_REPOSITORY luk036/lmi-solver-cpp
   OPTIONS "INSTALL_ONLY YES" # create an installable target
 )
