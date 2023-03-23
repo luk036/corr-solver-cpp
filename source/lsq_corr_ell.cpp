@@ -228,9 +228,9 @@ class lsq_oracle {
 auto lsq_corr_core2(const Arr &Y, size_t m, lsq_oracle &P) {
     auto normY = 100.0 * xt::linalg::norm(Y);
     auto normY2 = 32.0 * normY * normY;
-    auto val = Arr{256.0 * xt::ones<double>({m + 1})};
-
-    val(m) = normY2 * normY2;
+    // auto val = Arr{256.0 * xt::ones<double>({m + 1})};
+    std::valarray<double> val(256.0, m + 1);
+    val[m] = normY2 * normY2;
     Arr x = xt::zeros<double>({m + 1});
     x(0) = 4;
     x(m) = normY2 / 2.;
@@ -303,7 +303,9 @@ class mle_oracle {
         auto n = x.shape()[0];
         auto m = this->_Y.shape()[0];
 
-        const auto &R = this->_lmi0._Q.sqrt();
+        const auto dim = this->_lmi0._Q._n;
+        Arr R = xt::zeros<double>({dim, dim});
+        this->_lmi0._Q.sqrt(R);
         auto invR = Arr{xt::linalg::inv(R)};
         auto S = Arr{dot(invR, xt::transpose(invR))};
         auto SY = Arr{dot(S, this->_Y)};
