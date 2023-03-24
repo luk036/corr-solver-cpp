@@ -37,7 +37,7 @@ template <typename Arr036> class Qmi_oracle {
     Arr036 _Fx;
 
   public:
-    ldlt_ext<Arr036> _Q;
+    ldlt_ext _Q;
 
     /*!
      * @brief Construct a new qmi oracle object

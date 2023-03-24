@@ -165,7 +165,7 @@ class lsq_oracle {
      * @param[in] F
      * @param[in] F0
      */
-    lsq_oracle(const std::vector<Arr> &F, const Arr &F0) : _qmi(F, F0), _lmi0(F) {}
+    lsq_oracle(size_t m, const std::vector<Arr> &F, const Arr &F0) : _qmi(F, F0), _lmi0(m, F) {}
 
     /*!
      * @brief
@@ -177,7 +177,8 @@ class lsq_oracle {
     std::tuple<Cut, bool> assess_optim(const Arr &x, double &t) {
         const auto n = x.size();
         Arr g = xt::zeros<double>({n});
-        if (const auto cut0 = this->_lmi0(xt::view(x, xt::range(0, n - 1)))) {
+        Arr v = xt::view(x, xt::range(0, n - 1));
+        if (const auto cut0 = this->_lmi0.assess_feas<Arr>(v)) {
             const auto &[g0, f0] = *cut0;
             xt::view(g, xt::range(0, n - 1)) = g0;
             g(n - 1) = 0.;
@@ -251,7 +252,7 @@ auto lsq_corr_core2(const Arr &Y, size_t m, lsq_oracle &P) {
  */
 std::tuple<Arr, size_t, bool> lsq_corr_poly2(const Arr &Y, const Arr &s, size_t m) {
     auto Sig = construct_poly_matrix(s, m);
-    auto P = lsq_oracle(Sig, Y);
+    auto P = lsq_oracle(Y.shape()[0], Sig, Y);
     return lsq_corr_core2(Y, m, P);
 }
 
@@ -277,8 +278,8 @@ class mle_oracle {
      * @param[in] Sig
      * @param[in] Y
      */
-    mle_oracle(const std::vector<Arr> &Sig, const Arr &Y)
-        : _Y{Y}, _Sig{Sig}, _lmi0(Sig), _lmi(Sig, 2.0 * Y) {}
+    mle_oracle(size_t m, const std::vector<Arr> &Sig, const Arr &Y)
+        : _Y{Y}, _Sig{Sig}, _lmi0(m, Sig), _lmi(m, Sig, 2.0 * Y) {}
 
     /*!
      * @brief
@@ -372,7 +373,7 @@ auto mle_corr_core(const Arr & /* Y */, size_t m, mle_oracle &P) {
  */
 std::tuple<Arr, size_t, bool> mle_corr_poly(const Arr &Y, const Arr &s, size_t m) {
     const auto Sig = construct_poly_matrix(s, m);
-    auto P = mle_oracle(Sig, Y);
+    auto P = mle_oracle(Y.shape()[0], Sig, Y);
     return mle_corr_core(Y, m, P);
 }
 
