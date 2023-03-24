@@ -178,33 +178,33 @@ class lsq_oracle {
         const auto n = x.size();
         Arr g = xt::zeros<double>({n});
         Arr v = xt::view(x, xt::range(0, n - 1));
-        if (const auto cut0 = this->_lmi0.assess_feas<Arr>(v)) {
+        if (const auto cut0 = this->_lmi0.assess_feas(v)) {
             const auto &[g0, f0] = *cut0;
             xt::view(g, xt::range(0, n - 1)) = g0;
-            g(n - 1) = 0.;
+            g[n - 1] = 0.0;
             return {{std::move(g), f0}, false};
         }
-        this->_qmi.update(x(n - 1));
+        this->_qmi.update(x[n - 1]);
 
-        if (const auto cut1 = this->_qmi(xt::view(x, xt::range(0, n - 1)))) {
+        if (const auto cut1 = this->_qmi.assess_feas(v)) {
             const auto &[g1, f1] = *cut1;
             const auto &Q = this->_qmi._Q;
             const auto &[start, stop] = Q.p;
             Arr wit_vec = xt::zeros<double>({this->_qmi._m});  // need better sol'n
             Q.set_witness_vec(wit_vec);
-            const auto v = xt::view(wit_vec, xt::range(start, stop));
+            const auto v2 = xt::view(wit_vec, xt::range(start, stop));
             xt::view(g, xt::range(0, n - 1)) = g1;
-            g(n - 1) = -xt::linalg::dot(v, v)();
+            g[n - 1] = -xt::linalg::dot(v2, v2)();
             return {{std::move(g), f1}, false};
         }
-        g(n - 1) = 1.;
+        g[n - 1] = 1.0;
 
-        const auto f0 = x(n - 1) - t;
+        const auto f0 = x[n - 1] - t;
         if (f0 > 0) {
             return {{std::move(g), f0}, false};
         }
 
-        t = x(n - 1);
+        t = x[n - 1];
         return {{std::move(g), 0.0}, true};
     }
 
@@ -233,8 +233,8 @@ auto lsq_corr_core2(const Arr &Y, size_t m, lsq_oracle &P) {
     std::valarray<double> val(256.0, m + 1);
     val[m] = normY2 * normY2;
     Arr x = xt::zeros<double>({m + 1});
-    x(0) = 4;
-    x(m) = normY2 / 2.;
+    x[0] = 4;
+    x[m] = normY2 / 2.;
     auto E = Ell<Arr>(val, x);
     auto t = 1e100;  // std::numeric_limits<double>::max()
     const auto [x_best, ell_info] = cutting_plane_optim(P, E, t);
@@ -356,7 +356,7 @@ class mle_oracle {
  */
 auto mle_corr_core(const Arr & /* Y */, size_t m, mle_oracle &P) {
     Arr x = xt::zeros<double>({m});
-    x(0) = 4.;
+    x[0] = 4.;
     auto E = Ell<Arr>(500.0, x);
     auto t = 1e100;  // std::numeric_limits<double>::max()
     auto [x_best, ell_info] = cutting_plane_optim(P, E, t);
