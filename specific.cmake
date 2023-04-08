@@ -28,7 +28,7 @@ CPMAddPackage("gh:microsoft/GSL@3.1.0")
 
 CPMAddPackage(
   NAME LmiSolver
-  GIT_TAG 1.3.6
+  GIT_TAG 1.3.7
   GITHUB_REPOSITORY luk036/lmi-solver-cpp
   OPTIONS "INSTALL_ONLY YES" # create an installable target
 )
