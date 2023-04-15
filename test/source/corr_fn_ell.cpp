@@ -25,8 +25,8 @@ TEST_CASE("check create_2d_isotropic") {
 TEST_CASE("lsq_corr_fn") {
     const auto s = create_2d_sites(10, 8);
     const auto Y = create_2d_isotropic(s, 3000);
-    const auto [a, num_iters, feasible] = lsq_corr_poly2(Y, s, 4);
-    CHECK(a[0] >= 0.0);
+    const auto [coeffs, num_iters, feasible] = lsq_corr_poly2(Y, s, 4);
+    CHECK(coeffs[0] >= 0.0);
     CHECK(feasible);
     CHECK(num_iters >= 673);
     CHECK(num_iters <= 723);
@@ -35,8 +35,8 @@ TEST_CASE("lsq_corr_fn") {
 TEST_CASE("mle_corr_fn") {
     const auto s = create_2d_sites(10, 8);
     const auto Y = create_2d_isotropic(s, 3000);
-    const auto [a, num_iters, feasible] = mle_corr_poly(Y, s, 4);
-    CHECK(a[0] >= 0.0);
+    const auto [coeffs, num_iters, feasible] = mle_corr_poly(Y, s, 4);
+    CHECK(coeffs[0] >= 0.0);
     CHECK(feasible);
     CHECK(num_iters >= 149);
     CHECK(num_iters <= 248);
