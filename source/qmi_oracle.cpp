@@ -1,8 +1,8 @@
 #include <stddef.h>  // for size_t
 
-#include <cassert>                      // for assert
-#include <corrsolver/Qmi_oracle.hpp>    // for Qmi_oracle, Qmi_oracle::Arr
-#include <gsl/span>                     // for span, span<>::reference
+#include <cassert>                    // for assert
+#include <corrsolver/qmi_oracle.hpp>  // for QmiOracle, QmiOracle::Arr
+// #include <gsl/span>                     // for span, span<>::reference
 #include <lmisolver/ldlt_ext.hpp>       // for ldlt_ext
 #include <optional>                     // for optional
 #include <tuple>                        // for tuple
@@ -26,7 +26,7 @@
  * @param[in] F
  * @param[in] F0
  */
-template <typename Arr036> Qmi_oracle<Arr036>::Qmi_oracle(gsl::span<const Arr036> F, Arr036 F0)
+template <typename Arr036> QmiOracle<Arr036>::QmiOracle(const std::vector<Arr036>& F, Arr036 F0)
     : _n{F0.shape()[0]},
       _m{F0.shape()[1]},
       _F{F},
@@ -41,8 +41,8 @@ template <typename Arr036> Qmi_oracle<Arr036>::Qmi_oracle(gsl::span<const Arr036
  * @param[in] x
  * @return std::optional<Cut>
  */
-template <typename Arr036> auto Qmi_oracle<Arr036>::assess_feas(const Arr036 &x)
-    -> std::optional<typename Qmi_oracle<Arr036>::Cut> {
+template <typename Arr036> auto QmiOracle<Arr036>::assess_feas(const Arr036& x)
+    -> std::optional<typename QmiOracle<Arr036>::Cut> {
     using xt::linalg::dot;
 
     this->_count = 0;
@@ -84,4 +84,4 @@ template <typename Arr036> auto Qmi_oracle<Arr036>::assess_feas(const Arr036 &x)
 }
 
 using Arr = xt::xarray<double, xt::layout_type::row_major>;
-template class Qmi_oracle<Arr>;
+template class QmiOracle<Arr>;

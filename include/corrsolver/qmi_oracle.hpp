@@ -1,9 +1,10 @@
 // -*- coding: utf-8 -*-
 #pragma once
 
-#include <gsl/span>
+// #include <gsl/span>
 #include <lmisolver/ldlt_ext.hpp>
 #include <optional>
+#include <vector>
 // #include <xtensor/xarray.hpp>
 
 /*!
@@ -18,7 +19,7 @@
  *
  *        F(x) = F0 - (F1 * x1 + F2 * x2 + ...)
  */
-template <typename Arr036> class Qmi_oracle {
+template <typename Arr036> class QmiOracle {
     using Cut = std::pair<Arr036, double>;
 
   private:
@@ -32,7 +33,7 @@ template <typename Arr036> class Qmi_oracle {
     const size_t _m;  // need better sol'n
 
   private:
-    const gsl::span<const Arr036> _F;
+    const std::vector<Arr036>& _F;
     const Arr036 _F0;
     Arr036 _Fx;
 
@@ -45,7 +46,7 @@ template <typename Arr036> class Qmi_oracle {
      * @param[in] F
      * @param[in] F0
      */
-    Qmi_oracle(gsl::span<const Arr036> F, Arr036 F0);
+    QmiOracle(const std::vector<Arr036>& F, Arr036 F0);
 
     /*!
      * @brief Update t

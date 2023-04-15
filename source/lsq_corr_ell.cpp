@@ -1,11 +1,10 @@
 // -*- coding: utf-8 -*-
 #include <algorithm>                    // for copy
 #include <cmath>                        // for sqrt, exp
-#include <corrsolver/Qmi_oracle.hpp>    // for Qmi_oracle
+#include <corrsolver/qmi_oracle.hpp>    // for QmiOracle
 #include <cstddef>                      // for size_t
 #include <ellalgo/cutting_plane.hpp>    // for cutting_plane_optim, bsearch
 #include <ellalgo/ell.hpp>              // for Ell
-#include <gsl/span>                     // for span
 #include <lmisolver/ldlt_ext.hpp>       // for ldlt_ext
 #include <lmisolver/lmi0_oracle.hpp>    // for Lmi0Oracle
 #include <lmisolver/lmi_oracle.hpp>     // for LmiOracle, LmiOracle::Arr
@@ -149,13 +148,13 @@ std::vector<Arr> construct_poly_matrix(const Arr &s, size_t m) {
  *
  *        {Fk}i,j = \phik( ||sj - si||^2 )
  */
-class lsq_oracle {
+class LsqOracle {
     using Arr = xt::xarray<double, xt::layout_type::row_major>;
     using shape_type = Arr::shape_type;
     using Cut = std::pair<Arr, double>;
 
   private:
-    Qmi_oracle<Arr> _qmi;
+    QmiOracle<Arr> _qmi;
     Lmi0Oracle<Arr> _lmi0;
 
   public:
@@ -165,7 +164,7 @@ class lsq_oracle {
      * @param[in] F
      * @param[in] F0
      */
-    lsq_oracle(size_t m, const std::vector<Arr> &F, const Arr &F0) : _qmi(F, F0), _lmi0(m, F) {}
+    LsqOracle(size_t m, const std::vector<Arr> &F, const Arr &F0) : _qmi(F, F0), _lmi0(m, F) {}
 
     /*!
      * @brief
@@ -226,7 +225,7 @@ class lsq_oracle {
  * @param[in] P
  * @return auto
  */
-auto lsq_corr_core2(const Arr &Y, size_t m, lsq_oracle &P) {
+auto lsq_corr_core2(const Arr &Y, size_t m, LsqOracle &omega) {
     auto normY = 100.0 * xt::linalg::norm(Y);
     auto normY2 = 32.0 * normY * normY;
     // auto val = Arr{256.0 * xt::ones<double>({m + 1})};
@@ -235,9 +234,9 @@ auto lsq_corr_core2(const Arr &Y, size_t m, lsq_oracle &P) {
     Arr x = xt::zeros<double>({m + 1});
     x[0] = 4;
     x[m] = normY2 / 2.;
-    auto E = Ell<Arr>(val, x);
+    auto ellip = Ell<Arr>(val, x);
     auto t = 1e100;  // std::numeric_limits<double>::max()
-    const auto [x_best, ell_info] = cutting_plane_optim(P, E, t);
+    const auto [x_best, ell_info] = cutting_plane_optim(omega, ellip, t);
     Arr a = xt::view(x_best, xt::range(0, m));
     return std::make_tuple(std::move(a), ell_info.num_iters, ell_info.feasible);
 }
@@ -252,15 +251,15 @@ auto lsq_corr_core2(const Arr &Y, size_t m, lsq_oracle &P) {
  */
 std::tuple<Arr, size_t, bool> lsq_corr_poly2(const Arr &Y, const Arr &s, size_t m) {
     auto Sig = construct_poly_matrix(s, m);
-    auto P = lsq_oracle(Y.shape()[0], Sig, Y);
-    return lsq_corr_core2(Y, m, P);
+    auto omega = LsqOracle(Y.shape()[0], Sig, Y);
+    return lsq_corr_core2(Y, m, omega);
 }
 
 /*!
  * @brief
  *
  */
-class mle_oracle {
+class MleOracle {
     using Arr = xt::xarray<double, xt::layout_type::row_major>;
     using shape_type = Arr::shape_type;
     using Cut = std::pair<Arr, double>;
@@ -278,7 +277,7 @@ class mle_oracle {
      * @param[in] Sig
      * @param[in] Y
      */
-    mle_oracle(size_t m, const std::vector<Arr> &Sig, const Arr &Y)
+    MleOracle(size_t m, const std::vector<Arr> &Sig, const Arr &Y)
         : _Y{Y}, _Sig{Sig}, _lmi0(m, Sig), _lmi(m, Sig, 2.0 * Y) {}
 
     /*!
@@ -354,12 +353,12 @@ class mle_oracle {
  * @param[in] P
  * @return auto
  */
-auto mle_corr_core(const Arr & /* Y */, size_t m, mle_oracle &P) {
+auto mle_corr_core(const Arr & /* Y */, size_t m, MleOracle &omega) {
     Arr x = xt::zeros<double>({m});
     x[0] = 4.;
-    auto E = Ell<Arr>(500.0, x);
+    auto ellip = Ell<Arr>(500.0, x);
     auto t = 1e100;  // std::numeric_limits<double>::max()
-    auto [x_best, ell_info] = cutting_plane_optim(P, E, t);
+    auto [x_best, ell_info] = cutting_plane_optim(omega, ellip, t);
     return std::make_tuple(std::move(x_best), ell_info.num_iters, ell_info.feasible);
 }
 
@@ -373,8 +372,8 @@ auto mle_corr_core(const Arr & /* Y */, size_t m, mle_oracle &P) {
  */
 std::tuple<Arr, size_t, bool> mle_corr_poly(const Arr &Y, const Arr &s, size_t m) {
     const auto Sig = construct_poly_matrix(s, m);
-    auto P = mle_oracle(Y.shape()[0], Sig, Y);
-    return mle_corr_core(Y, m, P);
+    auto omega = MleOracle(Y.shape()[0], Sig, Y);
+    return mle_corr_core(Y, m, omega);
 }
 
 /*!
@@ -387,15 +386,15 @@ std::tuple<Arr, size_t, bool> mle_corr_poly(const Arr &Y, const Arr &s, size_t m
  */
 std::tuple<Arr, size_t, bool> lsq_corr_poly(const Arr &Y, const Arr &s, size_t m) {
     auto Sig = construct_poly_matrix(s, m);
-    // P = mtx_norm_oracle(Sig, Y, a)
+    // omega = mtx_norm_oracle(Sig, Y, a)
     auto a = xt::zeros<double>({m});
-    auto Q = Qmi_oracle<Arr>(Sig, Y);
-    auto E = Ell<Arr>(10.0, a);
-    auto P = bsearch_adaptor<decltype(Q), decltype(E)>(Q, E);
+    auto Q = QmiOracle<Arr>(Sig, Y);
+    auto ellip = Ell<Arr>(10.0, a);
+    auto omega = bsearch_adaptor<decltype(Q), decltype(ellip)>(Q, ellip);
     // double normY = xt::norm_l2(Y);
-    auto bs_info = bsearch(P, std::make_pair(0.0, 100.0 * 100.0));
+    auto bs_info = bsearch(omega, std::make_pair(0.0, 100.0 * 100.0));
 
     // std::cout << niter << ", " << feasible << '\n';
-    return {P.x_best(), bs_info.num_iters, bs_info.feasible};
+    return {omega.x_best(), bs_info.num_iters, bs_info.feasible};
     //  return prob.is_dcp()
 }
