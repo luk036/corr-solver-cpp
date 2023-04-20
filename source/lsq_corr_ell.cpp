@@ -236,9 +236,9 @@ auto lsq_corr_core2(const Arr &Y, size_t m, LsqOracle &omega) {
     x[m] = normY2 / 2.;
     auto ellip = Ell<Arr>(val, x);
     auto t = 1e100;  // std::numeric_limits<double>::max()
-    const auto [x_best, ell_info] = cutting_plane_optim(omega, ellip, t);
+    const auto [x_best, num_iters] = cutting_plane_optim(omega, ellip, t);
     Arr a = xt::view(x_best, xt::range(0, m));
-    return std::make_tuple(std::move(a), ell_info.num_iters, ell_info.feasible);
+    return std::make_tuple(std::move(a), num_iters, x_best.size() != 0U);
 }
 
 /*!
@@ -358,8 +358,8 @@ auto mle_corr_core(const Arr & /* Y */, size_t m, MleOracle &omega) {
     x[0] = 4.;
     auto ellip = Ell<Arr>(500.0, x);
     auto t = 1e100;  // std::numeric_limits<double>::max()
-    auto [x_best, ell_info] = cutting_plane_optim(omega, ellip, t);
-    return std::make_tuple(std::move(x_best), ell_info.num_iters, ell_info.feasible);
+    auto [x_best, num_iters] = cutting_plane_optim(omega, ellip, t);
+    return std::make_tuple(std::move(x_best), num_iters, x_best.size() != 0U);
 }
 
 /*!
