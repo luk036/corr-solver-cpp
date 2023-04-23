@@ -5,13 +5,13 @@ CPMAddPackage(
   OPTIONS "FMT_INSTALL YES" # create an installable target
 )
 
-CPMAddPackage("gh:xtensor-stack/xtl#0.6.23")
+CPMAddPackage("gh:xtensor-stack/xtl#0.7.4")
 if(xtl_ADDED)
   message(STATUS "Found xtl: ${xtl_SOURCE_DIR}")
   include_directories(${xtl_SOURCE_DIR}/include)
 endif(xtl_ADDED)
 
-CPMAddPackage("gh:xtensor-stack/xtensor#0.22.0")
+CPMAddPackage("gh:xtensor-stack/xtensor#0.24.3")
 if(xtensor_ADDED)
   message(STATUS "Found xtensor: ${xtensor_SOURCE_DIR}")
   include_directories(${xtensor_SOURCE_DIR}/include)
@@ -52,7 +52,7 @@ if(BLAS_FOUND)
   include_directories(${BLAS_INCLUDE_DIRS})
 endif(BLAS_FOUND)
 
-CPMAddPackage("gh:xtensor-stack/xtensor-blas#0.18.0")
+CPMAddPackage("gh:xtensor-stack/xtensor-blas#0.20.0")
 if(xtensor-blas_ADDED)
   message(STATUS "Found xtensor-blas: ${xtensor-blas_SOURCE_DIR}")
   include_directories(${xtensor-blas_SOURCE_DIR}/include)
