@@ -392,9 +392,9 @@ std::tuple<Arr, size_t, bool> lsq_corr_poly(const Arr &Y, const Arr &s, size_t m
     auto ellip = Ell<Arr>(10.0, a);
     auto omega = bsearch_adaptor<decltype(Q), decltype(ellip)>(Q, ellip);
     // double normY = xt::norm_l2(Y);
-    auto bs_info = bsearch(omega, std::make_pair(0.0, 100.0 * 100.0));
+    auto [upper, num_iters] = bsearch(omega, std::make_pair(0.0, 100.0 * 100.0));
 
     // std::cout << niter << ", " << feasible << '\n';
-    return {omega.x_best(), bs_info.num_iters, bs_info.feasible};
+    return {omega.x_best(), num_iters, upper != 100.0 * 100.0};
     //  return prob.is_dcp()
 }
