@@ -176,7 +176,7 @@ class LsqOracle {
     std::tuple<Cut, bool> assess_optim(const Arr &x, double &t) {
         const auto n = x.size();
         Arr g = xt::zeros<double>({n});
-        Arr v = xt::view(x, xt::range(0, n - 1));
+        auto v = xt::view(x, xt::range(0, n - 1));
         if (const auto cut0 = this->_lmi0.assess_feas(v)) {
             const auto &[g0, f0] = *cut0;
             xt::view(g, xt::range(0, n - 1)) = g0;
@@ -327,9 +327,9 @@ class MleOracle {
 
         for (auto i = 0U; i != n; ++i) {
             auto SFsi = dot(S, this->_Sig[i]);
-            g(i) = xt::linalg::trace(SFsi)();
+            g[i] = xt::linalg::trace(SFsi)();
             for (auto k = 0U; k != m; ++k) {
-                g(i) -= dot(xt::view(SFsi, k, xt::all()), xt::view(SY, xt::all(), k))();
+                g[i] -= dot(xt::view(SFsi, k, xt::all()), xt::view(SY, xt::all(), k))();
             }
         }
         return {{std::move(g), f}, shrunk};
