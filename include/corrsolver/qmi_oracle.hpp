@@ -2,7 +2,7 @@
 #pragma once
 
 // #include <gsl/span>
-#include <lmisolver/ldlt_ext.hpp>
+#include <ellalgo/oracles/ldlt_mgr.hpp>
 #include <optional>
 #include <vector>
 // #include <xtensor/xarray.hpp>
@@ -38,7 +38,7 @@ template <typename Arr036> class QmiOracle {
     Arr036 _Fx;
 
   public:
-    ldlt_ext _Q;
+    LDLTMgr _Q;
 
     /*!
      * @brief Construct a new qmi oracle object

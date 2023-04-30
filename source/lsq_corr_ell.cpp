@@ -5,9 +5,9 @@
 #include <cstddef>                      // for size_t
 #include <ellalgo/cutting_plane.hpp>    // for cutting_plane_optim, bsearch
 #include <ellalgo/ell.hpp>              // for Ell
-#include <lmisolver/ldlt_ext.hpp>       // for ldlt_ext
-#include <lmisolver/lmi0_oracle.hpp>    // for Lmi0Oracle
-#include <lmisolver/lmi_oracle.hpp>     // for LmiOracle, LmiOracle::Arr
+#include <ellalgo/oracles/ldlt_mgr.hpp>       // for LDLTMgr
+#include <ellalgo/oracles/lmi0_oracle.hpp>    // for Lmi0Oracle
+#include <ellalgo/oracles/lmi_oracle.hpp>     // for LmiOracle, LmiOracle::Arr
 #include <optional>                     // for optional
 #include <tuple>                        // for tuple_element<>::type
 #include <tuple>                        // for tuple, make_tuple

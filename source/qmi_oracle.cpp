@@ -3,7 +3,7 @@
 #include <cassert>                    // for assert
 #include <corrsolver/qmi_oracle.hpp>  // for QmiOracle, QmiOracle::Arr
 // #include <gsl/span>                     // for span, span<>::reference
-#include <lmisolver/ldlt_ext.hpp>       // for ldlt_ext
+#include <ellalgo/oracles/ldlt_mgr.hpp>       // for LDLTMgr
 #include <optional>                     // for optional
 #include <tuple>                        // for tuple
 #include <type_traits>                  // for move
