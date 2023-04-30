@@ -48,7 +48,7 @@ template <typename Arr036> auto QmiOracle<Arr036>::assess_feas(const Arr036& x)
     this->_count = 0;
     this->_nx = x.shape()[0];
 
-    auto getA = [&, this](size_t i, size_t j) -> double {  // ???
+    auto getA = [&, this](int i, int j) -> double {  // ???
         assert(i >= j);
         if (this->_count < i + 1) {
             this->_count = i + 1;
