@@ -25,7 +25,7 @@ template <typename Arr036> class QmiOracle {
   private:
     double _t = 0.;
     size_t _nx = 0;
-    int _count = 0;
+    size_t _count = 0;
 
     const size_t _n;
 

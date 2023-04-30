@@ -48,16 +48,18 @@ template <typename Arr036> auto QmiOracle<Arr036>::assess_feas(const Arr036& x)
     this->_count = 0;
     this->_nx = x.shape()[0];
 
-    auto getA = [&, this](int i, int j) -> double {  // ???
+    auto getA = [&, this](size_t i, size_t j) -> double {  // ???
         assert(i >= j);
+        auto ii = int(i);
+        auto ij = int(j);
         if (this->_count < i + 1) {
             this->_count = i + 1;
-            xt::row(this->_Fx, i) = xt::col(this->_F0, i);
+            xt::row(this->_Fx, ii) = xt::col(this->_F0, ii);
             for (auto k = 0U; k != this->_nx; ++k) {
-                xt::row(this->_Fx, i) -= xt::col(this->_F[k], i) * x(k);
+                xt::row(this->_Fx, ii) -= xt::col(this->_F[k], ii) * x(k);
             }
         }
-        auto a = -dot(xt::row(this->_Fx, i), xt::row(this->_Fx, j))();
+        auto a = -dot(xt::row(this->_Fx, ii), xt::row(this->_Fx, ij))();
         if (i == j) {
             a += this->_t;
         }
