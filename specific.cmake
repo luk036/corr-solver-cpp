@@ -19,19 +19,15 @@ endif(xtensor_ADDED)
 
 CPMAddPackage(
   NAME EllAlgo
-  GIT_TAG 1.4.4
+  GIT_TAG 1.4.6
   GITHUB_REPOSITORY luk036/ellalgo-cpp
   OPTIONS "INSTALL_ONLY YES" # create an installable target
 )
 
 CPMAddPackage("gh:microsoft/GSL@3.1.0")
 
-CPMAddPackage(
-  NAME LmiSolver
-  GIT_TAG 1.3.8
-  GITHUB_REPOSITORY luk036/lmi-solver-cpp
-  OPTIONS "INSTALL_ONLY YES" # create an installable target
-)
+# CPMAddPackage( NAME LmiSolver GIT_TAG 1.3.8 GITHUB_REPOSITORY luk036/lmi-solver-cpp OPTIONS
+# "INSTALL_ONLY YES" # create an installable target )
 
 find_package(OpenBLAS QUIET)
 if(OpenBLAS_FOUND)
@@ -63,12 +59,6 @@ if(WIN32)
   add_definitions(-DXTENSOR_USE_FLENS_BLAS)
 endif()
 
-set(SPECIFIC_LIBS
-    LmiSolver::LmiSolver
-    EllAlgo::EllAlgo
-    ${OpenBLAS_LIBRARIES}
-    ${LAPACK_LIBRARIES}
-    ${BLAS_LIBRARIES}
-    fmt::fmt
-    GSL
+set(SPECIFIC_LIBS EllAlgo::EllAlgo ${OpenBLAS_LIBRARIES} ${LAPACK_LIBRARIES} ${BLAS_LIBRARIES}
+                  fmt::fmt GSL
 )

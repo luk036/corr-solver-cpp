@@ -1,41 +1,41 @@
 // -*- coding: utf-8 -*-
-#include <algorithm>                    // for copy
-#include <cmath>                        // for sqrt, exp
-#include <corrsolver/qmi_oracle.hpp>    // for QmiOracle
-#include <cstddef>                      // for size_t
-#include <ellalgo/cutting_plane.hpp>    // for cutting_plane_optim, bsearch
-#include <ellalgo/ell.hpp>              // for Ell
-#include <ellalgo/oracles/ldlt_mgr.hpp>       // for LDLTMgr
-#include <ellalgo/oracles/lmi0_oracle.hpp>    // for Lmi0Oracle
-#include <ellalgo/oracles/lmi_oracle.hpp>     // for LmiOracle, LmiOracle::Arr
-#include <optional>                     // for optional
-#include <tuple>                        // for tuple_element<>::type
-#include <tuple>                        // for tuple, make_tuple
-#include <type_traits>                  // for move, add_const<>::type
-#include <utility>                      // for make_pair, pair
-#include <vector>                       // for vector, __vector_base<>::v...
-#include <xtensor-blas/xlinalg.hpp>     // for dot, trace, cholesky, inv
-#include <xtensor/xaccessible.hpp>      // for xconst_accessible
-#include <xtensor/xarray.hpp>           // for xarray_container
-#include <xtensor/xbroadcast.hpp>       // for xbroadcast
-#include <xtensor/xbuilder.hpp>         // for linspace, ones, diagonal
-#include <xtensor/xcontainer.hpp>       // for xcontainer, xcontainer<>::...
-#include <xtensor/xfunction.hpp>        // for xfunction
-#include <xtensor/xgenerator.hpp>       // for xgenerator
-#include <xtensor/xiterator.hpp>        // for operator==, linear_begin
-#include <xtensor/xlayout.hpp>          // for layout_type, layout_type::...
-#include <xtensor/xmanipulation.hpp>    // for transpose, flatten
-#include <xtensor/xmath.hpp>            // for log, sum, log_fun
-#include <xtensor/xoperation.hpp>       // for xfunction_type_t, operator*
-#include <xtensor/xrandom.hpp>          // for default_engine_type, randn
-#include <xtensor/xreducer.hpp>         // for xreducer
-#include <xtensor/xsemantic.hpp>        // for xsemantic_base
-#include <xtensor/xslice.hpp>           // for all, range
-#include <xtensor/xstrided_view.hpp>    // for xstrided_view
-#include <xtensor/xtensor.hpp>          // for xtensor_container
-#include <xtensor/xtensor_forward.hpp>  // for xarray
-#include <xtensor/xview.hpp>            // for xview, view
-#include <xtl/xiterator_base.hpp>       // for operator!=
+#include <algorithm>                        // for copy
+#include <cmath>                            // for sqrt, exp
+#include <corrsolver/qmi_oracle.hpp>        // for QmiOracle
+#include <cstddef>                          // for size_t
+#include <ellalgo/cutting_plane.hpp>        // for cutting_plane_optim, bsearch
+#include <ellalgo/ell.hpp>                  // for Ell
+#include <ellalgo/oracles/ldlt_mgr.hpp>     // for LDLTMgr
+#include <ellalgo/oracles/lmi0_oracle.hpp>  // for Lmi0Oracle
+#include <ellalgo/oracles/lmi_oracle.hpp>   // for LmiOracle, LmiOracle::Arr
+#include <optional>                         // for optional
+#include <tuple>                            // for tuple_element<>::type
+#include <tuple>                            // for tuple, make_tuple
+#include <type_traits>                      // for move, add_const<>::type
+#include <utility>                          // for make_pair, pair
+#include <vector>                           // for vector, __vector_base<>::v...
+#include <xtensor-blas/xlinalg.hpp>         // for dot, trace, cholesky, inv
+#include <xtensor/xaccessible.hpp>          // for xconst_accessible
+#include <xtensor/xarray.hpp>               // for xarray_container
+#include <xtensor/xbroadcast.hpp>           // for xbroadcast
+#include <xtensor/xbuilder.hpp>             // for linspace, ones, diagonal
+#include <xtensor/xcontainer.hpp>           // for xcontainer, xcontainer<>::...
+#include <xtensor/xfunction.hpp>            // for xfunction
+#include <xtensor/xgenerator.hpp>           // for xgenerator
+#include <xtensor/xiterator.hpp>            // for operator==, linear_begin
+#include <xtensor/xlayout.hpp>              // for layout_type, layout_type::...
+#include <xtensor/xmanipulation.hpp>        // for transpose, flatten
+#include <xtensor/xmath.hpp>                // for log, sum, log_fun
+#include <xtensor/xoperation.hpp>           // for xfunction_type_t, operator*
+#include <xtensor/xrandom.hpp>              // for default_engine_type, randn
+#include <xtensor/xreducer.hpp>             // for xreducer
+#include <xtensor/xsemantic.hpp>            // for xsemantic_base
+#include <xtensor/xslice.hpp>               // for all, range
+#include <xtensor/xstrided_view.hpp>        // for xstrided_view
+#include <xtensor/xtensor.hpp>              // for xtensor_container
+#include <xtensor/xtensor_forward.hpp>      // for xarray
+#include <xtensor/xview.hpp>                // for xview, view
+#include <xtl/xiterator_base.hpp>           // for operator!=
 
 using Arr = xt::xarray<double, xt::layout_type::row_major>;
 
@@ -187,7 +187,7 @@ class LsqOracle {
 
         if (const auto cut1 = this->_qmi.assess_feas(v)) {
             const auto &[g1, f1] = *cut1;
-            const auto &Q = this->_qmi._Q;
+            const auto &Q = this->_qmi._mq;
             const auto &[start, stop] = Q.p;
             Arr wit_vec = xt::zeros<double>({this->_qmi._m});  // need better sol'n
             Q.set_witness_vec(wit_vec);
@@ -303,9 +303,9 @@ class MleOracle {
         auto n = x.shape()[0];
         auto m = this->_Y.shape()[0];
 
-        const auto dim = this->_lmi0._Q._n;
+        const auto dim = this->_lmi0._mq._n;
         Arr R = xt::zeros<double>({dim, dim});
-        this->_lmi0._Q.sqrt(R);
+        this->_lmi0._mq.sqrt(R);
         auto invR = Arr{xt::linalg::inv(R)};
         auto S = Arr{dot(invR, xt::transpose(invR))};
         auto SY = Arr{dot(S, this->_Y)};

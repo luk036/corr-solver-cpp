@@ -38,7 +38,7 @@ template <typename Arr036> class QmiOracle {
     Arr036 _Fx;
 
   public:
-    LDLTMgr _Q;
+    LDLTMgr _mq;
 
     /*!
      * @brief Construct a new qmi oracle object
