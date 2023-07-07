@@ -32,7 +32,7 @@ template <typename Arr036> QmiOracle<Arr036>::QmiOracle(const std::vector<Arr036
       _F{F},
       _F0{std::move(F0)},
       _Fx{xt::zeros<double>({_m, _n})},  // transposed
-      _mq(_m)                             // take column
+      _mq(_m)                            // take column
 {}
 
 /*!
