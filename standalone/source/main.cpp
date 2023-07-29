@@ -1,13 +1,13 @@
-#include <corrsolver/greeter.h>  // for LanguageCode, LanguageCode::DE, Lang...
-#include <corrsolver/version.h>  // for CORRSOLVER_VERSION
+#include <corrsolver/greeter.h> // for LanguageCode, LanguageCode::DE, Lang...
+#include <corrsolver/version.h> // for CORRSOLVER_VERSION
 
-#include <cxxopts.hpp>    // for value, OptionAdder, Options, OptionV...
-#include <iostream>       // for string, operator<<, endl, basic_ostream
-#include <memory>         // for shared_ptr
-#include <string>         // for char_traits, hash, operator==
-#include <unordered_map>  // for operator==, unordered_map, __hash_ma...
+#include <cxxopts.hpp>   // for value, OptionAdder, Options, OptionV...
+#include <iostream>      // for string, operator<<, endl, basic_ostream
+#include <memory>        // for shared_ptr
+#include <string>        // for char_traits, hash, operator==
+#include <unordered_map> // for operator==, unordered_map, __hash_ma...
 
-auto main(int argc, char** argv) -> int {
+auto main(int argc, char **argv) -> int {
     const std::unordered_map<std::string, corrsolver::LanguageCode> languages{
         {"en", corrsolver::LanguageCode::EN},
         {"de", corrsolver::LanguageCode::DE},
