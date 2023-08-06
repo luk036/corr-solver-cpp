@@ -30,7 +30,7 @@ template <typename Arr036> class QmiOracle {
     const size_t _n;
 
   public:
-    const size_t _m; // need better sol'n
+    const size_t _m;  // need better sol'n
 
   private:
     const std::vector<Arr036> &_F;
@@ -69,7 +69,5 @@ template <typename Arr036> class QmiOracle {
      * @param[in] x
      * @return std::optional<Cut>
      */
-    auto operator()(const Arr036 &x) -> std::optional<Cut> {
-        return this->assess_feas(x);
-    }
+    auto operator()(const Arr036 &x) -> std::optional<Cut> { return this->assess_feas(x); }
 };

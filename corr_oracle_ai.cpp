@@ -15,10 +15,8 @@ Arr create_2d_sites(int nx = 10, int ny = 8) {
     s_end << 10.0, 8.0;
     Eigen::MatrixXd hgen(n, 2);
     hgen << 2, 3;
-    Arr s = s_end.array() * (hgen.unaryExpr([](double x) { return Halton(x); })
-                                 .matrix()
-                                 .transpose()
-                                 .array());
+    Arr s = s_end.array()
+            * (hgen.unaryExpr([](double x) { return Halton(x); }).matrix().transpose().array());
     return s;
 }
 

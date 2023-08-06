@@ -1,21 +1,21 @@
-#include <stddef.h> // for size_t
+#include <stddef.h>  // for size_t
 
-#include <cassert>                   // for assert
-#include <corrsolver/qmi_oracle.hpp> // for QmiOracle, QmiOracle::Arr
+#include <cassert>                    // for assert
+#include <corrsolver/qmi_oracle.hpp>  // for QmiOracle, QmiOracle::Arr
 // #include <gsl/span>                     // for span, span<>::reference
-#include <ellalgo/oracles/ldlt_mgr.hpp> // for LDLTMgr
-#include <optional>                     // for optional
-#include <tuple>                        // for tuple
-#include <type_traits>                  // for move
-#include <xtensor-blas/xlinalg.hpp>     // for dot
-#include <xtensor/xarray.hpp>           // for xarray_container
-#include <xtensor/xcontainer.hpp>       // for xcontainer<>::const_reference
-#include <xtensor/xlayout.hpp>          // for layout_type, layout_type::...
-#include <xtensor/xoperation.hpp>       // for operator*, xfunction_type_t
-#include <xtensor/xsemantic.hpp>        // for xsemantic_base
-#include <xtensor/xslice.hpp>           // for range, all
-#include <xtensor/xtensor_forward.hpp>  // for xarray
-#include <xtensor/xview.hpp>            // for xview, row, view, col
+#include <ellalgo/oracles/ldlt_mgr.hpp>  // for LDLTMgr
+#include <optional>                      // for optional
+#include <tuple>                         // for tuple
+#include <type_traits>                   // for move
+#include <xtensor-blas/xlinalg.hpp>      // for dot
+#include <xtensor/xarray.hpp>            // for xarray_container
+#include <xtensor/xcontainer.hpp>        // for xcontainer<>::const_reference
+#include <xtensor/xlayout.hpp>           // for layout_type, layout_type::...
+#include <xtensor/xoperation.hpp>        // for operator*, xfunction_type_t
+#include <xtensor/xsemantic.hpp>         // for xsemantic_base
+#include <xtensor/xslice.hpp>            // for range, all
+#include <xtensor/xtensor_forward.hpp>   // for xarray
+#include <xtensor/xview.hpp>             // for xview, row, view, col
 
 // #define ROW(X, index) xt::view(X, index, xt::all())
 // #define COLUMN(X, index) xt::view(X, xt::all(), index)
@@ -26,11 +26,13 @@
  * @param[in] F
  * @param[in] F0
  */
-template <typename Arr036>
-QmiOracle<Arr036>::QmiOracle(const std::vector<Arr036> &F, Arr036 F0)
-    : _n{F0.shape()[0]}, _m{F0.shape()[1]}, _F{F}, _F0{std::move(F0)},
-      _Fx{xt::zeros<double>({_m, _n})}, // transposed
-      _mq(_m)                           // take column
+template <typename Arr036> QmiOracle<Arr036>::QmiOracle(const std::vector<Arr036> &F, Arr036 F0)
+    : _n{F0.shape()[0]},
+      _m{F0.shape()[1]},
+      _F{F},
+      _F0{std::move(F0)},
+      _Fx{xt::zeros<double>({_m, _n})},  // transposed
+      _mq(_m)                            // take column
 {}
 
 /*!
@@ -39,15 +41,14 @@ QmiOracle<Arr036>::QmiOracle(const std::vector<Arr036> &F, Arr036 F0)
  * @param[in] x
  * @return std::optional<Cut>
  */
-template <typename Arr036>
-auto QmiOracle<Arr036>::assess_feas(const Arr036 &x)
+template <typename Arr036> auto QmiOracle<Arr036>::assess_feas(const Arr036 &x)
     -> std::optional<typename QmiOracle<Arr036>::Cut> {
     using xt::linalg::dot;
 
     this->_count = 0;
     this->_nx = x.shape()[0];
 
-    auto getA = [&, this](size_t i, size_t j) -> double { // ???
+    auto getA = [&, this](size_t i, size_t j) -> double {  // ???
         assert(i >= j);
         auto ii = int(i);
         auto ij = int(j);
@@ -78,8 +79,7 @@ auto QmiOracle<Arr036>::assess_feas(const Arr036 &x)
     const auto Av = dot(v, Fxp);
     Arr036 g = xt::zeros<double>({this->_nx});
     for (auto k = 0U; k != this->_nx; ++k) {
-        const auto Fkp =
-            xt::view(this->_F[k], xt::range(start, stop), xt::all());
+        const auto Fkp = xt::view(this->_F[k], xt::range(start, stop), xt::all());
         g(k) = -2.0 * dot(dot(v, Fkp), Av)();
     }
     return {{std::move(g), ep}};
