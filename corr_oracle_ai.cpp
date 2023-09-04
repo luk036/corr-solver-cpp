@@ -15,20 +15,20 @@ Arr create_2d_sites(int nx = 10, int ny = 8) {
     s_end << 10.0, 8.0;
     Eigen::MatrixXd hgen(n, 2);
     hgen << 2, 3;
-    Arr s = s_end.array()
+    Arr site = s_end.array()
             * (hgen.unaryExpr([](double x) { return Halton(x); }).matrix().transpose().array());
-    return s;
+    return site;
 }
 
-Arr create_2d_isotropic(Arr s, int N = 3000) {
-    int n = s.rows();
+Arr create_2d_isotropic(Arr site, int N = 3000) {
+    int n = site.rows();
     double sdkern = 0.12;
     double var = 2.0;
     double tau = 0.00001;
     Eigen::MatrixXd Sig(n, n);
     for (int i = 0; i < n; i++) {
         for (int j = i; j < n; j++) {
-            Eigen::VectorXd d = s.row(j) - s.row(i);
+            Eigen::VectorXd d = site.row(j) - site.row(i);
             Sig(i, j) = exp(-sdkern * (d.dot(d)));
             Sig(j, i) = Sig(i, j);
         }
@@ -44,9 +44,9 @@ Arr create_2d_isotropic(Arr s, int N = 3000) {
     return Y;
 }
 
-vector<Arr> construct_poly_matrix(Arr s, int m) {
-    int n = s.rows();
-    Arr D1 = construct_distance_matrix(s);
+vector<Arr> construct_poly_matrix(Arr site, int m) {
+    int n = site.rows();
+    Arr D1 = construct_distance_matrix(site);
     Arr D = Arr::Ones(n, n);
     vector<Arr> Sig = {D};
     for (int i = 1; i < m; i++) {
@@ -57,9 +57,9 @@ vector<Arr> construct_poly_matrix(Arr s, int m) {
 }
 
 tuple<Eigen::VectorXd, int, bool> corr_poly(
-    Arr Y, Arr s, int m, function<Arr(vector<Arr>, Arr)> oracle,
+    Arr Y, Arr site, int m, function<Arr(vector<Arr>, Arr)> oracle,
     function<tuple<Eigen::VectorXd, int, bool>(Arr, int, Arr)> corr_core) {
-    vector<Arr> Sig = construct_poly_matrix(s, m);
+    vector<Arr> Sig = construct_poly_matrix(site, m);
     Arr omega = oracle(Sig, Y);
     tuple<Eigen::VectorXd, int, bool> res = corr_core(Y, m, omega);
     Eigen::VectorXd a = get<0>(res);
