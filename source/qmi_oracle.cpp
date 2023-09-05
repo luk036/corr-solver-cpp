@@ -1,8 +1,7 @@
 #include <stddef.h>  // for size_t
 
-#include <cassert>                    // for assert
-#include <corrsolver/qmi_oracle.hpp>  // for QmiOracle, QmiOracle::Arr
-// #include <gsl/span>                     // for span, span<>::reference
+#include <cassert>                       // for assert
+#include <corrsolver/qmi_oracle.hpp>     // for QmiOracle, QmiOracle::Arr
 #include <ellalgo/oracles/ldlt_mgr.hpp>  // for LDLTMgr
 #include <optional>                      // for optional
 #include <tuple>                         // for tuple
@@ -17,11 +16,11 @@
 #include <xtensor/xtensor_forward.hpp>   // for xarray
 #include <xtensor/xview.hpp>             // for xview, row, view, col
 
-// #define ROW(X, index) xt::view(X, index, xt::all())
-// #define COLUMN(X, index) xt::view(X, xt::all(), index)
-
-/*!
- * @brief Construct a new qmi oracle object
+/**
+ * @brief Construct a new quadratic matrix inequality oracle object
+ *
+ * The code snippet is defining the constructor for the `QmiOracle` class template. It takes two
+ * parameters, `F` and `F0`, which are vectors of `Arr036` objects.
  *
  * @param[in] F
  * @param[in] F0
@@ -35,12 +34,9 @@ template <typename Arr036> QmiOracle<Arr036>::QmiOracle(const std::vector<Arr036
       _mq(_m)                            // take column
 {}
 
-/*!
- * @brief
- *
- * @param[in] x
- * @return std::optional<Cut>
- */
+/* The code snippet is defining a member function `assess_feas` for the `QmiOracle` class template.
+This function takes a parameter `x` of type `Arr036` and returns an `std::optional` object
+containing a `Cut` object. */
 template <typename Arr036> auto QmiOracle<Arr036>::assess_feas(const Arr036 &x)
     -> std::optional<typename QmiOracle<Arr036>::Cut> {
     using xt::linalg::dot;
@@ -48,7 +44,7 @@ template <typename Arr036> auto QmiOracle<Arr036>::assess_feas(const Arr036 &x)
     this->_count = 0;
     this->_nx = x.shape()[0];
 
-    auto getA = [&, this](size_t i, size_t j) -> double {  // ???
+    auto getA = [&x, this](size_t i, size_t j) -> double {  // ???
         assert(i >= j);
         auto ii = int(i);
         auto ij = int(j);

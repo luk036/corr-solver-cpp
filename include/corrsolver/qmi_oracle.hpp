@@ -5,7 +5,6 @@
 #include <ellalgo/oracles/ldlt_mgr.hpp>
 #include <optional>
 #include <vector>
-// #include <xtensor/xarray.hpp>
 
 /*!
  * @brief Oracle for Quadratic Matrix Inequality
@@ -40,8 +39,8 @@ template <typename Arr036> class QmiOracle {
   public:
     LDLTMgr _mq;
 
-    /*!
-     * @brief Construct a new qmi oracle object
+    /**
+     * @brief Construct a new quadratic matrix inequality oracle object
      *
      * @param[in] F
      * @param[in] F0
@@ -62,12 +61,4 @@ template <typename Arr036> class QmiOracle {
      * @return std::optional<Cut>
      */
     auto assess_feas(const Arr036 &x) -> std::optional<Cut>;
-
-    /*!
-     * @brief
-     *
-     * @param[in] x
-     * @return std::optional<Cut>
-     */
-    auto operator()(const Arr036 &x) -> std::optional<Cut> { return this->assess_feas(x); }
 };

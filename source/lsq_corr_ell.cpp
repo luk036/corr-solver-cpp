@@ -236,8 +236,8 @@ class LsqOracle {
  * The function `lsq_corr_core2` performs least squares correlation using a cutting plane
  * optimization algorithm.
  *
- * @param[in] Y The parameter `Y` is an input array of type `Arr` which represents the data for the
- * least squares correlation calculation.
+ * @param[in] Y The parameter `Y` is an input array of type `Arr` which represents the biased
+ * covariance matrix.
  * @param[in] m The parameter `m` represents the number of coefficients in the linear least squares
  * problem. It determines the size of the coefficient vector `a` that will be returned by the
  * function.
@@ -268,11 +268,10 @@ auto lsq_corr_core2(const Arr &Y, size_t m, LsqOracle &omega) {
 }
 
 /**
- * The function `lsq_corr_poly2` calculates the least squares correlation for a polynomial of
- * degree 2.
+ * The function `lsq_corr_poly2` calculates the least squares correlation for a polynomial.
  *
- * @param[in] Y The parameter Y is a vector or array containing the observed data points. It
- * represents the dependent variable in a least squares regression problem.
+ * @param[in] Y The parameter `Y` is an input array of type `Arr` which represents the biased
+ * covariance matrix.
  * @param site The parameter `site` represents the site or location of the observed data. It is used
  * in constructing the polynomial matrix `Sig`.
  * @param[in] m The parameter `m` represents the degree of the polynomial that will be used for the
@@ -309,7 +308,8 @@ class MleOracle {
      * @param[in] m The parameter `m` represents the size of the problem or the number of variables
      * in the problem.
      * @param[in] Sig A vector of Arr objects representing the input signals.
-     * @param[in] Y A vector representing the observed data or target values.
+     * @param[in] Y The parameter `Y` is an input array of type `Arr` which represents the biased
+     * covariance matrix.
      */
     MleOracle(size_t m, const std::vector<Arr> &Sig, const Arr &Y)
         : _Y{Y}, _Sig{Sig}, _lmi0(m, Sig), _lmi(m, Sig, 2.0 * Y) {}
@@ -375,7 +375,6 @@ class MleOracle {
  * The function `mle_corr_core` performs maximum likelihood estimation for correlation coefficients
  * using a cutting plane optimization algorithm.
  *
- * @param  - `Y`: An input array of type `Arr`.
  * @param m The parameter `m` represents the size of the array `x`. It is used to create an array of
  * size `m` and initialize it with zeros.
  * @param omega The parameter `omega` is of type `MleOracle&`. It is a reference to an object of
@@ -385,24 +384,21 @@ class MleOracle {
  * @return The function `mle_corr_core` returns a tuple containing three elements:
  * 1. `x_best`: The best solution found during the optimization process.
  * 2. `num_iters`: The number of iterations performed during the optimization process.
- * 3. `x_best.size() != 0U`: A boolean value indicating whether the size of `x_best` is not equal to
- * zero.
  */
-auto mle_corr_core(const Arr & /* Y */, size_t m, MleOracle &omega) {
+auto mle_corr_core(size_t m, MleOracle &omega) {
     Arr x = xt::zeros<double>({m});
     x[0] = 4.0;
     auto ellip = Ell<Arr>(500.0, x);
     auto t = 1e100;  // std::numeric_limits<double>::max()
     return cutting_plane_optim(omega, ellip, t);
-    // return std::make_tuple(std::move(x_best), num_iters, x_best.size() != 0U);
 }
 
 /**
  * The function `mle_corr_poly` calculates the maximum likelihood estimate of a polynomial
  * correlation matrix.
  *
- * @param Y The parameter Y is a vector or array that represents the observed data. It is used as
- * input to calculate the maximum likelihood estimate (MLE) of the correlation polynomial.
+ * @param[in] Y The parameter `Y` represents the biased covariance matrix. It is used to
+ * calculate the maximum likelihood estimate (MLE) of the correlation polynomial.
  * @param site The parameter `site` represents the site or location of the observed data. It is used
  * in constructing the polynomial matrix `Sig`.
  * @param m The parameter `m` represents the degree of the polynomial used in constructing the
@@ -414,15 +410,15 @@ auto mle_corr_core(const Arr & /* Y */, size_t m, MleOracle &omega) {
 std::tuple<Arr, size_t> mle_corr_poly(const Arr &Y, const Arr &site, size_t m) {
     const auto Sig = construct_poly_matrix(site, m);
     auto omega = MleOracle(Y.shape()[0], Sig, Y);
-    return mle_corr_core(Y, m, omega);
+    return mle_corr_core(m, omega);
 }
 
 /**
  * The function `lsq_corr_poly` calculates the least squares correlation polynomial for a given set
  * of data.
  *
- * @param Y The parameter `Y` is a vector of values that represents the dependent variable in a
- * linear regression problem. It is the variable that we are trying to predict or explain.
+ * @param[in] Y The parameter `Y` is an input array of type `Arr` which represents the biased
+ * covariance matrix.
  * @param site The "site" parameter is a 1-dimensional array or vector that represents the spatial
  * locations of the data points. It is used to construct a polynomial matrix called "Sig" in the
  * lsq_corr_poly function. The size of the "site" array should be the same as the size of the
@@ -432,8 +428,6 @@ std::tuple<Arr, size_t> mle_corr_poly(const Arr &Y, const Arr &site, size_t m) {
  * @return The function `lsq_corr_poly` returns a tuple containing three elements:
  * 1. `Arr`: The best solution `omega.x_best()`.
  * 2. `size_t`: The number of iterations `num_iters`.
- * 3. `bool`: A boolean value indicating whether the upper bound `upper` is not equal to `100.0 *
- * 100.0`.
  */
 std::tuple<Arr, size_t> lsq_corr_poly(const Arr &Y, const Arr &site, size_t m) {
     auto Sig = construct_poly_matrix(site, m);
@@ -444,6 +438,4 @@ std::tuple<Arr, size_t> lsq_corr_poly(const Arr &Y, const Arr &site, size_t m) {
     auto omega = BSearchAdaptor<decltype(Q), decltype(ellip)>(Q, ellip);
     auto [upper, num_iters] = bsearch(omega, std::make_pair(0.0, 100.0 * 100.0));
     return {omega.x_best(), num_iters};
-    // return {omega.x_best(), num_iters, upper != 100.0 * 100.0};
-    //  return prob.is_dcp()
 }
