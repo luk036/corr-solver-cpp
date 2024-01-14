@@ -16,7 +16,7 @@ Correlation solver for modern C++
 - This library requires C++17 or above.
 - This library depends on GSL, LmiSolver, EllAlgo, xtensor-blas and OpenBLAS.
 
-## Features
+## ✨ Features
 
 - Lazy evaluation of Cholesky/LDLT decomposition
 - Suport semi- and strictlu positive definite.
