@@ -78,7 +78,7 @@ s.t.  t * I - F(x)&#x27; F(x) &gt;= 0
               <span class="m-doc-wrap-bumper"><a href="#a25bdb57782c07b1ec03489887e159f04" class="m-doc">QmiOracle</a>(</span><span class="m-doc-wrap">const std::vector&lt;Arr036&gt;&amp; F,
               Arr036 F0)</span>
             </dt>
-            <dd>Construct a new qmi oracle object.</dd>
+            <dd>Construct a new quadratic matrix inequality oracle object.</dd>
           </dl>
         </section>
         <section id="pub-methods">
@@ -90,10 +90,6 @@ s.t.  t * I - F(x)&#x27; F(x) &gt;= 0
             <dd>Update t.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">auto <a href="#afbcdac5ed122a03af083cebe6d8f5276" class="m-doc">assess_feas</a>(</span><span class="m-doc-wrap">const Arr036&amp; x) -&gt; std::optional&lt; Cut &gt; -&gt; auto</span>
-            </dt>
-            <dd></dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a293df06bfd7b9c2176fd9bdeafa30628" class="m-doc">operator()</a>(</span><span class="m-doc-wrap">const Arr036&amp; x) -&gt; std::optional&lt; Cut &gt; -&gt; auto</span>
             </dt>
             <dd></dd>
           </dl>
@@ -121,7 +117,7 @@ s.t.  t * I - F(x)&#x27; F(x) &gt;= 0
               <span class="m-doc-wrap-bumper"> QmiOracle&lt;Arr036&gt;::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a25bdb57782c07b1ec03489887e159f04" class="m-doc-self">QmiOracle</a>(</span><span class="m-doc-wrap">const std::vector&lt;Arr036&gt;&amp; F,
               Arr036 F0)</span></span>
             </h3>
-            <p>Construct a new qmi oracle object.</p>
+            <p>Construct a new quadratic matrix inequality oracle object.</p>
             <table class="m-table m-fullwidth m-flat">
               <thead>
                 <tr><th colspan="2">Parameters</th></tr>
@@ -164,31 +160,6 @@ s.t.  t * I - F(x)&#x27; F(x) &gt;= 0
                 template&lt;typename Arr036&gt;
               </div>
               <span class="m-doc-wrap-bumper">auto QmiOracle&lt;Arr036&gt;::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#afbcdac5ed122a03af083cebe6d8f5276" class="m-doc-self">assess_feas</a>(</span><span class="m-doc-wrap">const Arr036&amp; x) -&gt; std::optional&lt; Cut &gt;</span></span>
-            </h3>
-            <table class="m-table m-fullwidth m-flat">
-              <thead>
-                <tr><th colspan="2">Parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="width: 1%">x&nbsp;<span class="m-label m-flat m-info">in</span></td>
-                  <td></td>
-                </tr>
-              </tbody>
-              <tfoot>
-                <tr>
-                  <th>Returns</th>
-                  <td>std::optional&lt;Cut&gt;</td>
-                </tr>
-              </tfoot>
-            </table>
-          </div></section>
-          <section class="m-doc-details" id="a293df06bfd7b9c2176fd9bdeafa30628"><div>
-            <h3>
-              <div class="m-doc-template">
-                template&lt;typename Arr036&gt;
-              </div>
-              <span class="m-doc-wrap-bumper">auto QmiOracle&lt;Arr036&gt;::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a293df06bfd7b9c2176fd9bdeafa30628" class="m-doc-self">operator()</a>(</span><span class="m-doc-wrap">const Arr036&amp; x) -&gt; std::optional&lt; Cut &gt;</span></span>
             </h3>
             <table class="m-table m-fullwidth m-flat">
               <thead>
