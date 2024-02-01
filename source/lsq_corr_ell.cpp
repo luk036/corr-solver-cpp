@@ -429,13 +429,13 @@ std::tuple<Arr, size_t> mle_corr_poly(const Arr &Y, const Arr &site, size_t m) {
  * 1. `Arr`: The best solution `omega.x_best()`.
  * 2. `size_t`: The number of iterations `num_iters`.
  */
-std::tuple<Arr, size_t> lsq_corr_poly(const Arr &Y, const Arr &site, size_t m) {
-    auto Sig = construct_poly_matrix(site, m);
-    // omega = mtx_norm_oracle(Sig, Y, a)
-    auto a = xt::zeros<double>({m});
-    auto Q = QmiOracle<Arr>(Sig, Y);
-    auto ellip = Ell<Arr>(10.0, a);
-    auto omega = BSearchAdaptor<decltype(Q), decltype(ellip)>(Q, ellip);
-    auto [upper, num_iters] = bsearch(omega, std::make_pair(0.0, 100.0 * 100.0));
-    return {omega.x_best(), num_iters};
-}
+// std::tuple<Arr, size_t> lsq_corr_poly(const Arr &Y, const Arr &site, size_t m) {
+//     auto Sig = construct_poly_matrix(site, m);
+//     // omega = mtx_norm_oracle(Sig, Y, a)
+//     auto a = xt::zeros<double>({m});
+//     auto Q = QmiOracle<Arr>(Sig, Y);
+//     auto ellip = Ell<Arr>(10.0, a);
+//     auto omega = BSearchAdaptor<decltype(Q), decltype(ellip)>(Q, ellip);
+//     auto [upper, num_iters] = bsearch(omega, std::make_pair(0.0, 100.0 * 100.0));
+//     return {omega.x_best(), num_iters};
+// }
