@@ -272,8 +272,8 @@ auto lsq_corr_core2(const Arr &Y, size_t m, LsqOracle &omega) {
  *
  * @param[in] Y The parameter `Y` is an input array of type `Arr` which represents the biased
  * covariance matrix.
- * @param[in] site The parameter `site` represents the site or location of the observed data. It is used
- * in constructing the polynomial matrix `Sig`.
+ * @param[in] site The parameter `site` represents the site or location of the observed data. It is
+ * used in constructing the polynomial matrix `Sig`.
  * @param[in] m The parameter `m` represents the degree of the polynomial that will be used for the
  * least squares fitting. It determines the number of coefficients in the polynomial equation.
  *
@@ -375,8 +375,8 @@ class MleOracle {
  * The function `mle_corr_core` performs maximum likelihood estimation for correlation coefficients
  * using a cutting plane optimization algorithm.
  *
- * @param[in] m The parameter `m` represents the size of the array `x`. It is used to create an array of
- * size `m` and initialize it with zeros.
+ * @param[in] m The parameter `m` represents the size of the array `x`. It is used to create an
+ * array of size `m` and initialize it with zeros.
  * @param[in] omega The parameter `omega` is of type `MleOracle&`. It is a reference to an object of
  * type `MleOracle`, which is likely a class or struct that provides some functionality related to
  * maximum likelihood estimation (MLE). The `mle_corr_core` function uses this `omega`
@@ -399,8 +399,8 @@ auto mle_corr_core(size_t m, MleOracle &omega) {
  *
  * @param[in] Y The parameter `Y` represents the biased covariance matrix. It is used to
  * calculate the maximum likelihood estimate (MLE) of the correlation polynomial.
- * @param[in] site The parameter `site` represents the site or location of the observed data. It is used
- * in constructing the polynomial matrix `Sig`.
+ * @param[in] site The parameter `site` represents the site or location of the observed data. It is
+ * used in constructing the polynomial matrix `Sig`.
  * @param[in] m The parameter `m` represents the degree of the polynomial used in constructing the
  * polynomial matrix `Sig`. It determines the number of columns in the matrix.
  *
@@ -419,9 +419,9 @@ std::tuple<Arr, size_t> mle_corr_poly(const Arr &Y, const Arr &site, size_t m) {
  *
  * @param[in] Y The parameter `Y` is an input array of type `Arr` which represents the biased
  * covariance matrix.
- * @param[in] site The "site" parameter is a 1-dimensional array or vector that represents the spatial
- * locations of the data points. It is used to construct a polynomial matrix called "Sig" in the
- * lsq_corr_poly function. The size of the "site" array should be the same as the size of the
+ * @param[in] site The "site" parameter is a 1-dimensional array or vector that represents the
+ * spatial locations of the data points. It is used to construct a polynomial matrix called "Sig" in
+ * the lsq_corr_poly function. The size of the "site" array should be the same as the size of the
  * @param[in] m The parameter `m` represents the degree of the polynomial used in the least squares
  * correlation calculation. It determines the number of coefficients in the polynomial.
  *
