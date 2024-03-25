@@ -1,6 +1,6 @@
 CPMAddPackage(
   NAME fmt
-  GIT_TAG 7.1.3
+  GIT_TAG 9.1.0
   GITHUB_REPOSITORY fmtlib/fmt
   OPTIONS "FMT_INSTALL YES" # create an installable target
 )
@@ -24,7 +24,7 @@ CPMAddPackage(
   OPTIONS "INSTALL_ONLY YES" # create an installable target
 )
 
-CPMAddPackage("gh:microsoft/GSL@3.1.0")
+CPMAddPackage("gh:microsoft/GSL@4.0.0")
 
 # CPMAddPackage( NAME LmiSolver GIT_TAG 1.3.8 GITHUB_REPOSITORY luk036/lmi-solver-cpp OPTIONS
 # "INSTALL_ONLY YES" # create an installable target )
@@ -60,5 +60,5 @@ if(WIN32)
 endif()
 
 set(SPECIFIC_LIBS EllAlgo::EllAlgo ${OpenBLAS_LIBRARIES} ${LAPACK_LIBRARIES} ${BLAS_LIBRARIES}
-                  fmt::fmt GSL
+                  fmt::fmt Microsoft.GSL::GSL
 )
