@@ -19,7 +19,7 @@ endif(xtensor_ADDED)
 
 CPMAddPackage(
   NAME EllAlgo
-  GIT_TAG 1.4.6
+  GIT_TAG 1.5.0
   GITHUB_REPOSITORY luk036/ellalgo-cpp
   OPTIONS "INSTALL_ONLY YES" # create an installable target
 )
