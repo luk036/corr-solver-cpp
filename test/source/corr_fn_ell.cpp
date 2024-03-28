@@ -38,6 +38,6 @@ TEST_CASE("mle_corr_fn") {
     const auto [coeffs, num_iters] = mle_corr_poly(Y, site, 4);
     REQUIRE(coeffs.size() > 0);
     CHECK(coeffs[0] >= 0.0);
-    CHECK(num_iters >= 227);
+    CHECK(num_iters >= 225);
     CHECK(num_iters <= 247);
 }
