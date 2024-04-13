@@ -67,7 +67,7 @@ template <typename Arr036> auto QmiOracle<Arr036>::assess_feas(const Arr036 &x)
     }
 
     const auto ep = this->_mq.witness();
-    const auto [start, stop] = this->_mq.p;
+    const auto [start, stop] = this->_mq.pos;
     Arr036 wit_vec = xt::zeros<double>({this->_m});
     this->_mq.set_witness_vec(wit_vec);
     const auto v = xt::view(wit_vec, xt::range(start, stop), xt::all());
