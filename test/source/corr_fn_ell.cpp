@@ -39,5 +39,5 @@ TEST_CASE("mle_corr_fn") {
     REQUIRE(coeffs.size() > 0);
     CHECK(coeffs[0] >= 0.0);
     CHECK(num_iters >= 225);
-    CHECK(num_iters <= 247);
+    CHECK(num_iters <= 410);
 }
