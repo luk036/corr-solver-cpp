@@ -213,7 +213,7 @@ class LsqOracle {
         if (const auto cut1 = this->_qmi.assess_feas(v)) {
             const auto &[g1, f1] = *cut1;
             const auto &Q = this->_qmi._mq;
-            const auto &[start, stop] = Q.p;
+            const auto &[start, stop] = Q.pos;
             Arr wit_vec = xt::zeros<double>({this->_qmi._m});  // need better sol'n
             Q.set_witness_vec(wit_vec);
             const auto v2 = xt::view(wit_vec, xt::range(start, stop));
