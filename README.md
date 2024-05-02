@@ -11,7 +11,7 @@
 
 # CorrSolverCpp
 
-Correlation solver for modern C++
+🖇️ Correlation solver for modern C++
 
 - This library requires C++17 or above.
 - This library depends on GSL, LmiSolver, EllAlgo, xtensor-blas and OpenBLAS.
