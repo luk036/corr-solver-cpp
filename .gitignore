@@ -2,5 +2,5 @@
 /.vscode
 /cpm_modules
 /.cache
-/.trun
+/.xmake
 .DS_Store
