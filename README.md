@@ -9,9 +9,9 @@
   <img src="https://repository-images.githubusercontent.com/254842585/4dfa7580-7ffb-11ea-99d0-46b8fe2f4170" height="175" width="auto" />
 </p>
 
-# CorrSolverCpp
+# 🖇️ CorrSolverCpp
 
-🖇️ Correlation solver for modern C++
+Correlation solver for modern C++
 
 - This library requires C++17 or above.
 - This library depends on GSL, LmiSolver, EllAlgo, xtensor-blas and OpenBLAS.
