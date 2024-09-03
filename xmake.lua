@@ -1,10 +1,11 @@
 set_languages("c++17")
 
 add_rules("mode.debug", "mode.release", "mode.coverage")
--- add_requires("fmt", {alias = "fmt"})
+add_requires("fmt", {alias = "fmt"})
 add_requires("microsoft-gsl", {alias = "ms-gsl"})
 add_requires("doctest", {alias = "doctest"})
 add_requires("xtensor", {alias = "xtensor"})
+add_requires("xtensor-blas", {alias = "xtensor-blas"})
 
 if is_mode("coverage") then
     add_cxflags("-ftest-coverage", "-fprofile-arcs", {force = true})
@@ -18,21 +19,27 @@ elseif is_plat("windows") then
     add_cxflags("/EHsc /W4 /WX /wd4819 /wd4996", {force = true})
 end
 
-target("SphereN")
+target("CorrSolver")
     set_kind("static")
     add_includedirs("include", {public = true})
     add_includedirs("../lds-gen-cpp/include", {public = true})
+    add_includedirs("../ellalgo-cpp/include", {public = true})
     add_files("source/*.cpp")
+    add_packages("fmt")
     add_packages("ms-gsl")
     add_packages("xtensor")
+    add_packages("xtensor-blas")
 
-target("test_sphere_n")
+target("test_corr_solver")
     set_kind("binary")
-    add_deps("SphereN")
+    add_deps("CorrSolver")
     add_includedirs("include", {public = true})
     add_includedirs("../lds-gen-cpp/include", {public = true})
+    add_includedirs("../ellalgo-cpp/include", {public = true})
     add_files("test/source/*.cpp")
+    add_packages("fmt")
     add_packages("ms-gsl", "doctest", "xtensor")
+    add_packages("xtensor-blas")
 
 --
 -- If you want to known more usage about xmake, please see https://xmake.io
