@@ -14,7 +14,7 @@
 Correlation solver for modern C++
 
 - This library requires C++17 or above.
-- This library depends on GSL, LmiSolver, EllAlgo, xtensor-blas and OpenBLAS.
+- This library depends on EllAlgo, xtensor-blas and OpenBLAS.
 
 ## ✨ Features
 

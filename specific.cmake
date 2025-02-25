@@ -24,8 +24,6 @@ CPMAddPackage(
   OPTIONS "INSTALL_ONLY YES" # create an installable target
 )
 
-CPMAddPackage("gh:microsoft/GSL@3.1.0")
-
 # CPMAddPackage( NAME LmiSolver GIT_TAG 1.3.8 GITHUB_REPOSITORY luk036/lmi-solver-cpp OPTIONS
 # "INSTALL_ONLY YES" # create an installable target )
 
@@ -60,5 +58,5 @@ if(WIN32)
 endif()
 
 set(SPECIFIC_LIBS EllAlgo::EllAlgo ${OpenBLAS_LIBRARIES} ${LAPACK_LIBRARIES} ${BLAS_LIBRARIES}
-                  fmt::fmt GSL
+                  fmt::fmt
 )

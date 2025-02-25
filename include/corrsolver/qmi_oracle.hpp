@@ -1,7 +1,6 @@
 // -*- coding: utf-8 -*-
 #pragma once
 
-// #include <gsl/span>
 #include <ellalgo/oracles/ldlt_mgr.hpp>
 #include <optional>
 #include <vector>
