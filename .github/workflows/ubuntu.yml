@@ -53,7 +53,7 @@ jobs:
 
       - name: collect code coverage
         run: bash <(curl -s https://codecov.io/bash) || echo "Codecov did not collect coverage reports"
-  
+
       # - name: collect code coverage
       #   run: |
       #     lcov --directory . --capture --output-file coverage.info # capture coverage info
