@@ -26,9 +26,10 @@ if(CMAKE_CXX_COMPILER_ID MATCHES "Clang" OR CMAKE_CXX_COMPILER_ID MATCHES "GNU")
   target_compile_options(
     ${PROJECT_NAME} PUBLIC -Wall -Wextra -Wconversion -Wno-parentheses
                            -Wno-unused-but-set-parameter
+                           -Wno-sign-conversion
   )
 elseif(MSVC)
-  target_compile_options(${PROJECT_NAME} PUBLIC /W4 /WX /wd4819 /wd4146 /wd4127 /wd4996)
+  target_compile_options(${PROJECT_NAME} PUBLIC /W4 /WX /wd4819 /wd4146 /wd4127 /wd4996 /wd4267)
   target_compile_definitions(${PROJECT_NAME}Tests PUBLIC DOCTEST_CONFIG_USE_STD_HEADERS)
 endif()
 
