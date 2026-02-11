@@ -39,7 +39,7 @@ jobs:
           conda install -c conda-forge cmake openblas
 
       - name: configure
-        run: cmake -S. -Bbuild
+        run: cmake -S. -Bbuild -Wno-dev -DCMAKE_POLICY_VERSION_MINIMUM="3.5"
 
       - name: build
         run: cmake --build build --config Debug -j4
