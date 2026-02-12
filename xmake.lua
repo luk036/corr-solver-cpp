@@ -1,43 +1,48 @@
 set_languages("c++17")
 
 add_rules("mode.debug", "mode.release", "mode.coverage")
-add_requires("fmt", {alias = "fmt"})
-add_requires("doctest", {alias = "doctest"})
-add_requires("xtensor", {alias = "xtensor"})
-add_requires("xtensor-blas", {alias = "xtensor-blas"})
+add_requires("fmt", { alias = "fmt" })
+add_requires("doctest", { alias = "doctest" })
+add_requires("xtl 0.7.5", { alias = "xtl" })
+add_requires("xtensor 0.25.0", { alias = "xtensor" })
+add_requires("xtensor-blas", { alias = "xtensor-blas" })
 
 if is_mode("coverage") then
-    add_cxflags("-ftest-coverage", "-fprofile-arcs", {force = true})
+	add_cxflags("-ftest-coverage", "-fprofile-arcs", { force = true })
 end
 
 if is_plat("linux") then
-    set_warnings("all", "error")
-    add_cxflags("-Wconversion", {force = true})
-    -- add_cxflags("-fconcepts", {force = true})
+	set_warnings("all", "error")
+	add_cxflags("-Wconversion", { force = true })
+	-- add_cxflags("-fconcepts", {force = true})
 elseif is_plat("windows") then
-    add_cxflags("/EHsc /W4 /WX /wd4819 /wd4996", {force = true})
+	add_cxflags("/EHsc /W4 /WX /wd4819 /wd4996 /wd4267", { force = true })
 end
 
 target("CorrSolver")
-    set_kind("static")
-    add_includedirs("include", {public = true})
-    add_includedirs("../lds-gen-cpp/include", {public = true})
-    add_includedirs("../ellalgo-cpp/include", {public = true})
-    add_files("source/*.cpp")
-    add_packages("fmt")
-    add_packages("xtensor")
-    add_packages("xtensor-blas")
+	set_kind("static")
+	add_includedirs("include", { public = true })
+	add_includedirs("../lds-gen-cpp/include", { public = true })
+	add_includedirs("../ellalgo-cpp/include", { public = true })
+	add_files("source/*.cpp")
+	add_packages("fmt")
+	add_packages("xtensor")
+	add_packages("xtensor-blas")
+	add_linkdirs("../ellalgo-cpp/build/windows/x64/release")
+	add_links("EllAlgo")
 
 target("test_corr_solver")
-    set_kind("binary")
-    add_deps("CorrSolver")
-    add_includedirs("include", {public = true})
-    add_includedirs("../lds-gen-cpp/include", {public = true})
-    add_includedirs("../ellalgo-cpp/include", {public = true})
-    add_files("test/source/*.cpp")
-    add_packages("fmt")
-    add_packages("doctest", "xtensor")
-    add_packages("xtensor-blas")
+	set_kind("binary")
+	add_deps("CorrSolver")
+	add_includedirs("include", { public = true })
+	add_includedirs("../lds-gen-cpp/include", { public = true })
+	add_includedirs("../ellalgo-cpp/include", { public = true })
+	add_files("test/source/*.cpp")
+	add_packages("fmt")
+	add_packages("doctest", "xtensor")
+	add_packages("xtensor-blas")
+	add_linkdirs("../ellalgo-cpp/build/windows/x64/release")
+	add_links("EllAlgo")
 
 --
 -- If you want to known more usage about xmake, please see https://xmake.io
@@ -107,4 +112,3 @@ target("test_corr_solver")
 --
 -- @endcode
 --
-

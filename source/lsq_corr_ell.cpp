@@ -51,8 +51,8 @@ using Arr = xt::xarray<double, xt::layout_type::row_major>;
  */
 Arr create_2d_sites(size_t nx = 10U, size_t ny = 8U) {
     const auto s_end = Arr{10.0, 8.0};
-    const auto sx = xt::linspace<double>(0.0, s_end[0], nx);
-    const auto sy = xt::linspace<double>(0.0, s_end[1], ny);
+    const auto sx = xt::linspace<double>(0.0, s_end[0], static_cast<int>(nx));
+    const auto sy = xt::linspace<double>(0.0, s_end[1], static_cast<int>(ny));
     const auto [xx, yy] = xt::meshgrid(sx, sy);
     const auto st = Arr{xt::stack(xt::xtuple(xt::flatten(xx), xt::flatten(yy)), 0)};
     return xt::transpose(st);
