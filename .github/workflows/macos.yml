@@ -24,16 +24,22 @@ jobs:
       - uses: actions/cache@v3
         with:
           path: "**/cpm_modules"
-          key: ${{ github.workflow }}-cpm-modules-${{ hashFiles('**/CMakeLists.txt', '**/*.cmake') }}
+          key: ${{ github.workflow }}-cpm-modules-clang20-${{ hashFiles('**/CMakeLists.txt', '**/*.cmake') }}
 
       - name: Install project dependencies
-        run: brew install openblas
+        run: brew install openblas llvm@20
 
       - name: configure
-        run: cmake -S. -Bbuild -Wno-dev -DCMAKE_BUILD_TYPE=Debug -DCMAKE_POLICY_VERSION_MINIMUM="3.5"
+        run: |
+          export PATH="/opt/homebrew/opt/llvm@20/bin:$PATH"
+          export CC=clang
+          export CXX=clang++
+          cmake -S. -Bbuild -Wno-dev -DCMAKE_BUILD_TYPE=Debug -DCMAKE_POLICY_VERSION_MINIMUM="3.5"
 
       - name: build
-        run: cmake --build build -j4
+        run: |
+          export PATH="/opt/homebrew/opt/llvm@20/bin:$PATH"
+          cmake --build build -j4
 
       - name: test
         run: |

@@ -67,6 +67,11 @@ target_compile_options(${PROJECT_NAME} PUBLIC "$<$<COMPILE_LANG_AND_ID:CXX,MSVC>
 target_compile_options(${PROJECT_NAME} PUBLIC "$<$<COMPILE_LANG_AND_ID:CXX,Clang>:-Wno-sign-conversion>")
 target_compile_options(${PROJECT_NAME} PUBLIC "$<$<COMPILE_LANG_AND_ID:CXX,GNU>:-Wno-sign-conversion>")
 
+# Disable svector on macOS to avoid Clang template ambiguity issues
+if(APPLE)
+  target_compile_definitions(${PROJECT_NAME} PUBLIC XTENSOR_DISABLE_SVECTOR=1)
+endif()
+
 # Link dependencies
 target_link_libraries(${PROJECT_NAME} PRIVATE ${SPECIFIC_LIBS})
 

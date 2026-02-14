@@ -1,5 +1,11 @@
 #include <stddef.h>  // for size_t
 
+// Disable svector on macOS to avoid Clang template ambiguity issues
+// where long and unsigned long are both 64-bit
+#ifdef __APPLE__
+#define XTENSOR_DISABLE_SVECTOR 1
+#endif
+
 #include <cassert>                       // for assert
 #include <corrsolver/qmi_oracle.hpp>     // for QmiOracle, QmiOracle::Arr
 #include <ellalgo/oracles/ldlt_mgr.hpp>  // for LDLTMgr

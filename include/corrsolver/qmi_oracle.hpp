@@ -1,6 +1,12 @@
 // -*- coding: utf-8 -*-
 #pragma once
 
+// Disable svector on macOS to avoid Clang template ambiguity issues
+// where long and unsigned long are both 64-bit
+#ifdef __APPLE__
+#define XTENSOR_DISABLE_SVECTOR 1
+#endif
+
 #include <ellalgo/oracles/ldlt_mgr.hpp>
 #include <optional>
 #include <vector>
