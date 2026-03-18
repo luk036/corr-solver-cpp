@@ -244,11 +244,10 @@ class LsqOracle {
  * @param[in] omega The parameter "omega" is of type "LsqOracle". It is an object that provides
  * information about the least squares problem being solved.
  *
- * @return The function `lsq_corr_core2` returns a tuple containing three elements:
+ * @return The function `lsq_corr_core2` returns a tuple containing two elements:
  * 1. `a`: An `Arr` object, which represents an array of coefficients.
  * 2. `num_iters`: An integer, which represents the number of iterations performed during the
  * optimization process.
- * 3. A boolean value indicating whether the size of `x_best` is not equal to 0.
  */
 auto lsq_corr_core2(const Arr &Y, size_t m, LsqOracle &omega) {
     auto normY = 100.0 * xt::linalg::norm(Y);
@@ -277,8 +276,8 @@ auto lsq_corr_core2(const Arr &Y, size_t m, LsqOracle &omega) {
  * @param[in] m The parameter `m` represents the degree of the polynomial that will be used for the
  * least squares fitting. It determines the number of coefficients in the polynomial equation.
  *
- * @return The function `lsq_corr_poly2` returns a `std::tuple` containing three elements: an `Arr`
- * object, a `size_t` value, and a `bool` value.
+ * @return The function `lsq_corr_poly2` returns a `std::tuple` containing two elements: an `Arr`
+ * object and a `size_t` value.
  */
 std::tuple<Arr, size_t> lsq_corr_poly2(const Arr &Y, const Arr &site, size_t m) {
     auto Sig = construct_poly_matrix(site, m);
@@ -381,7 +380,7 @@ class MleOracle {
  * type `MleOracle`, which is likely a class or struct that provides some functionality related to
  * maximum likelihood estimation (MLE). The `mle_corr_core` function uses this `omega`
  *
- * @return The function `mle_corr_core` returns a tuple containing three elements:
+ * @return The function `mle_corr_core` returns a tuple containing two elements:
  * 1. `x_best`: The best solution found during the optimization process.
  * 2. `num_iters`: The number of iterations performed during the optimization process.
  */
@@ -404,8 +403,8 @@ auto mle_corr_core(size_t m, MleOracle &omega) {
  * @param[in] m The parameter `m` represents the degree of the polynomial used in constructing the
  * polynomial matrix `Sig`. It determines the number of columns in the matrix.
  *
- * @return The function `mle_corr_poly` returns a `std::tuple` containing three elements: an `Arr`
- * object, a `size_t` value, and a `bool` value.
+ * @return The function `mle_corr_poly` returns a `std::tuple` containing two elements: an `Arr`
+ * object and a `size_t` value.
  */
 std::tuple<Arr, size_t> mle_corr_poly(const Arr &Y, const Arr &site, size_t m) {
     const auto Sig = construct_poly_matrix(site, m);
@@ -425,7 +424,7 @@ std::tuple<Arr, size_t> mle_corr_poly(const Arr &Y, const Arr &site, size_t m) {
  * @param[in] m The parameter `m` represents the degree of the polynomial used in the least squares
  * correlation calculation. It determines the number of coefficients in the polynomial.
  *
- * @return The function `lsq_corr_poly` returns a tuple containing three elements:
+ * @return The function `lsq_corr_poly` returns a tuple containing two elements:
  * 1. `Arr`: The best solution `omega.x_best()`.
  * 2. `size_t`: The number of iterations `num_iters`.
  */
