@@ -23,13 +23,9 @@
 #include <xtensor/xview.hpp>             // for xview, row, view, col
 
 /**
- * @brief Construct a new quadratic matrix inequality oracle object
- *
- * The code snippet is defining the constructor for the `QmiOracle` class template. It takes two
- * parameters, `F` and `F0`, which are vectors of `Arr036` objects.
- *
- * @param[in] F
- * @param[in] F0
+ * @brief Construct a new QmiOracle object
+ * @param[in] F Vector of coefficient matrices F_k for k = 1, 2, ...
+ * @param[in] F0 Base matrix F0 in the quadratic matrix inequality
  */
 template <typename Arr036> QmiOracle<Arr036>::QmiOracle(const std::vector<Arr036> &F, Arr036 F0)
     : _n{F0.shape()[0]},
@@ -40,9 +36,11 @@ template <typename Arr036> QmiOracle<Arr036>::QmiOracle(const std::vector<Arr036
       _mq(_m)                            // take column
 {}
 
-/* The code snippet is defining a member function `assess_feas` for the `QmiOracle` class template.
-This function takes a parameter `x` of type `Arr036` and returns an `std::optional` object
-containing a `Cut` object. */
+/**
+ * @brief Assess feasibility of the quadratic matrix inequality
+ * @param[in] x Current point to evaluate
+ * @return Optional cut (gradient and violation) if infeasible, nullopt if feasible
+ */
 template <typename Arr036> auto QmiOracle<Arr036>::assess_feas(const Arr036 &x)
     -> std::optional<typename QmiOracle<Arr036>::Cut> {
     using xt::linalg::dot;

@@ -155,16 +155,16 @@ std::vector<Arr> construct_poly_matrix(const Arr &site, size_t m) {
 }
 
 /*!
- * @brief
+ * @brief Least Squares Oracle for correlation fitting
  *
- *    min   || \Sigma(p) - Y ||
- *    site.t.  \Sigma(p) >= 0
+ *    min   || Σ(p) - Y ||
+ *    s.t.  Σ(p) >= 0
  *
  *    where
  *
- *        \rho(h) = p1 \phi1(h) + ... + pn \phin(h)
+ *        ρ(h) = p1 φ1(h) + ... + pn φn(h)
  *
- *        {Fk}i,j = \phik( ||sj - si||^2 )
+ *        {F_k}_{i,j} = φk( ||s_j - s_i||^2 )
  */
 class LsqOracle {
     using Arr = xt::xarray<double, xt::layout_type::row_major>;
@@ -214,7 +214,7 @@ class LsqOracle {
             const auto &[g1, f1] = *cut1;
             const auto &Q = this->_qmi._mq;
             const auto &[start, stop] = Q.pos;
-            Arr wit_vec = xt::zeros<double>({this->_qmi._m});  // need better sol'n
+            Arr wit_vec = xt::zeros<double>({this->_qmi._m});
             Q.set_witness_vec(wit_vec);
             const auto v2 = xt::view(wit_vec, xt::range(start, stop));
             xt::view(g, xt::range(0, n - 1)) = g1;
@@ -286,8 +286,10 @@ std::tuple<Arr, size_t> lsq_corr_poly2(const Arr &Y, const Arr &site, size_t m) 
 }
 
 /*!
- * @brief
+ * @brief Maximum Likelihood Estimation Oracle for correlation fitting
  *
+ * This oracle solves the MLE problem for correlation matrices using
+ * the constraint that the correlation matrix must be positive semidefinite.
  */
 class MleOracle {
     using Arr = xt::xarray<double, xt::layout_type::row_major>;
