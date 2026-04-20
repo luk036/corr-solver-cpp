@@ -78,7 +78,7 @@ s.t.  t * I - F(x)&#x27; F(x) &gt;= 0
               <span class="m-doc-wrap-bumper"><a href="#a25bdb57782c07b1ec03489887e159f04" class="m-doc">QmiOracle</a>(</span><span class="m-doc-wrap">const std::vector&lt;Arr036&gt;&amp; F,
               Arr036 F0)</span>
             </dt>
-            <dd>Construct a new quadratic matrix inequality oracle object.</dd>
+            <dd>Construct a new <a href="classQmiOracle.html" class="m-doc">QmiOracle</a> object.</dd>
           </dl>
         </section>
         <section id="pub-methods">
@@ -87,11 +87,11 @@ s.t.  t * I - F(x)&#x27; F(x) &gt;= 0
             <dt>
               <span class="m-doc-wrap-bumper">auto <a href="#ab40dedf0732abe1f71fd1d7991a2dce9" class="m-doc">update</a>(</span><span class="m-doc-wrap">double t) -&gt; void -&gt; auto</span>
             </dt>
-            <dd>Update t.</dd>
+            <dd>Update the best-so-far optimal value.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">auto <a href="#afbcdac5ed122a03af083cebe6d8f5276" class="m-doc">assess_feas</a>(</span><span class="m-doc-wrap">const Arr036&amp; x) -&gt; std::optional&lt; Cut &gt; -&gt; auto</span>
             </dt>
-            <dd></dd>
+            <dd>Assess feasibility and generate cutting plane.</dd>
           </dl>
         </section>
         <section id="pub-attribs">
@@ -100,11 +100,11 @@ s.t.  t * I - F(x)&#x27; F(x) &gt;= 0
             <dt id="a87bfc66d059a0aa0212018fba4b95f90">
               const size_t <a href="#a87bfc66d059a0aa0212018fba4b95f90" class="m-doc-self">_m</a>
             </dt>
-            <dd><span></span></dd>
+            <dd>Number of columns (matrix dimension)</dd>
             <dt id="a34791dd0c3708ce046d2c62341bbff1c">
               LDLTMgr <a href="#a34791dd0c3708ce046d2c62341bbff1c" class="m-doc-self">_mq</a>
             </dt>
-            <dd><span></span></dd>
+            <dd>LDLT matrix manager for factorization.</dd>
           </dl>
         </section>
         <section>
@@ -117,7 +117,7 @@ s.t.  t * I - F(x)&#x27; F(x) &gt;= 0
               <span class="m-doc-wrap-bumper"> QmiOracle&lt;Arr036&gt;::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a25bdb57782c07b1ec03489887e159f04" class="m-doc-self">QmiOracle</a>(</span><span class="m-doc-wrap">const std::vector&lt;Arr036&gt;&amp; F,
               Arr036 F0)</span></span>
             </h3>
-            <p>Construct a new quadratic matrix inequality oracle object.</p>
+            <p>Construct a new <a href="classQmiOracle.html" class="m-doc">QmiOracle</a> object.</p>
             <table class="m-table m-fullwidth m-flat">
               <thead>
                 <tr><th colspan="2">Parameters</th></tr>
@@ -125,11 +125,11 @@ s.t.  t * I - F(x)&#x27; F(x) &gt;= 0
               <tbody>
                 <tr>
                   <td style="width: 1%">F&nbsp;<span class="m-label m-flat m-info">in</span></td>
-                  <td></td>
+                  <td>Vector of coefficient matrices F_k for k = 1, 2, ...</td>
                 </tr>
                 <tr>
                   <td>F0&nbsp;<span class="m-label m-flat m-info">in</span></td>
-                  <td></td>
+                  <td>Base matrix F0 in the quadratic matrix inequality</td>
                 </tr>
               </tbody>
             </table>
@@ -141,7 +141,7 @@ s.t.  t * I - F(x)&#x27; F(x) &gt;= 0
               </div>
               <span class="m-doc-wrap-bumper">auto QmiOracle&lt;Arr036&gt;::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#ab40dedf0732abe1f71fd1d7991a2dce9" class="m-doc-self">update</a>(</span><span class="m-doc-wrap">double t) -&gt; void</span></span>
             </h3>
-            <p>Update t.</p>
+            <p>Update the best-so-far optimal value.</p>
             <table class="m-table m-fullwidth m-flat">
               <thead>
                 <tr><th colspan="2">Parameters</th></tr>
@@ -149,7 +149,7 @@ s.t.  t * I - F(x)&#x27; F(x) &gt;= 0
               <tbody>
                 <tr>
                   <td style="width: 1%">t&nbsp;<span class="m-label m-flat m-info">in</span></td>
-                  <td>the best-so-far optimal value</td>
+                  <td>The current best feasible objective value</td>
                 </tr>
               </tbody>
             </table>
@@ -161,6 +161,7 @@ s.t.  t * I - F(x)&#x27; F(x) &gt;= 0
               </div>
               <span class="m-doc-wrap-bumper">auto QmiOracle&lt;Arr036&gt;::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#afbcdac5ed122a03af083cebe6d8f5276" class="m-doc-self">assess_feas</a>(</span><span class="m-doc-wrap">const Arr036&amp; x) -&gt; std::optional&lt; Cut &gt;</span></span>
             </h3>
+            <p>Assess feasibility and generate cutting plane.</p>
             <table class="m-table m-fullwidth m-flat">
               <thead>
                 <tr><th colspan="2">Parameters</th></tr>
@@ -168,13 +169,13 @@ s.t.  t * I - F(x)&#x27; F(x) &gt;= 0
               <tbody>
                 <tr>
                   <td style="width: 1%">x&nbsp;<span class="m-label m-flat m-info">in</span></td>
-                  <td></td>
+                  <td>Current point to evaluate</td>
                 </tr>
               </tbody>
               <tfoot>
                 <tr>
                   <th>Returns</th>
-                  <td>std::optional&lt;Cut&gt;</td>
+                  <td>Optional cut (gradient and violation) if infeasible, nullopt if feasible</td>
                 </tr>
               </tfoot>
             </table>
