@@ -47,7 +47,7 @@ jobs:
 
       - name: Build
         run: |
-          cmake -S. -Bbuild
+          cmake -S. -Bbuild -Wno-dev -DCMAKE_POLICY_VERSION_MINIMUM="3.5"
           cmake --build build --target GenerateDocs
 
       - name: Publish
