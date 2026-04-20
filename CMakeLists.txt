@@ -64,8 +64,12 @@ target_compile_options(${PROJECT_NAME} PUBLIC "$<$<COMPILE_LANG_AND_ID:CXX,MSVC>
 target_compile_options(${PROJECT_NAME} PUBLIC "$<$<COMPILE_LANG_AND_ID:CXX,MSVC>:/wd4267>")
 target_compile_options(${PROJECT_NAME} PUBLIC "$<$<COMPILE_LANG_AND_ID:CXX,MSVC>:/wd4244>")
 # Suppress sign conversion warnings for Clang and GCC (equivalent to MSVC C4267)
-target_compile_options(${PROJECT_NAME} PUBLIC "$<$<COMPILE_LANG_AND_ID:CXX,Clang>:-Wno-sign-conversion>")
-target_compile_options(${PROJECT_NAME} PUBLIC "$<$<COMPILE_LANG_AND_ID:CXX,GNU>:-Wno-sign-conversion>")
+target_compile_options(
+  ${PROJECT_NAME} PUBLIC "$<$<COMPILE_LANG_AND_ID:CXX,Clang>:-Wno-sign-conversion>"
+)
+target_compile_options(
+  ${PROJECT_NAME} PUBLIC "$<$<COMPILE_LANG_AND_ID:CXX,GNU>:-Wno-sign-conversion>"
+)
 
 # Disable svector on macOS to avoid Clang template ambiguity issues
 if(APPLE)

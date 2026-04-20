@@ -3,7 +3,7 @@
 // Disable svector on macOS to avoid Clang template ambiguity issues
 // where long and unsigned long are both 64-bit
 #ifdef __APPLE__
-#define XTENSOR_DISABLE_SVECTOR 1
+#    define XTENSOR_DISABLE_SVECTOR 1
 #endif
 
 #include <cassert>                       // for assert
@@ -27,7 +27,7 @@
  * @param[in] F Vector of coefficient matrices F_k for k = 1, 2, ...
  * @param[in] F0 Base matrix F0 in the quadratic matrix inequality
  */
-template <typename Arr036> QmiOracle<Arr036>::QmiOracle(const std::vector<Arr036> &F, Arr036 F0)
+template <typename Arr036> QmiOracle<Arr036>::QmiOracle(const std::vector<Arr036>& F, Arr036 F0)
     : _n{F0.shape()[0]},
       _m{F0.shape()[1]},
       _F{F},
@@ -41,7 +41,7 @@ template <typename Arr036> QmiOracle<Arr036>::QmiOracle(const std::vector<Arr036
  * @param[in] x Current point to evaluate
  * @return Optional cut (gradient and violation) if infeasible, nullopt if feasible
  */
-template <typename Arr036> auto QmiOracle<Arr036>::assess_feas(const Arr036 &x)
+template <typename Arr036> auto QmiOracle<Arr036>::assess_feas(const Arr036& x)
     -> std::optional<typename QmiOracle<Arr036>::Cut> {
     using xt::linalg::dot;
 

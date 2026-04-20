@@ -71,7 +71,7 @@ Arr create_2d_sites(size_t nx = 10U, size_t ny = 8U) {
  * @return The function `create_2d_isotropic` returns a 2D array `Arr` representing the biased
  * covariance matrix.
  */
-Arr create_2d_isotropic(const Arr &site, size_t N = 3000U) {
+Arr create_2d_isotropic(const Arr& site, size_t N = 3000U) {
     using xt::linalg::dot;
 
     const auto n = site.shape()[0];
@@ -113,7 +113,7 @@ Arr create_2d_isotropic(const Arr &site, size_t N = 3000U) {
  * @return The function `construct_distance_matrix` returns a `std::vector<Arr>`, which is a vector
  * of `Arr` objects.
  */
-Arr construct_distance_matrix(const Arr &site) {
+Arr construct_distance_matrix(const Arr& site) {
     auto n = site.shape()[0];
     Arr D1 = xt::zeros<double>({n, n});
     for (auto i = 0U; i != n; ++i) {
@@ -140,7 +140,7 @@ Arr construct_distance_matrix(const Arr &site) {
  * @return The function `construct_poly_matrix` returns a `std::vector<Arr>`, which is a vector of
  * `Arr` objects.
  */
-std::vector<Arr> construct_poly_matrix(const Arr &site, size_t m) {
+std::vector<Arr> construct_poly_matrix(const Arr& site, size_t m) {
     auto n = site.shape()[0];
     auto D1 = construct_distance_matrix(site);
     auto D = Arr{xt::ones<double>({n, n})};
@@ -185,7 +185,7 @@ class LsqOracle {
      * object.
      * @param[in] F0 F0 is a constant vector of type Arr.
      */
-    LsqOracle(size_t m, const std::vector<Arr> &F, const Arr &F0) : _qmi(F, F0), _lmi0(m, F) {}
+    LsqOracle(size_t m, const std::vector<Arr>& F, const Arr& F0) : _qmi(F, F0), _lmi0(m, F) {}
 
     /**
      * The function assess_optim assesses the optimality of a given input and returns a tuple
@@ -198,12 +198,12 @@ class LsqOracle {
      * @return The function `assess_optim` returns a `std::tuple` containing a `Cut` object and a
      * boolean value.
      */
-    std::tuple<Cut, bool> assess_optim(const Arr &x, double &t) {
+    std::tuple<Cut, bool> assess_optim(const Arr& x, double& t) {
         const auto n = x.size();
         Arr g = xt::zeros<double>({n});
         auto v = xt::view(x, xt::range(0, n - 1));
         if (const auto cut0 = this->_lmi0.assess_feas(v)) {
-            const auto &[g0, f0] = *cut0;
+            const auto& [g0, f0] = *cut0;
             xt::view(g, xt::range(0, n - 1)) = g0;
             g[n - 1] = 0.0;
             return {{std::move(g), f0}, false};
@@ -211,9 +211,9 @@ class LsqOracle {
         this->_qmi.update(x[n - 1]);
 
         if (const auto cut1 = this->_qmi.assess_feas(v)) {
-            const auto &[g1, f1] = *cut1;
-            const auto &Q = this->_qmi._mq;
-            const auto &[start, stop] = Q.pos;
+            const auto& [g1, f1] = *cut1;
+            const auto& Q = this->_qmi._mq;
+            const auto& [start, stop] = Q.pos;
             Arr wit_vec = xt::zeros<double>({this->_qmi._m});
             Q.set_witness_vec(wit_vec);
             const auto v2 = xt::view(wit_vec, xt::range(start, stop));
@@ -249,7 +249,7 @@ class LsqOracle {
  * 2. `num_iters`: An integer, which represents the number of iterations performed during the
  * optimization process.
  */
-auto lsq_corr_core2(const Arr &Y, size_t m, LsqOracle &omega) {
+auto lsq_corr_core2(const Arr& Y, size_t m, LsqOracle& omega) {
     auto normY = 100.0 * xt::linalg::norm(Y);
     auto normY2 = 32.0 * normY * normY;
     std::valarray<double> val(256.0, m + 1);
@@ -279,7 +279,7 @@ auto lsq_corr_core2(const Arr &Y, size_t m, LsqOracle &omega) {
  * @return The function `lsq_corr_poly2` returns a `std::tuple` containing two elements: an `Arr`
  * object and a `size_t` value.
  */
-std::tuple<Arr, size_t> lsq_corr_poly2(const Arr &Y, const Arr &site, size_t m) {
+std::tuple<Arr, size_t> lsq_corr_poly2(const Arr& Y, const Arr& site, size_t m) {
     auto Sig = construct_poly_matrix(site, m);
     auto omega = LsqOracle(Y.shape()[0], Sig, Y);
     return lsq_corr_core2(Y, m, omega);
@@ -296,8 +296,8 @@ class MleOracle {
     using shape_type = Arr::shape_type;
     using Cut = std::pair<Arr, double>;
 
-    const Arr &_Y;
-    const std::vector<Arr> &_Sig;
+    const Arr& _Y;
+    const std::vector<Arr>& _Sig;
     Lmi0Oracle<Arr> _lmi0;
     LmiOracle<Arr> _lmi;
 
@@ -312,7 +312,7 @@ class MleOracle {
      * @param[in] Y The parameter `Y` is an input array of type `Arr` which represents the biased
      * covariance matrix.
      */
-    MleOracle(size_t m, const std::vector<Arr> &Sig, const Arr &Y)
+    MleOracle(size_t m, const std::vector<Arr>& Sig, const Arr& Y)
         : _Y{Y}, _Sig{Sig}, _lmi0(m, Sig), _lmi(m, Sig, 2.0 * Y) {}
 
     /**
@@ -328,7 +328,7 @@ class MleOracle {
      * @return The function `assess_optim` returns a `std::tuple` containing two elements: a `Cut`
      * object and a boolean value.
      */
-    std::tuple<Cut, bool> assess_optim(const Arr &x, double &t) {
+    std::tuple<Cut, bool> assess_optim(const Arr& x, double& t) {
         using xt::linalg::dot;
 
         if (const auto cut1 = this->_lmi.assess_feas(x)) {
@@ -386,7 +386,7 @@ class MleOracle {
  * 1. `x_best`: The best solution found during the optimization process.
  * 2. `num_iters`: The number of iterations performed during the optimization process.
  */
-auto mle_corr_core(size_t m, MleOracle &omega) {
+auto mle_corr_core(size_t m, MleOracle& omega) {
     Arr x = xt::zeros<double>({m});
     x[0] = 4.0;
     auto ellip = Ell<Arr>(500.0, x);
@@ -408,7 +408,7 @@ auto mle_corr_core(size_t m, MleOracle &omega) {
  * @return The function `mle_corr_poly` returns a `std::tuple` containing two elements: an `Arr`
  * object and a `size_t` value.
  */
-std::tuple<Arr, size_t> mle_corr_poly(const Arr &Y, const Arr &site, size_t m) {
+std::tuple<Arr, size_t> mle_corr_poly(const Arr& Y, const Arr& site, size_t m) {
     const auto Sig = construct_poly_matrix(site, m);
     auto omega = MleOracle(Y.shape()[0], Sig, Y);
     return mle_corr_core(m, omega);

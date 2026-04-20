@@ -4,9 +4,9 @@
 
 #include <tuple>  // for tuple
 // #include <xtensor/xaccessible.hpp>      // for xconst_accessible
-#include <xtensor/xarray.hpp>           // for xarray
-#include <xtensor/xcontainer.hpp>       // for xcontainer
-#include <xtensor/xlayout.hpp>          // for layout_type, layout_type::row...
+#include <xtensor/xarray.hpp>      // for xarray
+#include <xtensor/xcontainer.hpp>  // for xcontainer
+#include <xtensor/xlayout.hpp>     // for layout_type, layout_type::row...
 
 using Arr = xt::xarray<double, xt::layout_type::row_major>;
 
