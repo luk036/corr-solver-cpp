@@ -149,7 +149,7 @@ std::vector<Arr> construct_poly_matrix(const Arr& site, size_t m) {
 
     for (auto i = 0U; i != m - 1; ++i) {
         D *= D1;
-        Sig.push_back(D);
+        Sig.emplace_back(D);
     }
     return Sig;
 }

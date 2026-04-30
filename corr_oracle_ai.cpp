@@ -51,7 +51,7 @@ vector<Arr> construct_poly_matrix(Arr site, int m) {
     vector<Arr> Sig = {D};
     for (int i = 1; i < m; i++) {
         D = D.array() * D1.array();
-        Sig.push_back(D);
+        Sig.emplace_back(D);
     }
     return Sig;
 }
