@@ -26,9 +26,9 @@ TEST_CASE("lsq_corr_fn") {
     const auto Y = create_2d_isotropic(site, 3000);
     const auto [coeffs, num_iters] = lsq_corr_poly2(Y, site, 4);
     REQUIRE(coeffs.size() > 0);
-    CHECK(coeffs[0] >= 0.0);
-    CHECK(num_iters >= 440);
-    CHECK(num_iters <= 723);
+    CHECK_GE(coeffs[0], 0.0);
+    CHECK_GE(num_iters, 440);
+    CHECK_LE(num_iters, 723);
 }
 
 TEST_CASE("mle_corr_fn") {
@@ -36,7 +36,7 @@ TEST_CASE("mle_corr_fn") {
     const auto Y = create_2d_isotropic(site, 3000);
     const auto [coeffs, num_iters] = mle_corr_poly(Y, site, 4);
     REQUIRE(coeffs.size() > 0);
-    CHECK(coeffs[0] >= 0.0);
-    CHECK(num_iters >= 225);
-    CHECK(num_iters <= 412);
+    CHECK_GE(coeffs[0], 0.0);
+    CHECK_GE(num_iters, 225);
+    CHECK_LE(num_iters, 412);
 }
