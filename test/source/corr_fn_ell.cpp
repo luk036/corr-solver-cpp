@@ -18,7 +18,7 @@ extern std::tuple<Arr, size_t> mle_corr_poly(const Arr&, const Arr&, size_t);
 TEST_CASE("check create_2d_isotropic") {
     const auto site = create_2d_sites(5, 4);
     const auto Y = create_2d_isotropic(site, 3000);
-    CHECK(site(6, 0) == doctest::Approx(2.5));
+    CHECK_EQ(site(6, 0), doctest::Approx(2.5));
 }
 
 TEST_CASE("lsq_corr_fn") {
