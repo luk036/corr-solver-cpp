@@ -199,7 +199,7 @@ class LsqOracle {
         const auto n = x.size();
         Arr g = xt::zeros<double>({n});
         auto v = xt::view(x, xt::range(0, n - 1));
-        if (auto *const cut0 = this->_lmi0.assess_feas(v)) {
+        if (auto* const cut0 = this->_lmi0.assess_feas(v)) {
             const auto& [g0, f0] = *cut0;
             xt::view(g, xt::range(0, n - 1)) = g0;
             g[n - 1] = 0.0;
@@ -328,10 +328,10 @@ class MleOracle {
     std::tuple<Cut, bool> assess_optim(const Arr& x, double& t) {
         using xt::linalg::dot;
 
-        if (auto *const cut1 = this->_lmi.assess_feas(x)) {
+        if (auto* const cut1 = this->_lmi.assess_feas(x)) {
             return {*cut1, false};
         }
-        if (auto *const cut0 = this->_lmi0.assess_feas(x)) {
+        if (auto* const cut0 = this->_lmi0.assess_feas(x)) {
             return {*cut0, false};
         }
 

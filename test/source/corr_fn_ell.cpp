@@ -1,8 +1,8 @@
 // -*- coding: utf-8 -*-
 #include <doctest/doctest.h>  // for ResultBuilder, CHECK, TestCase
-#include <cstddef>           // for size_t
 
-#include <tuple>  // for tuple
+#include <cstddef>  // for size_t
+#include <tuple>    // for tuple
 // #include <xtensor/xaccessible.hpp>      // for xconst_accessible
 #include <xtensor/xarray.hpp>      // for xarray
 #include <xtensor/xcontainer.hpp>  // for xcontainer
