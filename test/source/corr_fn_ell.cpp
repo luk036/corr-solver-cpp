@@ -1,6 +1,6 @@
 // -*- coding: utf-8 -*-
 #include <doctest/doctest.h>  // for ResultBuilder, CHECK, TestCase
-#include <stddef.h>           // for size_t
+#include <cstddef>           // for size_t
 
 #include <tuple>  // for tuple
 // #include <xtensor/xaccessible.hpp>      // for xconst_accessible

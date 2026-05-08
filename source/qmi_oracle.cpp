@@ -1,4 +1,4 @@
-#include <stddef.h>  // for size_t
+#include <cstddef>  // for size_t
 
 // Disable svector on macOS to avoid Clang template ambiguity issues
 // where long and unsigned long are both 64-bit
@@ -48,8 +48,8 @@ template <typename Arr036> auto QmiOracle<Arr036>::assess_feas(const Arr036& x)
 
     auto getA = [&x, this](size_t i, size_t j) -> double {  // ???
         assert(i >= j);
-        auto ii = int(i);
-        auto ij = int(j);
+        auto ii = static_cast<int>(i);
+        auto ij = static_cast<int>(j);
         if (this->_count < i + 1) {
             this->_count = i + 1;
             xt::row(this->_Fx, ii) = xt::col(this->_F0, ii);

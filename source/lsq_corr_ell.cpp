@@ -346,7 +346,7 @@ class MleOracle {
         auto SY = Arr{dot(S, this->Y_)};
 
         auto diag = xt::diagonal(R);
-        auto f1 = double{2.0 * xt::sum(xt::log(diag))() + xt::linalg::trace(SY)()};
+        auto f1 = (2.0 * xt::sum(xt::log(diag))() + xt::linalg::trace(SY)());
         auto f = f1 - t;
         auto shrunk = false;
 
