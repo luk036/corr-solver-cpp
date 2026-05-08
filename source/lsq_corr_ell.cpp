@@ -1,5 +1,4 @@
 // -*- coding: utf-8 -*-
-#include <algorithm>                        // for copy
 #include <cmath>                            // for sqrt, exp
 #include <corrsolver/qmi_oracle.hpp>        // for QmiOracle
 #include <cstddef>                          // for size_t
@@ -10,8 +9,6 @@
 #include <ellalgo/oracles/lmi_oracle.hpp>   // for LmiOracle, LmiOracle::Arr
 #include <optional>                         // for optional
 #include <tuple>                            // for tuple_element<>::type
-#include <tuple>                            // for tuple, make_tuple
-#include <type_traits>                      // for move, add_const<>::type
 #include <utility>                          // for make_pair, pair
 #include <vector>                           // for vector, __vector_base<>::v...
 #include <xtensor-blas/xlinalg.hpp>         // for dot, trace, cholesky, inv
@@ -202,7 +199,7 @@ class LsqOracle {
         const auto n = x.size();
         Arr g = xt::zeros<double>({n});
         auto v = xt::view(x, xt::range(0, n - 1));
-        if (const auto cut0 = this->_lmi0.assess_feas(v)) {
+        if (auto *const cut0 = this->_lmi0.assess_feas(v)) {
             const auto& [g0, f0] = *cut0;
             xt::view(g, xt::range(0, n - 1)) = g0;
             g[n - 1] = 0.0;
@@ -296,8 +293,8 @@ class MleOracle {
     using shape_type = Arr::shape_type;
     using Cut = std::pair<Arr, double>;
 
-    const Arr& _Y;
-    const std::vector<Arr>& _Sig;
+    const Arr Y_;
+    std::vector<Arr> sig_;
     Lmi0Oracle<Arr> _lmi0;
     LmiOracle<Arr> _lmi;
 
@@ -313,7 +310,7 @@ class MleOracle {
      * covariance matrix.
      */
     MleOracle(size_t m, const std::vector<Arr>& Sig, const Arr& Y)
-        : _Y{Y}, _Sig{Sig}, _lmi0(m, Sig), _lmi(m, Sig, 2.0 * Y) {}
+        : Y_{Y}, sig_{Sig}, _lmi0(m, Sig), _lmi(m, Sig, 2.0 * Y) {}
 
     /**
      * The function assess_optim assesses the optimality of a given input and returns a tuple
@@ -331,22 +328,22 @@ class MleOracle {
     std::tuple<Cut, bool> assess_optim(const Arr& x, double& t) {
         using xt::linalg::dot;
 
-        if (const auto cut1 = this->_lmi.assess_feas(x)) {
+        if (auto *const cut1 = this->_lmi.assess_feas(x)) {
             return {*cut1, false};
         }
-        if (const auto cut0 = this->_lmi0.assess_feas(x)) {
+        if (auto *const cut0 = this->_lmi0.assess_feas(x)) {
             return {*cut0, false};
         }
 
         auto n = x.shape()[0];
-        auto m = this->_Y.shape()[0];
+        auto m = this->Y_.shape()[0];
 
         const auto dim = this->_lmi0._mq._n;
         Arr R = xt::zeros<double>({dim, dim});
         this->_lmi0._mq.sqrt(R);
         auto invR = Arr{xt::linalg::inv(R)};
         auto S = Arr{dot(invR, xt::transpose(invR))};
-        auto SY = Arr{dot(S, this->_Y)};
+        auto SY = Arr{dot(S, this->Y_)};
 
         auto diag = xt::diagonal(R);
         auto f1 = double{2.0 * xt::sum(xt::log(diag))() + xt::linalg::trace(SY)()};
@@ -362,7 +359,7 @@ class MleOracle {
         Arr g = xt::zeros<double>({n});
 
         for (auto i = 0U; i != n; ++i) {
-            auto SFsi = dot(S, this->_Sig[i]);
+            auto SFsi = dot(S, this->sig_[i]);
             g[i] = xt::linalg::trace(SFsi)();
             for (auto k = 0U; k != m; ++k) {
                 g[i] -= dot(xt::view(SFsi, k, xt::all()), xt::view(SY, xt::all(), k))();

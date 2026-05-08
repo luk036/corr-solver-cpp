@@ -10,8 +10,6 @@
 #include <corrsolver/qmi_oracle.hpp>     // for QmiOracle, QmiOracle::Arr
 #include <ellalgo/oracles/ldlt_mgr.hpp>  // for LDLTMgr
 #include <optional>                      // for optional
-#include <tuple>                         // for tuple
-#include <type_traits>                   // for move
 #include <xtensor-blas/xlinalg.hpp>      // for dot
 #include <xtensor/xarray.hpp>            // for xarray_container
 #include <xtensor/xcontainer.hpp>        // for xcontainer<>::const_reference
