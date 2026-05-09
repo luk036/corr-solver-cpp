@@ -37,7 +37,7 @@ template <typename Arr036> class QmiOracle {
     size_t _m;  //!< Number of columns (matrix dimension)
 
   private:
-    const std::vector<Arr036>& _F;  //!< Vector of coefficient matrices F_k
+    const std::vector<Arr036>& m_F;  //!< Vector of coefficient matrices F_k
     Arr036 m_F0;                    //!< Base matrix F0
     Arr036 m_Fx;                    //!< Evaluated matrix F(x) = F0 - sum(F_k * x_k)
 

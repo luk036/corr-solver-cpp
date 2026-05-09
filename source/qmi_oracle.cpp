@@ -28,7 +28,7 @@
 template <typename Arr036> QmiOracle<Arr036>::QmiOracle(const std::vector<Arr036>& F, Arr036 F0)
     : _n{F0.shape()[0]},
       _m{F0.shape()[1]},
-      _F{F},
+      m_F{F},
       m_F0{std::move(F0)},
       m_Fx{xt::zeros<double>({_m, _n})},  // transposed
       _mq(_m)                             // take column
@@ -54,7 +54,7 @@ template <typename Arr036> auto QmiOracle<Arr036>::assess_feas(const Arr036& x)
             this->_count = i + 1;
             xt::row(this->m_Fx, ii) = xt::col(this->m_F0, ii);
             for (auto k = 0U; k != this->_nx; ++k) {
-                xt::row(this->m_Fx, ii) -= xt::col(this->_F[k], ii) * x(k);
+                xt::row(this->m_Fx, ii) -= xt::col(this->m_F[k], ii) * x(k);
             }
         }
         auto a = -dot(xt::row(this->m_Fx, ii), xt::row(this->m_Fx, ij))();
@@ -77,7 +77,7 @@ template <typename Arr036> auto QmiOracle<Arr036>::assess_feas(const Arr036& x)
     const auto Av = dot(v, Fxp);
     Arr036 g = xt::zeros<double>({this->_nx});
     for (auto k = 0U; k != this->_nx; ++k) {
-        const auto Fkp = xt::view(this->_F[k], xt::range(start, stop), xt::all());
+        const auto Fkp = xt::view(this->m_F[k], xt::range(start, stop), xt::all());
         g(k) = -2.0 * dot(dot(v, Fkp), Av)();
     }
     return {{std::move(g), ep}};
