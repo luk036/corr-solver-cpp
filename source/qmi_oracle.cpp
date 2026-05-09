@@ -29,8 +29,8 @@ template <typename Arr036> QmiOracle<Arr036>::QmiOracle(const std::vector<Arr036
     : _n{F0.shape()[0]},
       _m{F0.shape()[1]},
       _F{F},
-      _F0{std::move(F0)},
-      _Fx{xt::zeros<double>({_m, _n})},  // transposed
+      m_F0{std::move(F0)},
+      m_Fx{xt::zeros<double>({_m, _n})},  // transposed
       _mq(_m)                            // take column
 {}
 
@@ -52,12 +52,12 @@ template <typename Arr036> auto QmiOracle<Arr036>::assess_feas(const Arr036& x)
         auto ij = static_cast<int>(j);
         if (this->_count < i + 1) {
             this->_count = i + 1;
-            xt::row(this->_Fx, ii) = xt::col(this->_F0, ii);
+            xt::row(this->m_Fx, ii) = xt::col(this->m_F0, ii);
             for (auto k = 0U; k != this->_nx; ++k) {
-                xt::row(this->_Fx, ii) -= xt::col(this->_F[k], ii) * x(k);
+                xt::row(this->m_Fx, ii) -= xt::col(this->_F[k], ii) * x(k);
             }
         }
-        auto a = -dot(xt::row(this->_Fx, ii), xt::row(this->_Fx, ij))();
+        auto a = -dot(xt::row(this->m_Fx, ii), xt::row(this->m_Fx, ij))();
         if (i == j) {
             a += this->_t;
         }
@@ -73,7 +73,7 @@ template <typename Arr036> auto QmiOracle<Arr036>::assess_feas(const Arr036& x)
     Arr036 wit_vec = xt::zeros<double>({this->_m});
     this->_mq.set_witness_vec(wit_vec);
     const auto v = xt::view(wit_vec, xt::range(start, stop), xt::all());
-    const auto Fxp = xt::view(this->_Fx, xt::range(start, stop));
+    const auto Fxp = xt::view(this->m_Fx, xt::range(start, stop));
     const auto Av = dot(v, Fxp);
     Arr036 g = xt::zeros<double>({this->_nx});
     for (auto k = 0U; k != this->_nx; ++k) {

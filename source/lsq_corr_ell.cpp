@@ -293,7 +293,7 @@ class MleOracle {
     using shape_type = Arr::shape_type;
     using Cut = std::pair<Arr, double>;
 
-    const Arr Y_;
+    Arr Y_;
     std::vector<Arr> sig_;
     Lmi0Oracle<Arr> _lmi0;
     LmiOracle<Arr> _lmi;

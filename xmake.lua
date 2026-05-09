@@ -43,6 +43,8 @@ target("test_corr_solver")
 	add_packages("xtensor-blas")
 	add_linkdirs("../ellalgo-cpp/build/windows/x64/release")
 	add_links("EllAlgo")
+	add_tests("default")
+	
 
 --
 -- If you want to known more usage about xmake, please see https://xmake.io

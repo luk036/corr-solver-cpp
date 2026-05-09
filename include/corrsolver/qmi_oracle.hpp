@@ -31,15 +31,15 @@ template <typename Arr036> class QmiOracle {
     size_t _nx = 0;     //!< Number of variables (size of x)
     size_t _count = 0;  //!< Counter for caching evaluated matrices
 
-    const size_t _n;  //!< Number of rows (matrix dimension)
+    size_t _n;  //!< Number of rows (matrix dimension)
 
   public:
-    const size_t _m;  //!< Number of columns (matrix dimension)
+    size_t _m;  //!< Number of columns (matrix dimension)
 
   private:
     const std::vector<Arr036>& _F;  //!< Vector of coefficient matrices F_k
-    const Arr036 _F0;               //!< Base matrix F0
-    Arr036 _Fx;                     //!< Evaluated matrix F(x) = F0 - sum(F_k * x_k)
+    Arr036 m_F0;               //!< Base matrix F0
+    Arr036 m_Fx;                     //!< Evaluated matrix F(x) = F0 - sum(F_k * x_k)
 
   public:
     LDLTMgr _mq;  //!< LDLT matrix manager for factorization
