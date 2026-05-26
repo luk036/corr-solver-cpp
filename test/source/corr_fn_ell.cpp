@@ -1,7 +1,8 @@
 // -*- coding: utf-8 -*-
 #include <doctest/doctest.h>
-#include <ellalgo/arr.hpp>
+
 #include <cstddef>
+#include <ellalgo/arr.hpp>
 #include <tuple>
 
 extern Arr create_2d_sites(size_t, size_t);

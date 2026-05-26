@@ -1,6 +1,6 @@
 #include <cmath>
-#include <corrsolver/qmi_oracle.hpp>
 #include <corrsolver/linalg.hpp>
+#include <corrsolver/qmi_oracle.hpp>
 #include <cstddef>
 #include <ellalgo/cutting_plane.hpp>
 #include <ellalgo/ell.hpp>
@@ -57,12 +57,10 @@ Arr create_2d_isotropic(const Arr& site, size_t N = 3000U) {
         for (size_t i = 0; i < n; ++i) y(i) += tau * noise(i);
         // Y += y * y^T
         for (size_t i = 0; i < n; ++i)
-            for (size_t j = 0; j < n; ++j)
-                Y(i, j) += y(i) * y(j);
+            for (size_t j = 0; j < n; ++j) Y(i, j) += y(i) * y(j);
     }
     for (size_t i = 0; i < n; ++i)
-        for (size_t j = 0; j < n; ++j)
-            Y(i, j) /= static_cast<double>(N);
+        for (size_t j = 0; j < n; ++j) Y(i, j) /= static_cast<double>(N);
     return Y;
 }
 
@@ -93,8 +91,7 @@ std::vector<Arr> construct_poly_matrix(const Arr& site, size_t m) {
         if (i > 0) {
             // D = D .* D1 (element-wise)
             for (size_t r = 0; r < n; ++r)
-                for (size_t c = 0; c < n; ++c)
-                    D(r, c) *= D1(r, c);
+                for (size_t c = 0; c < n; ++c) D(r, c) *= D1(r, c);
         }
         Sig.emplace_back(D);
     }
@@ -108,8 +105,7 @@ class LsqOracle {
     Lmi0Oracle<Arr> _lmi0;
 
   public:
-    LsqOracle(size_t m, const std::vector<Arr>& F, const Arr& F0)
-        : _qmi(F, F0), _lmi0(m, F) {}
+    LsqOracle(size_t m, const std::vector<Arr>& F, const Arr& F0) : _qmi(F, F0), _lmi0(m, F) {}
 
     std::tuple<Cut, bool> assess_optim(const Arr& x, double& t) {
         auto n = x.size();
@@ -185,10 +181,8 @@ class MleOracle {
         : Y_{Y}, sig_{Sig}, _lmi0(m, Sig), _lmi(m, Sig, 2.0 * Y) {}
 
     std::tuple<Cut, bool> assess_optim(const Arr& x, double& t) {
-        if (auto* cut1 = this->_lmi.assess_feas(x))
-            return {*cut1, false};
-        if (auto* cut0 = this->_lmi0.assess_feas(x))
-            return {*cut0, false};
+        if (auto* cut1 = this->_lmi.assess_feas(x)) return {*cut1, false};
+        if (auto* cut0 = this->_lmi0.assess_feas(x)) return {*cut0, false};
 
         auto n = x.size();
         auto m = this->Y_.rows();
@@ -218,8 +212,7 @@ class MleOracle {
             auto tr = trace(SFsi);
             for (size_t k = 0; k < m; ++k) {
                 // dot(row(SFsi, k), column(SY, k))
-                for (size_t j = 0; j < m; ++j)
-                    tr -= SFsi(k, j) * SY(j, k);
+                for (size_t j = 0; j < m; ++j) tr -= SFsi(k, j) * SY(j, k);
             }
             g(i) = tr;
         }

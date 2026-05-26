@@ -14,8 +14,7 @@ inline Arr transpose(const Arr& a) {
     assert(a.is_2d());
     Arr out(a.cols(), a.rows());
     for (size_t i = 0; i < a.rows(); ++i)
-        for (size_t j = 0; j < a.cols(); ++j)
-            out(j, i) = a(i, j);
+        for (size_t j = 0; j < a.cols(); ++j) out(j, i) = a(i, j);
     return out;
 }
 
@@ -33,13 +32,9 @@ inline Arr diagonal(const Arr& a) {
     return out;
 }
 
-inline double trace(const Arr& a) {
-    return sum(diagonal(a));
-}
+inline double trace(const Arr& a) { return sum(diagonal(a)); }
 
-inline double norm(const Arr& a) {
-    return std::sqrt(sum(a * a));
-}
+inline double norm(const Arr& a) { return std::sqrt(sum(a * a)); }
 
 // ---------------------------------------------------------------------------
 // Cholesky decomposition: A = L * L^T  (A symmetric positive definite)
@@ -97,9 +92,7 @@ inline std::mt19937_64& global_rng() {
     return rng;
 }
 
-inline void random_seed(unsigned seed) {
-    global_rng().seed(seed);
-}
+inline void random_seed(unsigned seed) { global_rng().seed(seed); }
 
 inline Arr randn(size_t n) {
     auto& rng = global_rng();

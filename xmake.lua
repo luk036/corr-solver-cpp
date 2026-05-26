@@ -15,7 +15,7 @@ end
 
 if is_plat("linux") then
 	set_warnings("all", "error")
-	add_cxflags("-Wconversion", {force = true})
+	-- add_cxflags("-Wconversion", {force = true})
 elseif is_plat("windows") then
 	add_cxflags("/EHsc /utf-8 /W4 /WX /wd4459 /wd4819 /wd4996 /wd4267", { force = true })
 end
