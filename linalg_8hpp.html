@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>QmiOracle class | CorrSolver</title>
+  <title>corrsolver/linalg.hpp file | CorrSolver</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600" />
   <link rel="stylesheet" href="m-dark+documentation.compiled.css" />
   <link rel="icon" href="favicon-dark.png" type="image/png" />
@@ -49,9 +49,7 @@
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
         <h1>
-          <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="qmi__oracle_8hpp.html">&lt;corrsolver/qmi_oracle.hpp&gt;</a></div>
-          <div class="m-doc-template">template&lt;typename Arr036&gt;</div>
-          QmiOracle <span class="m-thin">class</span>
+          <span class="m-breadcrumb"><a href="dir_ddb8d9575ea68fad5e54e7063bd5b33f.html">corrsolver</a>/</span>linalg.hpp <span class="m-thin">file</span>
         </h1>
         <p><span></span></p>
         <nav class="m-block m-default">
@@ -60,48 +58,75 @@
             <li>
               Reference
               <ul>
-                <li><a href="#typeless-methods">Constructors, destructors, conversion operators</a></li>
-                <li><a href="#pub-methods">Public functions</a></li>
-                <li><a href="#pub-attribs">Public variables</a></li>
+                <li><a href="#func-members">Functions</a></li>
               </ul>
             </li>
           </ul>
         </nav>
-        <section id="typeless-methods">
-          <h2><a href="#typeless-methods">Constructors, destructors, conversion operators</a></h2>
+        <section id="func-members">
+          <h2><a href="#func-members">Functions</a></h2>
           <dl class="m-doc">
-            <dt id="a25bdb57782c07b1ec03489887e159f04">
-              <span class="m-doc-wrap-bumper"><a href="#a25bdb57782c07b1ec03489887e159f04" class="m-doc-self">QmiOracle</a>(</span><span class="m-doc-wrap">const std::vector&lt;Arr036&gt;&amp; F,
-              Arr036 F0)</span>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#aa8d6aa1be090cd8f70ddb4cf4b47409f" class="m-doc">transpose</a>(</span><span class="m-doc-wrap">const Arr&amp; a) -&gt; Arr</span>
+            </dt>
+            <dd></dd>
+            <dt id="a4ca6aa1f39250709594dc46f95759aa5">
+              <span class="m-doc-wrap-bumper">auto <a href="#a4ca6aa1f39250709594dc46f95759aa5" class="m-doc-self">flatten</a>(</span><span class="m-doc-wrap">const Arr&amp; a) -&gt; Arr</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="a5163a9062e5c61aa334325e07ec7c648">
+              <span class="m-doc-wrap-bumper">auto <a href="#a5163a9062e5c61aa334325e07ec7c648" class="m-doc-self">diagonal</a>(</span><span class="m-doc-wrap">const Arr&amp; a) -&gt; Arr</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="a2de9d2d8ad79a5f64d57347c0313d4d9">
+              <span class="m-doc-wrap-bumper">auto <a href="#a2de9d2d8ad79a5f64d57347c0313d4d9" class="m-doc-self">trace</a>(</span><span class="m-doc-wrap">const Arr&amp; a) -&gt; double</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="a1385376da699d3eb45f5ae7775154a40">
+              <span class="m-doc-wrap-bumper">auto <a href="#a1385376da699d3eb45f5ae7775154a40" class="m-doc-self">norm</a>(</span><span class="m-doc-wrap">const Arr&amp; a) -&gt; double</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="a60bd392fb6daa4fdc8bd0a3167adeb84">
+              <span class="m-doc-wrap-bumper">auto <a href="#a60bd392fb6daa4fdc8bd0a3167adeb84" class="m-doc-self">cholesky</a>(</span><span class="m-doc-wrap">const Arr&amp; A) -&gt; Arr</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="aa2ad6c28b9b339ae95e37c34e3de2a90">
+              <span class="m-doc-wrap-bumper">auto <a href="#aa2ad6c28b9b339ae95e37c34e3de2a90" class="m-doc-self">inv</a>(</span><span class="m-doc-wrap">const Arr&amp; A) -&gt; Arr</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="ae1b2c4a839f654f2f16115a1b7d7b42a">
+              <span class="m-doc-wrap-bumper">auto <a href="#ae1b2c4a839f654f2f16115a1b7d7b42a" class="m-doc-self">global_rng</a>(</span><span class="m-doc-wrap">) -&gt; std::mt19937_64&amp;</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="a04b0e01fdfe9cb7643d34af17a53a853">
+              <span class="m-doc-wrap-bumper">void <a href="#a04b0e01fdfe9cb7643d34af17a53a853" class="m-doc-self">random_seed</a>(</span><span class="m-doc-wrap">unsigned seed)</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="aec7819e5e7015d782192e3d4df679d79">
+              <span class="m-doc-wrap-bumper">auto <a href="#aec7819e5e7015d782192e3d4df679d79" class="m-doc-self">randn</a>(</span><span class="m-doc-wrap">size_t n) -&gt; Arr</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="a7c20aac185212e060e54a31c1166335a">
+              <span class="m-doc-wrap-bumper">auto <a href="#a7c20aac185212e060e54a31c1166335a" class="m-doc-self">meshgrid</a>(</span><span class="m-doc-wrap">const Arr&amp; x,
+              const Arr&amp; y) -&gt; std::pair&lt;Arr, Arr&gt;</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="af9f080af6ae42cdb274ca3ed5cbc3cf6">
+              <span class="m-doc-wrap-bumper">auto <a href="#af9f080af6ae42cdb274ca3ed5cbc3cf6" class="m-doc-self">stack</a>(</span><span class="m-doc-wrap">const Arr&amp; a,
+              const Arr&amp; b,
+              int = 0) -&gt; Arr</span>
             </dt>
             <dd><span></span></dd>
           </dl>
         </section>
-        <section id="pub-methods">
-          <h2><a href="#pub-methods">Public functions</a></h2>
-          <dl class="m-doc">
-            <dt id="ab40dedf0732abe1f71fd1d7991a2dce9">
-              <span class="m-doc-wrap-bumper">auto <a href="#ab40dedf0732abe1f71fd1d7991a2dce9" class="m-doc-self">update</a>(</span><span class="m-doc-wrap">double t) -&gt; void -&gt; auto</span>
-            </dt>
-            <dd><span></span></dd>
-            <dt id="afbcdac5ed122a03af083cebe6d8f5276">
-              <span class="m-doc-wrap-bumper">auto <a href="#afbcdac5ed122a03af083cebe6d8f5276" class="m-doc-self">assess_feas</a>(</span><span class="m-doc-wrap">const Arr036&amp; x) -&gt; std::optional&lt; Cut &gt; -&gt; auto</span>
-            </dt>
-            <dd><span></span></dd>
-          </dl>
-        </section>
-        <section id="pub-attribs">
-          <h2><a href="#pub-attribs">Public variables</a></h2>
-          <dl class="m-doc">
-            <dt id="a9415a87dacf9bfb57ab17acd774226f7">
-              size_t <a href="#a9415a87dacf9bfb57ab17acd774226f7" class="m-doc-self">_m</a>
-            </dt>
-            <dd><span></span></dd>
-            <dt id="a34791dd0c3708ce046d2c62341bbff1c">
-              LDLTMgr <a href="#a34791dd0c3708ce046d2c62341bbff1c" class="m-doc-self">_mq</a>
-            </dt>
-            <dd><span></span></dd>
-          </dl>
+        <section>
+          <h2>Function documentation</h2>
+          <section class="m-doc-details" id="aa8d6aa1be090cd8f70ddb4cf4b47409f"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">Arr </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#aa8d6aa1be090cd8f70ddb4cf4b47409f" class="m-doc-self">transpose</a>(</span><span class="m-doc-wrap">const Arr&amp; a)</span></span>
+            </h3>
+<p>Minimal linear algebra helpers for Arr, replacing xtensor-blas operations. For small FIR/correlation problems, naive O(n^3) is sufficient.</p>
+          </div></section>
         </section>
       </div>
     </div>
