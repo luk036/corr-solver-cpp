@@ -1,11 +1,13 @@
 set_languages("c++17")
 
 add_rules("mode.debug", "mode.release", "mode.coverage")
+
+if is_mode("release") then
+	set_optimize("fastest")
+end
+
 add_requires("fmt", { alias = "fmt" })
 add_requires("doctest", { alias = "doctest" })
-add_requires("xtl 0.7.5", { alias = "xtl" })
-add_requires("xtensor 0.25.0", { alias = "xtensor" })
-add_requires("xtensor-blas", { alias = "xtensor-blas" })
 
 if is_mode("coverage") then
 	add_cxflags("-ftest-coverage", "-fprofile-arcs", { force = true })
@@ -14,103 +16,62 @@ end
 if is_plat("linux") then
 	set_warnings("all", "error")
 	add_cxflags("-Wconversion", {force = true})
-	-- add_cxflags("-fconcepts", {force = true})
 elseif is_plat("windows") then
-	add_cxflags("/EHsc /W4 /WX /wd4459 /wd4819 /wd4996 /wd4267", { force = true })
+	add_cxflags("/EHsc /utf-8 /W4 /WX /wd4459 /wd4819 /wd4996 /wd4267", { force = true })
 end
+
+-- Local CMake deps (offline-friendly)
+local deps = path.join(os.projectdir(), "build/_deps")
+local mode_dir = is_mode("release") and "Release" or "Debug"
+
+-- Header-only: doctest
+local doctest_dir = path.join(deps, "doctest-src")
+local doctest_h = path.join(doctest_dir, "doctest", "doctest.h")
+
+-- Compiled: fmt
+local fmt_dir = path.join(deps, "fmt-src")
+local fmt_lib_dir = path.join(deps, "fmt-build", mode_dir)
+
+-- Compiled: spdlog
+local spdlog_dir = path.join(deps, "spdlog-src")
+
+-- ellalgo-cpp include (Arr lives here)
+local ellalgo_inc = path.join(os.projectdir(), "../ellalgo-cpp/include")
+-- EllAlgo lib from CMake build
+local ellalgo_build = path.join(deps, "ellalgo-build", mode_dir)
+
+-- lds-gen-cpp include
+local ldsgen_inc = path.join(os.projectdir(), "../lds-gen-cpp/include")
 
 target("CorrSolver")
 	set_kind("static")
 	add_includedirs("include", { public = true })
-	add_includedirs("../lds-gen-cpp/include", { public = true })
-	add_includedirs("../ellalgo-cpp/include", { public = true })
+	add_includedirs(ellalgo_inc, { public = true })
+	add_includedirs(ldsgen_inc, { public = true })
+	add_includedirs(path.join(fmt_dir, "include"), { public = true })
 	add_files("source/*.cpp")
-	add_packages("fmt")
-	add_packages("xtensor")
-	add_packages("xtensor-blas")
-	add_linkdirs("../ellalgo-cpp/build/windows/x64/release")
-	add_links("EllAlgo")
+	add_deps("EllAlgo")
 
 target("test_corr_solver")
 	set_kind("binary")
-	add_deps("CorrSolver")
-	add_includedirs("include", { public = true })
-	add_includedirs("../lds-gen-cpp/include", { public = true })
-	add_includedirs("../ellalgo-cpp/include", { public = true })
+	add_deps("CorrSolver", "EllAlgo")
+	add_includedirs("include")
+	add_includedirs(ellalgo_inc)
+	add_includedirs(ldsgen_inc)
+	add_includedirs(path.join(fmt_dir, "include"))
+	if os.isfile(doctest_h) then
+		add_includedirs(path.join(doctest_dir))
+	end
 	add_files("test/source/*.cpp")
-	add_packages("fmt")
-	add_packages("doctest", "xtensor")
-	add_packages("xtensor-blas")
-	add_linkdirs("../ellalgo-cpp/build/windows/x64/release")
-	add_links("EllAlgo")
+	add_linkdirs(fmt_lib_dir)
+	add_links("fmt")
 	add_tests("default")
-	
 
---
--- If you want to known more usage about xmake, please see https://xmake.io
---
--- ## FAQ
---
--- You can enter the project directory firstly before building project.
---
---   $ cd projectdir
---
--- 1. How to build project?
---
---   $ xmake
---
--- 2. How to configure project?
---
---   $ xmake f -p [macosx|linux|iphoneos ..] -a [x86_64|i386|arm64 ..] -m [debug|release]
---
--- 3. Where is the build output directory?
---
---   The default output directory is `./build` and you can configure the output directory.
---
---   $ xmake f -o outputdir
---   $ xmake
---
--- 4. How to run and debug target after building project?
---
---   $ xmake run [targetname]
---   $ xmake run -d [targetname]
---
--- 5. How to install target to the system directory or other output directory?
---
---   $ xmake install
---   $ xmake install -o installdir
---
--- 6. Add some frequently-used compilation flags in xmake.lua
---
--- @code
---    -- add debug and release modes
---    add_rules("mode.debug", "mode.release")
---
---    -- add macro defination
---    add_defines("NDEBUG", "_GNU_SOURCE=1")
---
---    -- set warning all as error
---    set_warnings("all", "error")
---
---    -- set language: c99, c++11
---    set_languages("c99", "c++11")
---
---    -- set optimization: none, faster, fastest, smallest
---    set_optimize("fastest")
---
---    -- add include search directories
---    add_includedirs("/usr/include", "/usr/local/include")
---
---    -- add link libraries and search directories
---    add_links("tbox")
---    add_linkdirs("/usr/local/lib", "/usr/lib")
---
---    -- add system link libraries
---    add_syslinks("z", "pthread")
---
---    -- add compilation and link flags
---    add_cxflags("-stdnolib", "-fno-strict-aliasing")
---    add_ldflags("-L/usr/local/lib", "-lpthread", {force = true})
---
--- @endcode
---
+target("EllAlgo")
+	set_kind("static")
+	add_includedirs(path.join(deps, "ellalgo-src/include"), {public = true})
+	add_includedirs(ellalgo_inc, {public = true})
+	add_includedirs(path.join(fmt_dir, "include"), {public = true})
+	add_includedirs(path.join(spdlog_dir, "include"), {public = true})
+	add_files(path.join(deps, "ellalgo-src/source/*.cpp"))
+	set_group("Dependencies")
