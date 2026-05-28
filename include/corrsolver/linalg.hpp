@@ -37,6 +37,24 @@ inline double trace(const Arr& a) { return sum(diagonal(a)); }
 inline double norm(const Arr& a) { return std::sqrt(sum(a * a)); }
 
 // ---------------------------------------------------------------------------
+// Matrix-matrix multiplication: A * B  (A: m×k, B: k×n → result: m×n)
+// ---------------------------------------------------------------------------
+inline Arr matmul(const Arr& A, const Arr& B) {
+    assert(A.is_2d() && B.is_2d() && A.cols() == B.rows());
+    auto m = A.rows();
+    auto k = A.cols();
+    auto n = B.cols();
+    Arr out(m, n);
+    for (size_t i = 0; i < m; ++i)
+        for (size_t j = 0; j < n; ++j) {
+            double s = 0.0;
+            for (size_t t = 0; t < k; ++t) s += A(i, t) * B(t, j);
+            out(i, j) = s;
+        }
+    return out;
+}
+
+// ---------------------------------------------------------------------------
 // Cholesky decomposition: A = L * L^T  (A symmetric positive definite)
 // Returns lower-triangular L.
 // ---------------------------------------------------------------------------

@@ -191,8 +191,8 @@ class MleOracle {
         Arr R(dim, dim);
         this->_lmi0._mq.sqrt(R);
         auto invR = inv(R);
-        auto S = dot(invR, transpose(invR));
-        auto SY = dot(S, this->Y_);
+        auto S = matmul(invR, transpose(invR));
+        auto SY = matmul(S, this->Y_);
 
         auto diag = diagonal(R);
         double log_sum = 0.0;
@@ -208,7 +208,7 @@ class MleOracle {
 
         Arr g = zeros(n);
         for (size_t i = 0; i < n; ++i) {
-            auto SFsi = dot(S, this->sig_[i]);
+            auto SFsi = matmul(S, this->sig_[i]);
             auto tr = trace(SFsi);
             for (size_t k = 0; k < m; ++k) {
                 // dot(row(SFsi, k), column(SY, k))
