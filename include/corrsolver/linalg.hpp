@@ -106,20 +106,23 @@ inline Arr randn(size_t n) {
 // meshgrid: returns {XX, YY} where XX and YY are 2D grids
 // ---------------------------------------------------------------------------
 inline std::pair<Arr, Arr> meshgrid(const Arr& x, const Arr& y) {
-    auto nx = x.size(), ny = y.size();
-    Arr xx(ny, nx), yy(ny, nx);
-    for (size_t i = 0; i < ny; ++i)
+    auto nx = x.size();
+    auto ny = y.size();
+    Arr xx(ny, nx);
+    Arr yy(ny, nx);
+    for (size_t i = 0; i < ny; ++i) {
         for (size_t j = 0; j < nx; ++j) {
             xx(i, j) = x(j);
             yy(i, j) = y(i);
         }
+    }
     return {xx, yy};
 }
 
 // ---------------------------------------------------------------------------
 // stack: combines multiple 1D arrays as rows (axis=0) into a 2D matrix
 // ---------------------------------------------------------------------------
-inline Arr stack(const Arr& a, const Arr& b, int = 0) {
+inline Arr stack(const Arr& a, const Arr& b, int /*unused*/ = 0) {
     assert(!a.is_2d() && !b.is_2d() && a.size() == b.size());
     Arr out(2, a.size());
     for (size_t j = 0; j < a.size(); ++j) {
