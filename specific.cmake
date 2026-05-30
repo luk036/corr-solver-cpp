@@ -5,21 +5,9 @@ CPMAddPackage(
   OPTIONS "FMT_INSTALL YES" # create an installable target
 )
 
-CPMAddPackage("gh:xtensor-stack/xtl#0.7.5")
-if(xtl_ADDED)
-  message(STATUS "Found xtl: ${xtl_SOURCE_DIR}")
-  include_directories(${xtl_SOURCE_DIR}/include)
-endif(xtl_ADDED)
-
-CPMAddPackage("gh:xtensor-stack/xtensor#0.25.0")
-if(xtensor_ADDED)
-  message(STATUS "Found xtensor: ${xtensor_SOURCE_DIR}")
-  include_directories(${xtensor_SOURCE_DIR}/include)
-endif(xtensor_ADDED)
-
 CPMAddPackage(
   NAME EllAlgo
-  GIT_TAG 1.6.4
+  GIT_TAG 1.6.5
   GITHUB_REPOSITORY luk036/ellalgo-cpp
   OPTIONS "INSTALL_ONLY YES" # create an installable target
 )
@@ -45,13 +33,6 @@ if(BLAS_FOUND)
   message(STATUS "Found BLAS: ${BLAS_LIBRARIES}")
   include_directories(${BLAS_INCLUDE_DIRS})
 endif(BLAS_FOUND)
-
-CPMAddPackage("gh:xtensor-stack/xtensor-blas#0.21.0")
-if(xtensor-blas_ADDED)
-  message(STATUS "Found xtensor-blas: ${xtensor-blas_SOURCE_DIR}")
-  include_directories(${xtensor-blas_SOURCE_DIR}/include)
-endif(xtensor-blas_ADDED)
-# remember to turn off the warnings
 
 if(WIN32)
   add_definitions(-DXTENSOR_USE_FLENS_BLAS)
