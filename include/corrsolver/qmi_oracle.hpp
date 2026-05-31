@@ -6,8 +6,7 @@
 #include <type_traits>
 #include <vector>
 
-template <typename Arr036>
-class QmiOracle {
+template <typename Arr036> class QmiOracle {
     static_assert(std::is_class_v<Arr036>, "Arr036 must be a class type (e.g. Arr)");
     using Cut = std::pair<Arr036, double>;
 
