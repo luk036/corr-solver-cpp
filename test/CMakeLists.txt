@@ -45,7 +45,6 @@ elseif(MSVC)
            /wd4267
            /wd4244
   )
-  target_compile_definitions(${PROJECT_NAME}Tests PUBLIC DOCTEST_CONFIG_USE_STD_HEADERS)
 endif()
 
 # ---- Add ${PROJECT_NAME}Tests ----
