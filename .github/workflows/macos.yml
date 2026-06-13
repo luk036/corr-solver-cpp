@@ -34,7 +34,7 @@ jobs:
           export PATH="/opt/homebrew/opt/llvm@20/bin:$PATH"
           export CC=clang
           export CXX=clang++
-          cmake -S. -Bbuild -Wno-dev -DCMAKE_BUILD_TYPE=Debug -DCMAKE_POLICY_VERSION_MINIMUM="3.5"
+          cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Debug -DCMAKE_POLICY_VERSION_MINIMUM="3.5" -Wno-dev
 
       - name: build
         run: |
