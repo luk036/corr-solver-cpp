@@ -8,6 +8,7 @@ end
 
 add_requires("fmt", { alias = "fmt" })
 add_requires("doctest", { alias = "doctest" })
+add_requires("spdlog", { alias = "spdlog" })
 
 if is_mode("coverage") then
 	add_cxflags("-ftest-coverage", "-fprofile-arcs", { force = true })
@@ -36,9 +37,8 @@ elseif is_plat("windows") then
 end
 
 -- ellalgo-cpp include (Arr lives here)
-local ellalgo_inc = path.join(os.projectdir(), "../ellalgo-cpp/include")
--- EllAlgo lib from CMake build
-local ellalgo_build = path.join(deps, "ellalgo-build", mode_dir)
+local ellalgo_dir = path.join(os.projectdir(), "../ellalgo-cpp")
+local ellalgo_inc = path.join(ellalgo_dir, "include")
 
 -- lds-gen-cpp include
 local ldsgen_inc = path.join(os.projectdir(), "../lds-gen-cpp/include")
@@ -64,7 +64,7 @@ add_tests("default")
 
 target("EllAlgo")
 set_kind("static")
-add_includedirs(path.join(deps, "ellalgo-src/include"), { public = true })
 add_includedirs(ellalgo_inc, { public = true })
-add_files(path.join(deps, "ellalgo-src/source/*.cpp"))
+add_files(path.join(ellalgo_dir, "source/*.cpp"))
+add_packages("fmt", "spdlog")
 set_group("Dependencies")
