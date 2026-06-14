@@ -14,26 +14,26 @@ if is_mode("coverage") then
 end
 
 if is_plat("linux") then
-	set_warnings("all", "error")
-	-- add_cxflags("-Wconversion", {force = true})
+    set_warnings("all", "error")
+    -- add_cxflags("-Wconversion", {force = true})
+    -- add_cxflags("-Wno-unused-command-line-argument", {force = true})
+    -- Check if we're on Termux/Android
+    local termux_prefix = os.getenv("PREFIX")
+    if termux_prefix then
+        add_sysincludedirs(termux_prefix .. "/include/c++/v1", {public = true})
+        add_sysincludedirs(termux_prefix .. "/include", {public = true})
+    end
+    -- Enable host-native tuning in release mode for auto-vectorization
+    if is_mode("release") then
+        add_cxflags("-march=native", "-mtune=native", { force = true })
+    end
 elseif is_plat("windows") then
-	add_cxflags("/EHsc /utf-8 /W4 /WX /wd4459 /wd4819 /wd4996 /wd4267", { force = true })
+    add_cxflags("/EHsc /utf-8 /W4 /WX /wd5285 /wd4459 /wd4819", { force = true })
+    -- Enable AVX2 in release mode for auto-vectorization
+    if is_mode("release") then
+        add_cxflags("/arch:AVX2", { force = true })
+    end
 end
-
--- Local CMake deps (offline-friendly)
-local deps = path.join(os.projectdir(), "build/_deps")
-local mode_dir = is_mode("release") and "Release" or "Debug"
-
--- Header-only: doctest
-local doctest_dir = path.join(deps, "doctest-src")
-local doctest_h = path.join(doctest_dir, "doctest", "doctest.h")
-
--- Compiled: fmt
-local fmt_dir = path.join(deps, "fmt-src")
-local fmt_lib_dir = path.join(deps, "fmt-build", mode_dir)
-
--- Compiled: spdlog
-local spdlog_dir = path.join(deps, "spdlog-src")
 
 -- ellalgo-cpp include (Arr lives here)
 local ellalgo_inc = path.join(os.projectdir(), "../ellalgo-cpp/include")
@@ -44,34 +44,27 @@ local ellalgo_build = path.join(deps, "ellalgo-build", mode_dir)
 local ldsgen_inc = path.join(os.projectdir(), "../lds-gen-cpp/include")
 
 target("CorrSolver")
-	set_kind("static")
-	add_includedirs("include", { public = true })
-	add_includedirs(ellalgo_inc, { public = true })
-	add_includedirs(ldsgen_inc, { public = true })
-	add_includedirs(path.join(fmt_dir, "include"), { public = true })
-	add_files("source/*.cpp")
-	add_deps("EllAlgo")
+set_kind("static")
+add_includedirs("include", { public = true })
+add_includedirs(ellalgo_inc, { public = true })
+add_includedirs(ldsgen_inc, { public = true })
+add_files("source/*.cpp")
+add_deps("EllAlgo")
+add_packages("fmt")
 
 target("test_corr_solver")
-	set_kind("binary")
-	add_deps("CorrSolver", "EllAlgo")
-	add_includedirs("include")
-	add_includedirs(ellalgo_inc)
-	add_includedirs(ldsgen_inc)
-	add_includedirs(path.join(fmt_dir, "include"))
-	if os.isfile(doctest_h) then
-		add_includedirs(path.join(doctest_dir))
-	end
-	add_files("test/source/*.cpp")
-	add_linkdirs(fmt_lib_dir)
-	add_links("fmt")
-	add_tests("default")
+set_kind("binary")
+add_deps("CorrSolver", "EllAlgo")
+add_includedirs("include")
+add_includedirs(ellalgo_inc)
+add_includedirs(ldsgen_inc)
+add_files("test/source/*.cpp")
+add_packages("fmt", "doctest")
+add_tests("default")
 
 target("EllAlgo")
-	set_kind("static")
-	add_includedirs(path.join(deps, "ellalgo-src/include"), {public = true})
-	add_includedirs(ellalgo_inc, {public = true})
-	add_includedirs(path.join(fmt_dir, "include"), {public = true})
-	add_includedirs(path.join(spdlog_dir, "include"), {public = true})
-	add_files(path.join(deps, "ellalgo-src/source/*.cpp"))
-	set_group("Dependencies")
+set_kind("static")
+add_includedirs(path.join(deps, "ellalgo-src/include"), { public = true })
+add_includedirs(ellalgo_inc, { public = true })
+add_files(path.join(deps, "ellalgo-src/source/*.cpp"))
+set_group("Dependencies")
