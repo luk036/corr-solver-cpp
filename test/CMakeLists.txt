@@ -34,7 +34,7 @@ if(CMAKE_CXX_COMPILER_ID MATCHES "Clang" OR CMAKE_CXX_COMPILER_ID MATCHES "GNU")
            -Wno-deprecated-literal-operator
   )
 elseif(MSVC)
-  target_compile_options(${PROJECT_NAME} PUBLIC /utf-8 /W4 /WX /wd5285 /wd4244)
+  target_compile_options(${PROJECT_NAME} PUBLIC /utf-8 /W4 /WX /wd5285)
 endif()
 
 # ---- Add ${PROJECT_NAME}Tests ----
