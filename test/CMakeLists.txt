@@ -5,7 +5,7 @@ option(ENABLE_TEST_COVERAGE "Enable test coverage" OFF)
 
 # ---- Dependencies ----
 
-CPMAddPackage("gh:doctest/doctest#v2.4.11")
+CPMAddPackage("gh:doctest/doctest#v2.5.2")
 CPMAddPackage("gh:TheLartians/Format.cmake@1.7.3")
 
 # if(TEST_INSTALLED_VERSION) find_package(${PROJECT_NAME} REQUIRED) else() CPMAddPackage(NAME
@@ -34,7 +34,7 @@ if(CMAKE_CXX_COMPILER_ID MATCHES "Clang" OR CMAKE_CXX_COMPILER_ID MATCHES "GNU")
            -Wno-deprecated-literal-operator
   )
 elseif(MSVC)
-  target_compile_options(${PROJECT_NAME} PUBLIC /utf-8 /W4 /WX /wd5285)
+  target_compile_options(${PROJECT_NAME} PUBLIC /utf-8 /W4 /WX)
 endif()
 
 # ---- Add ${PROJECT_NAME}Tests ----
