@@ -1,3 +1,7 @@
+/** @file qmi_oracle.hpp
+ *  @brief QMI (Quadratic Matrix Inequality) oracle for ellipsoidal algorithms.
+ */
+
 #pragma once
 
 #include <ellalgo/arr.hpp>
@@ -6,6 +10,14 @@
 #include <type_traits>
 #include <vector>
 
+/**
+ * @brief Quadratic Matrix Inequality (QMI) oracle.
+ *
+ * Determines feasibility of a point with respect to a QMI constraint
+ * defined by a set of symmetric matrices.
+ *
+ * @tparam Arr036 The array/matrix type (e.g. Arr from ellalgo).
+ */
 template <typename Arr036> class QmiOracle {
     static_assert(std::is_class_v<Arr036>, "Arr036 must be a class type (e.g. Arr)");
     using Cut = std::pair<Arr036, double>;

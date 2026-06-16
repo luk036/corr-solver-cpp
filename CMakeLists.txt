@@ -60,13 +60,6 @@ set_target_properties(${PROJECT_NAME} PROPERTIES CXX_STANDARD 20)
 
 # being a cross-platform target, we enforce standards conformance on MSVC
 target_compile_options(${PROJECT_NAME} PUBLIC "$<$<COMPILE_LANG_AND_ID:CXX,MSVC>:/permissive->")
-# Suppress sign conversion warnings for Clang and GCC (equivalent to MSVC C4267)
-# target_compile_options(
-#   ${PROJECT_NAME} PUBLIC "$<$<COMPILE_LANG_AND_ID:CXX,Clang>:-Wno-sign-conversion>"
-# )
-# target_compile_options(
-#   ${PROJECT_NAME} PUBLIC "$<$<COMPILE_LANG_AND_ID:CXX,GNU>:-Wno-sign-conversion>"
-# )
 
 # Disable svector on macOS to avoid Clang template ambiguity issues
 if(APPLE)
