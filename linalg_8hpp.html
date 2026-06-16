@@ -51,7 +51,7 @@
         <h1>
           <span class="m-breadcrumb"><a href="dir_ddb8d9575ea68fad5e54e7063bd5b33f.html">corrsolver</a>/</span>linalg.hpp <span class="m-thin">file</span>
         </h1>
-        <p><span></span></p>
+        <p>Minimal linear algebra helpers for Arr (transpose, matmul, Cholesky, inverse, etc.).</p>
         <nav class="m-block m-default">
           <h3>Contents</h3>
           <ul>
@@ -69,59 +69,59 @@
             <dt>
               <span class="m-doc-wrap-bumper">auto <a href="#aa8d6aa1be090cd8f70ddb4cf4b47409f" class="m-doc">transpose</a>(</span><span class="m-doc-wrap">const Arr&amp; a) -&gt; Arr</span>
             </dt>
-            <dd></dd>
-            <dt id="a4ca6aa1f39250709594dc46f95759aa5">
-              <span class="m-doc-wrap-bumper">auto <a href="#a4ca6aa1f39250709594dc46f95759aa5" class="m-doc-self">flatten</a>(</span><span class="m-doc-wrap">const Arr&amp; a) -&gt; Arr</span>
+            <dd>Transpose a 2D matrix.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#a4ca6aa1f39250709594dc46f95759aa5" class="m-doc">flatten</a>(</span><span class="m-doc-wrap">const Arr&amp; a) -&gt; Arr</span>
             </dt>
-            <dd><span></span></dd>
-            <dt id="a5163a9062e5c61aa334325e07ec7c648">
-              <span class="m-doc-wrap-bumper">auto <a href="#a5163a9062e5c61aa334325e07ec7c648" class="m-doc-self">diagonal</a>(</span><span class="m-doc-wrap">const Arr&amp; a) -&gt; Arr</span>
+            <dd>Flatten a matrix or vector into a 1D array.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#a5163a9062e5c61aa334325e07ec7c648" class="m-doc">diagonal</a>(</span><span class="m-doc-wrap">const Arr&amp; a) -&gt; Arr</span>
             </dt>
-            <dd><span></span></dd>
-            <dt id="a2de9d2d8ad79a5f64d57347c0313d4d9">
-              <span class="m-doc-wrap-bumper">auto <a href="#a2de9d2d8ad79a5f64d57347c0313d4d9" class="m-doc-self">trace</a>(</span><span class="m-doc-wrap">const Arr&amp; a) -&gt; double</span>
+            <dd>Extract the diagonal of a square matrix.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#a2de9d2d8ad79a5f64d57347c0313d4d9" class="m-doc">trace</a>(</span><span class="m-doc-wrap">const Arr&amp; a) -&gt; double</span>
             </dt>
-            <dd><span></span></dd>
-            <dt id="a1385376da699d3eb45f5ae7775154a40">
-              <span class="m-doc-wrap-bumper">auto <a href="#a1385376da699d3eb45f5ae7775154a40" class="m-doc-self">norm</a>(</span><span class="m-doc-wrap">const Arr&amp; a) -&gt; double</span>
+            <dd>Compute the trace of a square matrix (sum of diagonal elements).</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#a1385376da699d3eb45f5ae7775154a40" class="m-doc">norm</a>(</span><span class="m-doc-wrap">const Arr&amp; a) -&gt; double</span>
             </dt>
-            <dd><span></span></dd>
-            <dt id="a8963faeed1bfdbe572752a12c6ba3b97">
-              <span class="m-doc-wrap-bumper">auto <a href="#a8963faeed1bfdbe572752a12c6ba3b97" class="m-doc-self">matmul</a>(</span><span class="m-doc-wrap">const Arr&amp; A,
+            <dd>Compute the Frobenius norm of an array.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#a8963faeed1bfdbe572752a12c6ba3b97" class="m-doc">matmul</a>(</span><span class="m-doc-wrap">const Arr&amp; A,
               const Arr&amp; B) -&gt; Arr</span>
             </dt>
-            <dd><span></span></dd>
-            <dt id="a60bd392fb6daa4fdc8bd0a3167adeb84">
-              <span class="m-doc-wrap-bumper">auto <a href="#a60bd392fb6daa4fdc8bd0a3167adeb84" class="m-doc-self">cholesky</a>(</span><span class="m-doc-wrap">const Arr&amp; A) -&gt; Arr</span>
+            <dd>Multiply two matrices: A * B.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#a60bd392fb6daa4fdc8bd0a3167adeb84" class="m-doc">cholesky</a>(</span><span class="m-doc-wrap">const Arr&amp; A) -&gt; Arr</span>
             </dt>
-            <dd><span></span></dd>
-            <dt id="aa2ad6c28b9b339ae95e37c34e3de2a90">
-              <span class="m-doc-wrap-bumper">auto <a href="#aa2ad6c28b9b339ae95e37c34e3de2a90" class="m-doc-self">inv</a>(</span><span class="m-doc-wrap">const Arr&amp; A) -&gt; Arr</span>
+            <dd>Cholesky decomposition: A = L * L^T for SPD matrices.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#aa2ad6c28b9b339ae95e37c34e3de2a90" class="m-doc">inv</a>(</span><span class="m-doc-wrap">const Arr&amp; A) -&gt; Arr</span>
             </dt>
-            <dd><span></span></dd>
-            <dt id="ae1b2c4a839f654f2f16115a1b7d7b42a">
-              <span class="m-doc-wrap-bumper">auto <a href="#ae1b2c4a839f654f2f16115a1b7d7b42a" class="m-doc-self">global_rng</a>(</span><span class="m-doc-wrap">) -&gt; std::mt19937_64&amp;</span>
+            <dd>Compute the inverse of a symmetric positive definite matrix via Cholesky.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#ae1b2c4a839f654f2f16115a1b7d7b42a" class="m-doc">global_rng</a>(</span><span class="m-doc-wrap">) -&gt; std::mt19937_64&amp;</span>
             </dt>
-            <dd><span></span></dd>
-            <dt id="a04b0e01fdfe9cb7643d34af17a53a853">
-              <span class="m-doc-wrap-bumper">void <a href="#a04b0e01fdfe9cb7643d34af17a53a853" class="m-doc-self">random_seed</a>(</span><span class="m-doc-wrap">unsigned seed)</span>
+            <dd>Get the global Mersenne Twister random number generator.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">void <a href="#a04b0e01fdfe9cb7643d34af17a53a853" class="m-doc">random_seed</a>(</span><span class="m-doc-wrap">unsigned seed)</span>
             </dt>
-            <dd><span></span></dd>
-            <dt id="aec7819e5e7015d782192e3d4df679d79">
-              <span class="m-doc-wrap-bumper">auto <a href="#aec7819e5e7015d782192e3d4df679d79" class="m-doc-self">randn</a>(</span><span class="m-doc-wrap">size_t n) -&gt; Arr</span>
+            <dd>Seed the global random number generator.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#aec7819e5e7015d782192e3d4df679d79" class="m-doc">randn</a>(</span><span class="m-doc-wrap">size_t n) -&gt; Arr</span>
             </dt>
-            <dd><span></span></dd>
-            <dt id="a7c20aac185212e060e54a31c1166335a">
-              <span class="m-doc-wrap-bumper">auto <a href="#a7c20aac185212e060e54a31c1166335a" class="m-doc-self">meshgrid</a>(</span><span class="m-doc-wrap">const Arr&amp; x,
+            <dd>Generate a vector of standard normal random numbers.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#a7c20aac185212e060e54a31c1166335a" class="m-doc">meshgrid</a>(</span><span class="m-doc-wrap">const Arr&amp; x,
               const Arr&amp; y) -&gt; std::pair&lt;Arr, Arr&gt;</span>
             </dt>
-            <dd><span></span></dd>
-            <dt id="af9f080af6ae42cdb274ca3ed5cbc3cf6">
-              <span class="m-doc-wrap-bumper">auto <a href="#af9f080af6ae42cdb274ca3ed5cbc3cf6" class="m-doc-self">stack</a>(</span><span class="m-doc-wrap">const Arr&amp; a,
+            <dd>Create 2D meshgrid arrays from 1D coordinate vectors.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#af9f080af6ae42cdb274ca3ed5cbc3cf6" class="m-doc">stack</a>(</span><span class="m-doc-wrap">const Arr&amp; a,
               const Arr&amp; b,
               int = 0) -&gt; Arr</span>
             </dt>
-            <dd><span></span></dd>
+            <dd>Stack two 1D arrays as rows into a 2D matrix.</dd>
           </dl>
         </section>
         <section>
@@ -130,7 +130,302 @@
             <h3>
               <span class="m-doc-wrap-bumper">Arr </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#aa8d6aa1be090cd8f70ddb4cf4b47409f" class="m-doc-self">transpose</a>(</span><span class="m-doc-wrap">const Arr&amp; a)</span></span>
             </h3>
+            <p>Transpose a 2D matrix.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">a</td>
+                  <td>Input matrix</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>Transposed matrix</td>
+                </tr>
+              </tfoot>
+            </table>
 <p>Minimal linear algebra helpers for Arr, replacing xtensor-blas operations. For small FIR/correlation problems, naive O(n^3) is sufficient.</p>
+          </div></section>
+          <section class="m-doc-details" id="a4ca6aa1f39250709594dc46f95759aa5"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">Arr </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a4ca6aa1f39250709594dc46f95759aa5" class="m-doc-self">flatten</a>(</span><span class="m-doc-wrap">const Arr&amp; a)</span></span>
+            </h3>
+            <p>Flatten a matrix or vector into a 1D array.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">a</td>
+                  <td>Input array</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>Flattened 1D array</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="a5163a9062e5c61aa334325e07ec7c648"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">Arr </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a5163a9062e5c61aa334325e07ec7c648" class="m-doc-self">diagonal</a>(</span><span class="m-doc-wrap">const Arr&amp; a)</span></span>
+            </h3>
+            <p>Extract the diagonal of a square matrix.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">a</td>
+                  <td>Input square matrix</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>1D array containing diagonal elements</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="a2de9d2d8ad79a5f64d57347c0313d4d9"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">double </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a2de9d2d8ad79a5f64d57347c0313d4d9" class="m-doc-self">trace</a>(</span><span class="m-doc-wrap">const Arr&amp; a)</span></span>
+            </h3>
+            <p>Compute the trace of a square matrix (sum of diagonal elements).</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">a</td>
+                  <td>Input square matrix</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>Trace value</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="a1385376da699d3eb45f5ae7775154a40"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">double </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a1385376da699d3eb45f5ae7775154a40" class="m-doc-self">norm</a>(</span><span class="m-doc-wrap">const Arr&amp; a)</span></span>
+            </h3>
+            <p>Compute the Frobenius norm of an array.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">a</td>
+                  <td>Input array</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>Frobenius norm</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="a8963faeed1bfdbe572752a12c6ba3b97"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">Arr </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a8963faeed1bfdbe572752a12c6ba3b97" class="m-doc-self">matmul</a>(</span><span class="m-doc-wrap">const Arr&amp; A,
+              const Arr&amp; B)</span></span>
+            </h3>
+            <p>Multiply two matrices: A * B.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">A</td>
+                  <td>Left matrix (m x k)</td>
+                </tr>
+                <tr>
+                  <td>B</td>
+                  <td>Right matrix (k x n)</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>Result matrix (m x n)</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="a60bd392fb6daa4fdc8bd0a3167adeb84"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">Arr </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a60bd392fb6daa4fdc8bd0a3167adeb84" class="m-doc-self">cholesky</a>(</span><span class="m-doc-wrap">const Arr&amp; A)</span></span>
+            </h3>
+            <p>Cholesky decomposition: A = L * L^T for SPD matrices.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">A</td>
+                  <td>Symmetric positive definite matrix</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>Lower-triangular Cholesky factor L</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="aa2ad6c28b9b339ae95e37c34e3de2a90"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">Arr </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#aa2ad6c28b9b339ae95e37c34e3de2a90" class="m-doc-self">inv</a>(</span><span class="m-doc-wrap">const Arr&amp; A)</span></span>
+            </h3>
+            <p>Compute the inverse of a symmetric positive definite matrix via Cholesky.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">A</td>
+                  <td>SPD matrix</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>Inverse matrix</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="ae1b2c4a839f654f2f16115a1b7d7b42a"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">std::mt19937_64&amp; </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#ae1b2c4a839f654f2f16115a1b7d7b42a" class="m-doc-self">global_rng</a>(</span><span class="m-doc-wrap">)</span></span>
+            </h3>
+            <p>Get the global Mersenne Twister random number generator.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <tfoot>
+                <tr>
+                  <th style="width: 1%">Returns</th>
+                  <td>Reference to the global RNG</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="a04b0e01fdfe9cb7643d34af17a53a853"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">void </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a04b0e01fdfe9cb7643d34af17a53a853" class="m-doc-self">random_seed</a>(</span><span class="m-doc-wrap">unsigned seed)</span></span>
+            </h3>
+            <p>Seed the global random number generator.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">seed</td>
+                  <td>The seed value</td>
+                </tr>
+              </tbody>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="aec7819e5e7015d782192e3d4df679d79"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">Arr </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#aec7819e5e7015d782192e3d4df679d79" class="m-doc-self">randn</a>(</span><span class="m-doc-wrap">size_t n)</span></span>
+            </h3>
+            <p>Generate a vector of standard normal random numbers.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">n</td>
+                  <td>Number of elements</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>1D array of i.i.d. N(0,1) samples</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="a7c20aac185212e060e54a31c1166335a"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">std::pair&lt;Arr, Arr&gt; </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a7c20aac185212e060e54a31c1166335a" class="m-doc-self">meshgrid</a>(</span><span class="m-doc-wrap">const Arr&amp; x,
+              const Arr&amp; y)</span></span>
+            </h3>
+            <p>Create 2D meshgrid arrays from 1D coordinate vectors.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">x</td>
+                  <td>1D x-coordinates</td>
+                </tr>
+                <tr>
+                  <td>y</td>
+                  <td>1D y-coordinates</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>Pair of 2D arrays (XX, YY)</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="af9f080af6ae42cdb274ca3ed5cbc3cf6"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">Arr </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#af9f080af6ae42cdb274ca3ed5cbc3cf6" class="m-doc-self">stack</a>(</span><span class="m-doc-wrap">const Arr&amp; a,
+              const Arr&amp; b,
+              int = 0)</span></span>
+            </h3>
+            <p>Stack two 1D arrays as rows into a 2D matrix.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">a</td>
+                  <td>First row</td>
+                </tr>
+                <tr>
+                  <td>b</td>
+                  <td>Second row</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>2D matrix with two rows</td>
+                </tr>
+              </tfoot>
+            </table>
           </div></section>
         </section>
       </div>
