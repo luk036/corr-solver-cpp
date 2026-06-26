@@ -16,6 +16,11 @@
 
 /**
  * @brief Transpose a 2D matrix.
+ *
+ * @f[
+ *     (A^T)_{ij} = A_{ji}
+ * @f]
+ *
  * @param a Input matrix
  * @return Transposed matrix
  */
@@ -53,6 +58,9 @@ inline Arr diagonal(const Arr& a) {
 
 /**
  * @brief Compute the trace of a square matrix (sum of diagonal elements).
+ *
+ * @f$ \operatorname{tr}(A) = \sum_{i=1}^{n} A_{ii} @f$
+ *
  * @param a Input square matrix
  * @return Trace value
  */
@@ -60,6 +68,9 @@ inline double trace(const Arr& a) { return sum(diagonal(a)); }
 
 /**
  * @brief Compute the Frobenius norm of an array.
+ *
+ * @f$ \|A\|_F = \sqrt{\sum_{i}\sum_{j} A_{ij}^2} @f$
+ *
  * @param a Input array
  * @return Frobenius norm
  */
@@ -71,6 +82,11 @@ inline double norm(const Arr& a) { return std::sqrt(sum(a * a)); }
 
 /**
  * @brief Multiply two matrices: A * B.
+ *
+ * @f[
+ *     (AB)_{ij} = \sum_{k=1}^{p} A_{ik} B_{kj}
+ * @f]
+ *
  * @param A Left matrix (m x k)
  * @param B Right matrix (k x n)
  * @return Result matrix (m x n)
@@ -97,6 +113,12 @@ inline Arr matmul(const Arr& A, const Arr& B) {
 
 /**
  * @brief Cholesky decomposition: A = L * L^T for SPD matrices.
+ *
+ * @f[
+ *     A = LL^T, \quad L_{jj} = \sqrt{A_{jj} - \sum_{k=1}^{j-1} L_{jk}^2},
+ *     \quad L_{ij} = \frac{1}{L_{jj}}\Bigl(A_{ij} - \sum_{k=1}^{j-1} L_{ik} L_{jk}\Bigr)
+ * @f]
+ *
  * @param A Symmetric positive definite matrix
  * @return Lower-triangular Cholesky factor L
  */
@@ -123,6 +145,10 @@ inline Arr cholesky(const Arr& A) {
 
 /**
  * @brief Compute the inverse of a symmetric positive definite matrix via Cholesky.
+ *
+ * Computes @f$A^{-1}@f$ by solving @f$LY = I@f$ (forward substitution)
+ * then @f$L^T X = Y@f$ (back substitution).
+ *
  * @param A SPD matrix
  * @return Inverse matrix
  */
