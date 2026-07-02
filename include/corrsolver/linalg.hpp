@@ -87,6 +87,19 @@ inline double norm(const Arr& a) { return std::sqrt(sum(a * a)); }
  *     (AB)_{ij} = \sum_{k=1}^{p} A_{ik} B_{kj}
  * @f]
  *
+ * @dot
+ *   digraph matmul_flow {
+ *     rankdir=LR; bgcolor="transparent";
+ *     node [shape=box, style=filled, fillcolor="#d4e6f1"];
+ *     A [label="A\n(m × k)", fillcolor="#a9cce3"];
+ *     B [label="B\n(k × n)", fillcolor="#a9cce3"];
+ *     tile [label="For each (i,j):\ndot product of\nA[i,:] · B[:,j]", fillcolor="#f9e79f"];
+ *     C [label="C = A×B\n(m × n)", fillcolor="#7fb3d8"];
+ *     A -> tile -> C;
+ *     B -> tile;
+ *   }
+ * @enddot
+ *
  * @param A Left matrix (m x k)
  * @param B Right matrix (k x n)
  * @return Result matrix (m x n)
@@ -119,6 +132,21 @@ inline Arr matmul(const Arr& A, const Arr& B) {
  *     \quad L_{ij} = \frac{1}{L_{jj}}\Bigl(A_{ij} - \sum_{k=1}^{j-1} L_{ik} L_{jk}\Bigr)
  * @f]
  *
+ * @dot
+ *   digraph cholesky_flow {
+ *     rankdir=TB; bgcolor="transparent";
+ *     node [shape=box, style=filled, fillcolor="#d4e6f1"];
+ *     A_in [label="SPD Matrix A", fillcolor="#a9cce3"];
+ *     diag [label="For j = 0..n-1:\nL[j][j] = sqrt(A[j][j] - sum L[j][k]²)"];
+ *     offdiag [label="For i > j:\nL[i][j] = (A[i][j] - sum L[i][k]*L[j][k]) / L[j][j]"];
+ *     next [label="Next column\nj += 1", shape=diamond, fillcolor="#f9e79f"];
+ *     L_out [label="Lower-triangular\nCholesky factor L", fillcolor="#7fb3d8"];
+ *     A_in -> diag -> offdiag -> next;
+ *     next -> diag [label="j < n", style=dashed, color="#e74c3c"];
+ *     next -> L_out [label="done", color="#27ae60"];
+ *   }
+ * @enddot
+ *
  * @param A Symmetric positive definite matrix
  * @return Lower-triangular Cholesky factor L
  */
@@ -148,6 +176,19 @@ inline Arr cholesky(const Arr& A) {
  *
  * Computes @f$A^{-1}@f$ by solving @f$LY = I@f$ (forward substitution)
  * then @f$L^T X = Y@f$ (back substitution).
+ *
+ * @dot
+ *   digraph inv_cholesky_flow {
+ *     rankdir=LR; bgcolor="transparent";
+ *     node [shape=box, style=filled, fillcolor="#d4e6f1"];
+ *     A_in [label="SPD Matrix A", fillcolor="#a9cce3"];
+ *     chol [label="Cholesky\nA = L·L^T"];
+ *     fwd [label="Forward sub\nL·Y = I", fillcolor="#f9e79f"];
+ *     back [label="Back sub\nL^T·X = Y", fillcolor="#f9e79f"];
+ *     inv_out [label="A^{-1} = X", fillcolor="#7fb3d8"];
+ *     A_in -> chol -> fwd -> back -> inv_out;
+ *   }
+ * @enddot
  *
  * @param A SPD matrix
  * @return Inverse matrix
