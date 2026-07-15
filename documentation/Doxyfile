@@ -32,6 +32,11 @@ USE_MATHJAX = YES
 # Use MathJax v2 (Doxygen generates v2-compatible config by default)
 # MATHJAX_RELPATH defaults to https://cdn.jsdelivr.net/npm/mathjax@2
 
+# Graphviz dot diagram support
+HAVE_DOT = YES
+DOT_IMAGE_FORMAT = svg
+DOT_GRAPH_MAX_NODES = 50
+
 # Exclude external dependencies fetched by CPM.cmake
 EXCLUDE_PATTERNS = */build/_deps/*
 
