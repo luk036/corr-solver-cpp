@@ -28,7 +28,7 @@ MathJax.Hub.Config({
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">CorrSolver<span id="projectnumber">&#160;1.2.5;  VERSION ${PROJECT_VERSION}</span>
+   <div id="projectname">CorrSolver<span id="projectnumber">&#160;1.2.6;  VERSION ${PROJECT_VERSION}</span>
    </div>
   </td>
  </tr>
@@ -93,14 +93,7 @@ $(function() {
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for linalg.hpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="linalg_8hpp__incl.png" border="0" usemap="#acorrsolver_2linalg_8hpp" alt=""/></div>
-<map name="acorrsolver_2linalg_8hpp" id="acorrsolver_2linalg_8hpp">
-<area shape="rect" title="Minimal linear algebra helpers for Arr (transpose, matmul, Cholesky, inverse, etc...." alt="" coords="44,5,199,31"/>
-<area shape="rect" title=" " alt="" coords="5,79,120,104"/>
-<area shape="poly" title=" " alt="" coords="114,33,83,70,79,67,110,29"/>
-<area shape="rect" title=" " alt="" coords="144,79,216,104"/>
-<area shape="poly" title=" " alt="" coords="133,29,164,67,160,70,129,33"/>
-</map>
+<div class="center"><iframe scrolling="no" frameborder="0" src="linalg_8hpp__incl.svg" width="222" height="110"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 </div>
 <p><a href="linalg_8hpp_source.html">Go to the source code of this file.</a></p>
@@ -175,6 +168,14 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Cholesky decomposition: A = L * L^T for SPD matrices. </p>
+<p class="formulaDsp">
+\[
+    A = LL^T, \quad L_{jj} = \sqrt{A_{jj} - \sum_{k=1}^{j-1} L_{jk}^2},
+    \quad L_{ij} = \frac{1}{L_{jj}}\Bigl(A_{ij} - \sum_{k=1}^{j-1} L_{ik} L_{jk}\Bigr)
+\]
+</p>
+<div class="dotgraph">
+<iframe scrolling="no" frameborder="0" src="dot_inline_dotgraph_1.svg" width="588" height="528"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">A</td><td>Symmetric positive definite matrix </td></tr>
@@ -308,6 +309,9 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Compute the inverse of a symmetric positive definite matrix via Cholesky. </p>
+<p>Computes \(A^{-1}\) by solving \(LY = I\) (forward substitution) then \(L^T X = Y\) (back substitution).</p>
+<div class="dotgraph">
+<iframe scrolling="no" frameborder="0" src="dot_inline_dotgraph_2.svg" width="875" height="62"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">A</td><td>SPD matrix </td></tr>
@@ -353,6 +357,13 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Multiply two matrices: A * B. </p>
+<p class="formulaDsp">
+\[
+    (AB)_{ij} = \sum_{k=1}^{p} A_{ik} B_{kj}
+\]
+</p>
+<div class="dotgraph">
+<iframe scrolling="no" frameborder="0" src="dot_inline_dotgraph_3.svg" width="464" height="136"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">A</td><td>Left matrix (m x k) </td></tr>
@@ -435,6 +446,7 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Compute the Frobenius norm of an array. </p>
+<p>\( \|A\|_F = \sqrt{\sum_{i}\sum_{j} A_{ij}^2} \)</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">a</td><td>Input array </td></tr>
@@ -591,6 +603,7 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Compute the trace of a square matrix (sum of diagonal elements). </p>
+<p>\( \operatorname{tr}(A) = \sum_{i=1}^{n} A_{ii} \)</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">a</td><td>Input square matrix </td></tr>
@@ -626,7 +639,13 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Transpose a 2D matrix. </p>
-<p>Minimal linear algebra helpers for Arr, replacing xtensor-blas operations. For small FIR/correlation problems, naive O(n^3) is sufficient. </p><dl class="params"><dt>Parameters</dt><dd>
+<p>Minimal linear algebra helpers for Arr, replacing xtensor-blas operations. For small FIR/correlation problems, naive O(n^3) is sufficient. </p>
+<p class="formulaDsp">
+\[
+    (A^T)_{ij} = A_{ji}
+\]
+</p>
+<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">a</td><td>Input matrix </td></tr>
   </table>
