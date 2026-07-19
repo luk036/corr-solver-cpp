@@ -95,5 +95,6 @@ packageProject(
 if(NOT INSTALL_ONLY)
   add_subdirectory(test)
   add_subdirectory(standalone)
+  add_subdirectory(benchmark)
   add_subdirectory(documentation)
 endif()
