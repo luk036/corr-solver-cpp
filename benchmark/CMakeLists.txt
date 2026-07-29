@@ -1,7 +1,8 @@
 file(GLOB BENCHMARK_SOURCES CONFIGURE_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/source/*.cpp)
 
-add_executable(${PROJECT_NAME}Benchmark ${BENCHMARK_SOURCES}
-               ${PROJECT_SOURCE_DIR}/source/qmi_oracle.cpp)
+add_executable(
+  ${PROJECT_NAME}Benchmark ${BENCHMARK_SOURCES} ${PROJECT_SOURCE_DIR}/source/qmi_oracle.cpp
+)
 target_link_libraries(${PROJECT_NAME}Benchmark ${PROJECT_NAME}::${PROJECT_NAME} ${SPECIFIC_LIBS})
 set_target_properties(${PROJECT_NAME}Benchmark PROPERTIES CXX_STANDARD 20)
 
