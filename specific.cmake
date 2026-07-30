@@ -1,7 +1,10 @@
 find_package(fmt CONFIG QUIET)
 if(fmt_FOUND)
   message(STATUS "Found system fmt: ${fmt_DIR}")
-  set(CPM_fmt_ADDED YES)
+  # Tell CPM that fmt is already handled (CPM checks CPM_PACKAGES list)
+  if(NOT fmt IN_LIST CPM_PACKAGES)
+    list(APPEND CPM_PACKAGES fmt)
+  endif()
 else()
   CPMAddPackage(
     NAME fmt
