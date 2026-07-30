@@ -21,19 +21,12 @@ include(../cmake/tools.cmake)
 
 include(../cmake/CPM.cmake)
 
-# Find dependencies first — CorrSolverConfig.cmake references fmt::fmt etc.
-find_package(fmt REQUIRED)
-find_package(EllAlgo REQUIRED)
-find_package(OpenBLAS QUIET)
-if(OpenBLAS_FOUND)
-  message(STATUS "Found OpenBLAS: ${OpenBLAS_LIBRARIES}")
-else()
-  find_package(LAPACK REQUIRED)
-  find_package(BLAS REQUIRED)
-endif()
-find_package(${PROJECT_NAME} REQUIRED)
+# Disable find_package for fmt to avoid target conflict with CPM-built fmt
+# (the build+install step installs fmt-config.cmake which creates fmt::fmt,
+# but transitive deps like EllAlgo use CPMAddPackage for fmt → duplicate ALIAS)
+set(CMAKE_DISABLE_FIND_PACKAGE_fmt ON)
+include(../specific.cmake)
 
-set(SPECIFIC_LIBS EllAlgo::EllAlgo fmt::fmt
-    ${OpenBLAS_LIBRARIES} ${LAPACK_LIBRARIES} ${BLAS_LIBRARIES})
+find_package(${PROJECT_NAME} REQUIRED)
 
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/../standalone ${CMAKE_BINARY_DIR}/test_installed)
