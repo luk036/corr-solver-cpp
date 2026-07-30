@@ -22,7 +22,8 @@ include(../cmake/tools.cmake)
 include(../cmake/CPM.cmake)
 
 # Find dependencies first — CorrSolverConfig.cmake references fmt::fmt and EllAlgo::EllAlgo
-find_package(fmt REQUIRED)
+# Use CONFIG mode explicitly so EllAlgo's find_dependency(fmt) matches correctly
+find_package(fmt CONFIG REQUIRED)
 find_package(EllAlgo REQUIRED)
 find_package(OpenBLAS QUIET)
 if(OpenBLAS_FOUND)
