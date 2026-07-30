@@ -17,14 +17,9 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/../cmake
 
 include(../cmake/tools.cmake)
 
-# ---- Dependencies (all installed by the parent build) ----
+# ---- Dependencies ----
 
 include(../cmake/CPM.cmake)
-
-# Disable find_package for fmt to avoid target conflict with CPM-built fmt
-# (the build+install step installs fmt-config.cmake which creates fmt::fmt,
-# but transitive deps like EllAlgo use CPMAddPackage for fmt → duplicate ALIAS)
-set(CMAKE_DISABLE_FIND_PACKAGE_fmt ON)
 include(../specific.cmake)
 
 find_package(${PROJECT_NAME} REQUIRED)
