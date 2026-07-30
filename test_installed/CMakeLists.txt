@@ -22,9 +22,8 @@ include(../cmake/tools.cmake)
 include(../cmake/CPM.cmake)
 
 # Find dependencies first — CorrSolverConfig.cmake references fmt::fmt and EllAlgo::EllAlgo
-find_package(fmt CONFIG REQUIRED)
-# CPMAddPackage for EllAlgo instead of find_package because its installed config
-# references missing targets. This matches the pattern used by successful projects.
+# Note: do NOT find_package(fmt) here — the installed fmt target conflicts with CPM-built fmt
+# from EllAlgo's transitive deps. Let CPMAddPackage(EllAlgo) pull in fmt via its own chain.
 CPMAddPackage(
   NAME EllAlgo
   GIT_TAG v1.6.8
