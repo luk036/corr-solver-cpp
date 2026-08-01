@@ -21,9 +21,9 @@ include(../cmake/tools.cmake)
 
 include(../cmake/CPM.cmake)
 
-# Find dependencies first — CorrSolverConfig.cmake references fmt::fmt and EllAlgo::EllAlgo
-# Note: do NOT find_package(fmt) here — the installed fmt target conflicts with CPM-built fmt
-# from EllAlgo's transitive deps. Let CPMAddPackage(EllAlgo) pull in fmt via its own chain.
+# Find dependencies first — CorrSolverConfig.cmake references fmt::fmt and EllAlgo::EllAlgo Note: do
+# NOT find_package(fmt) here — the installed fmt target conflicts with CPM-built fmt from EllAlgo's
+# transitive deps. Let CPMAddPackage(EllAlgo) pull in fmt via its own chain.
 CPMAddPackage(
   NAME EllAlgo
   GIT_TAG v1.6.8
@@ -39,7 +39,8 @@ else()
 endif()
 find_package(${PROJECT_NAME} REQUIRED)
 
-set(SPECIFIC_LIBS EllAlgo::EllAlgo fmt::fmt
-    ${OpenBLAS_LIBRARIES} ${LAPACK_LIBRARIES} ${BLAS_LIBRARIES})
+set(SPECIFIC_LIBS EllAlgo::EllAlgo fmt::fmt ${OpenBLAS_LIBRARIES} ${LAPACK_LIBRARIES}
+                  ${BLAS_LIBRARIES}
+)
 
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/../standalone ${CMAKE_BINARY_DIR}/test_installed)
