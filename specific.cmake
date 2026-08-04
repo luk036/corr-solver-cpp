@@ -21,9 +21,9 @@ endif()
 
 CPMAddPackage(
   NAME EllAlgo
-  GIT_TAG v1.6.8
+  GIT_TAG v1.6.9
   GITHUB_REPOSITORY luk036/ellalgo-cpp
-  OPTIONS "INSTALL_ONLY YES" # create an installable target
+  OPTIONS "INSTALL_ONLY YES" "ELLALGO_BUILD_TESTS OFF" # create an installable target
 )
 
 # CPMAddPackage( NAME LmiSolver GIT_TAG 1.3.8 GITHUB_REPOSITORY luk036/lmi-solver-cpp OPTIONS
