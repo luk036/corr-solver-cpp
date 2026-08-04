@@ -1,15 +1,29 @@
-CPMAddPackage(
-  NAME fmt
-  GIT_TAG 12.1.0
-  GITHUB_REPOSITORY fmtlib/fmt
-  OPTIONS "FMT_INSTALL YES" # create an installable target
-)
+find_package(fmt CONFIG QUIET)
+if(fmt_FOUND)
+  message(STATUS "Found system fmt: ${fmt_DIR}")
+  # Tell CPM that fmt is already handled (CPM checks CPM_PACKAGES list). Write the CACHE variable
+  # directly: list(APPEND ...) creates a normal-variable shadow that does not propagate into
+  # FetchContent subdirectory scopes.
+  if(NOT fmt IN_LIST CPM_PACKAGES)
+    set(CPM_PACKAGES
+        "${CPM_PACKAGES};fmt"
+        CACHE INTERNAL "" FORCE
+    )
+  endif()
+else()
+  CPMAddPackage(
+    NAME fmt
+    GIT_TAG 12.1.0
+    GITHUB_REPOSITORY fmtlib/fmt
+    OPTIONS "FMT_INSTALL YES" # create an installable target
+  )
+endif()
 
 CPMAddPackage(
   NAME EllAlgo
-  GIT_TAG v1.6.8
+  GIT_TAG v1.6.9
   GITHUB_REPOSITORY luk036/ellalgo-cpp
-  OPTIONS "INSTALL_ONLY YES" # create an installable target
+  OPTIONS "INSTALL_ONLY YES" "ELLALGO_BUILD_TESTS OFF" # create an installable target
 )
 
 # CPMAddPackage( NAME LmiSolver GIT_TAG 1.3.8 GITHUB_REPOSITORY luk036/lmi-solver-cpp OPTIONS

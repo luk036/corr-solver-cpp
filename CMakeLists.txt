@@ -10,7 +10,7 @@ option(INSTALL_ONLY "Enable for installation only" OFF)
 # Note: update this to your new project's name and version
 project(
   CorrSolver
-  VERSION 1.2.6
+  VERSION 1.2.7
   LANGUAGES CXX
 )
 
@@ -95,5 +95,6 @@ packageProject(
 if(NOT INSTALL_ONLY)
   add_subdirectory(test)
   add_subdirectory(standalone)
+  add_subdirectory(benchmark)
   add_subdirectory(documentation)
 endif()

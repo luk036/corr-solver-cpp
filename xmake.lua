@@ -29,7 +29,7 @@ if is_plat("linux") then
         add_cxflags("-march=native", "-mtune=native", { force = true })
     end
 elseif is_plat("windows") then
-    add_cxflags("/EHsc /utf-8 /W4 /WX", { force = true })
+    add_cxflags("/EHsc /utf-8 /W4 /WX /wd4702", { force = true })
     -- Enable AVX2 in release mode for auto-vectorization
     if is_mode("release") then
         add_cxflags("/arch:AVX2", { force = true })
@@ -61,6 +61,16 @@ add_includedirs(ldsgen_inc)
 add_files("test/source/*.cpp")
 add_packages("fmt", "doctest")
 add_tests("default")
+
+target("benchmark_corr_solver")
+set_kind("binary")
+add_deps("EllAlgo")
+add_includedirs("include", { public = true })
+add_includedirs(ellalgo_inc, { public = true })
+add_includedirs(ldsgen_inc, { public = true })
+add_files("benchmark/source/*.cpp")
+add_files("source/qmi_oracle.cpp")
+add_packages("fmt")
 
 target("EllAlgo")
 set_kind("static")

@@ -17,11 +17,30 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/../cmake
 
 include(../cmake/tools.cmake)
 
-# ---- Dependencies ----
+# ---- Dependencies (all installed by the parent build) ----
 
 include(../cmake/CPM.cmake)
-include(../specific.cmake)
 
+# Find dependencies first — CorrSolverConfig.cmake references fmt::fmt and EllAlgo::EllAlgo Note: do
+# NOT find_package(fmt) here — the installed fmt target conflicts with CPM-built fmt from EllAlgo's
+# transitive deps. Let CPMAddPackage(EllAlgo) pull in fmt via its own chain.
+CPMAddPackage(
+  NAME EllAlgo
+  GIT_TAG v1.6.8
+  GITHUB_REPOSITORY luk036/ellalgo-cpp
+  OPTIONS "INSTALL_ONLY YES"
+)
+find_package(OpenBLAS QUIET)
+if(OpenBLAS_FOUND)
+  message(STATUS "Found OpenBLAS: ${OpenBLAS_LIBRARIES}")
+else()
+  find_package(LAPACK REQUIRED)
+  find_package(BLAS REQUIRED)
+endif()
 find_package(${PROJECT_NAME} REQUIRED)
+
+set(SPECIFIC_LIBS EllAlgo::EllAlgo fmt::fmt ${OpenBLAS_LIBRARIES} ${LAPACK_LIBRARIES}
+                  ${BLAS_LIBRARIES}
+)
 
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/../standalone ${CMAKE_BINARY_DIR}/test_installed)
