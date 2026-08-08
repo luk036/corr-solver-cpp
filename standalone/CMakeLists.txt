@@ -1,7 +1,7 @@
 # ---- Dependencies ----
 
-# Guard: when EllAlgo (v1.6.9+) is fetched first, its root build already populates cxxopts
-# for its standalone executable. Avoid a FetchContent "already populated" collision.
+# Guard: when EllAlgo (v1.6.9+) is fetched first, its root build already populates cxxopts for its
+# standalone executable. Avoid a FetchContent "already populated" collision.
 if(NOT TARGET cxxopts::cxxopts)
   CPMAddPackage(
     GITHUB_REPOSITORY jarro2783/cxxopts
