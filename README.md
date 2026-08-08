@@ -13,8 +13,8 @@
 
 Correlation solver for modern C++
 
-- This library requires C++17 or above.
-- This library depends on EllAlgo, xtensor-blas and OpenBLAS.
+- This library requires C++20 or above.
+- This library depends on EllAlgo.
 
 ## ✨ Features
 
@@ -28,7 +28,7 @@ Correlation solver for modern C++
 - Reproducible dependency management via [CPM.cmake](https://github.com/TheLartians/CPM.cmake)
 - Installable target with automatic versioning information and header generation via [PackageProject.cmake](https://github.com/TheLartians/PackageProject.cmake)
 - Automatic [documentation](https://thelartians.github.io/ModernCppStarter) and deployment with [Doxygen](https://www.doxygen.nl) and [GitHub Pages](https://pages.github.com)
-- Support for [sanitizer tools, and more](#additional-tools)
+- Optional [clang-tidy](#clang-tidy) analysis and [code coverage](#cmake-options) via gcovr
 
 ## Usage
 
@@ -46,8 +46,7 @@ Correlation solver for modern C++
 Eventually, you can remove any unused files, such as the standalone directory or irrelevant github workflows for your project.
 Feel free to replace the License with one suited for your project.
 
-To cleanly separate the library and subproject code, the outer `CMakeList.txt` only defines the library itself while the tests and other subprojects are self-contained in their own directories.
-During development it is usually convenient to [build all subprojects at once](#build-everything-at-once).
+All targets (library, standalone, benchmark, tests) are defined in a single root `CMakeLists.txt`, so a single configure step builds everything.
 
 ### Build and run the standalone target
 
@@ -56,7 +55,7 @@ Use the following command to build and run the executable target.
 ```bash
 cmake -S. -B build
 cmake --build build
-./build/standalone/CorrSolver --help
+./build/CorrSolver --help
 ```
 
 ### Build and run test suite
@@ -64,16 +63,15 @@ cmake --build build
 Use the following commands from the project's root directory to run the test suite.
 
 ```bash
-cmake -S. -B build
+cmake -S . -B build
 cmake --build build
-cd build/test
-CTEST_OUTPUT_ON_FAILURE=1 ctest
+ctest --test-dir build --output-on-failure
 
 # or maybe simply call the executable:
-./build/test/CorrSolverTests
+./build/CorrSolverTests
 ```
 
-To collect code coverage information, run CMake with the `-DENABLE_TEST_COVERAGE=1` option.
+To collect code coverage information, run CMake with the `-DCORRSOLVER_ENABLE_COVERAGE=ON` option.
 
 ### Run clang-format
 
@@ -81,7 +79,7 @@ Use the following commands from the project's root directory to check and fix C+
 This requires _clang-format_, _cmake-format_ and _pyyaml_ to be installed on the current system.
 
 ```bash
-cmake -S . -B build/test
+cmake -S . -B build
 
 # view changes
 cmake --build build --target format
@@ -98,32 +96,23 @@ The documentation is automatically built and [published](https://luk036.github.i
 To manually build documentation, call the following command.
 
 ```bash
-cmake -S . -B build
+cmake -S . -B build -DCORRSOLVER_BUILD_DOCS=ON
 cmake --build build --target GenerateDocs
 # view the docs
-open build/documentation/doxygen/html/index.html
+open build/doxygen/html/index.html
 ```
 
 To build the documentation locally, you will need Doxygen, jinja2 and Pygments on installed your system.
 
 ### Additional tools
 
-The test and standalone subprojects include the [tools.cmake](cmake/tools.cmake) file which is used to import additional tools on-demand through CMake configuration arguments.
-The following are currently supported.
+#### Static analysis
 
-#### Sanitizers
+clang-tidy can be enabled by configuring CMake with `-DCORRSOLVER_ENABLE_CLANG_TIDY=ON`; this provides a `clang-tidy` target that analyzes the public headers.
 
-Sanitizers can be enabled by configuring CMake with `-DUSE_SANITIZER=<Address | Memory | MemoryWithOrigins | Undefined | Thread | Leak | 'Address;Undefined'>`.
+#### Code coverage
 
-#### Static Analyzers
-
-Static Analyzers can be enabled by setting `-DUSE_STATIC_ANALYZER=<clang-tidy | iwyu | cppcheck>`, or a combination of those in quotation marks, separated by semicolons.
-By default, analyzers will automatically find configuration files such as `.clang-format`.
-Additional arguments can be passed to the analyzers by setting the `CLANG_TIDY_ARGS`, `IWYU_ARGS` or `CPPCHECK_ARGS` variables.
-
-#### Ccache
-
-Ccache can be enabled by configuring with `-DUSE_CCACHE=<ON | OFF>`.
+Code coverage (GCC/Clang, via gcovr) can be enabled by configuring CMake with `-DCORRSOLVER_ENABLE_COVERAGE=ON`; this provides a `coverage` target that runs the tests and writes an HTML report to `build/coverage/index.html`.
 
 ## Related projects and alternatives
 
