@@ -2,49 +2,25 @@ name: Standalone
 
 on:
   push:
-    branches:
-      - master
-      - main
-      - dev
+    branches: [master, main, dev]
   pull_request:
-    branches:
-      - master
-      - main
-      - dev
+    branches: [master, main, dev]
 
 env:
-  CPM_SOURCE_CACHE: ${{ github.workspace }}/cpm_modules
+  CTEST_OUTPUT_ON_FAILURE: 1
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
-      - uses: actions/cache@v3
-        with:
-          path: "**/cpm_modules"
-          key: ${{ github.workflow }}-cpm-modules-${{ hashFiles('**/CMakeLists.txt', '**/*.cmake') }}
+      - name: Configure
+        run: cmake -B build -DCMAKE_BUILD_TYPE=Release
 
-      - name: install dependency
-        run: sudo apt-get install libopenblas-dev
-
-      # - name: Add conda to system path
-      #   run: |
-      #     # $CONDA is an environment variable pointing to the root of the miniconda directory
-      #     echo $CONDA/bin >> $GITHUB_PATH
-
-      # - name: Install dependent software
-      #   run: |
-      #     conda info
-      #     conda env update --file environment-dev.yml --name base
-
-      - name: configure
-        run: cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Debug
-
-      - name: build
+      - name: Build
         run: cmake --build build -j4
 
-      - name: run
-        run: ./build/standalone/CorrSolver
+      - name: Run
+        run: ./build/CorrSolver
