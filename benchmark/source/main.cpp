@@ -1,4 +1,6 @@
-#include <chrono>
+#define ANKERL_NANOBENCH_IMPLEMENT
+#include <nanobench.h>
+
 #include <cmath>
 #include <corrsolver/linalg.hpp>
 #include <corrsolver/qmi_oracle.hpp>
@@ -226,7 +228,6 @@ int main() {
     constexpr size_t nx = 10;
     constexpr size_t ny = 8;
     constexpr size_t m = 4;
-    constexpr int num_runs = 5;
 
     // Generate data
     std::cout << "Generating data...\n";
@@ -271,42 +272,48 @@ int main() {
 
     // --- LSQ benchmark ---
     std::cout << "\n=== LSQ Correlation ===\n";
-    double total_lsq_time = 0.0;
-    Arr lsq_coeffs;
-    size_t lsq_iters = 0;
-    for (int run = 0; run < num_runs; ++run) {
-        LsqOracle omega_lsq(n_sites, Sig, Y);
-        auto start = std::chrono::high_resolution_clock::now();
-        auto [a, num_iters] = lsq_corr_core2(Y, m, omega_lsq);
-        auto end = std::chrono::high_resolution_clock::now();
-        double elapsed = std::chrono::duration<double>(end - start).count();
-        total_lsq_time += elapsed;
-        lsq_coeffs = a;
-        lsq_iters = num_iters;
-        std::cout << "  Run " << (run + 1) << ": " << elapsed << " s, iters=" << num_iters << "\n";
+    {
+        ankerl::nanobench::Bench bench;
+        bench.title("LSQ correlation")
+            .unit("op")
+            .warmup(1)
+            .epochs(5)
+            .minEpochIterations(1);
+
+        Arr lsq_coeffs;
+        size_t lsq_iters = 0;
+        bench.run("LSQ_corr", [&] {
+            LsqOracle omega_lsq(n_sites, Sig, Y);
+            auto result = lsq_corr_core2(Y, m, omega_lsq);
+            lsq_coeffs = std::get<0>(result);
+            lsq_iters = std::get<1>(result);
+            ankerl::nanobench::doNotOptimizeAway(result);
+        });
+        std::cout << "  coeffs = [";
+        for (size_t i = 0; i < m; ++i) std::cout << lsq_coeffs(i) << (i + 1 < m ? ", " : "");
+        std::cout << "]\n";
+        std::cout << "  iters = " << lsq_iters << "\n";
     }
-    std::cout << "  Avg time: " << (total_lsq_time / num_runs) << " s\n";
-    std::cout << "  coeffs = [";
-    for (size_t i = 0; i < m; ++i) std::cout << lsq_coeffs(i) << (i + 1 < m ? ", " : "");
-    std::cout << "]\n";
-    std::cout << "  iters = " << lsq_iters << "\n";
 
     // --- MLE benchmark ---
     std::cout << "\n=== MLE Correlation ===\n";
-    double total_mle_time = 0.0;
-    size_t mle_iters = 0;
-    for (int run = 0; run < num_runs; ++run) {
-        MleOracle omega_mle(n_sites, Sig, Y);
-        auto start = std::chrono::high_resolution_clock::now();
-        auto [x_best, num_iters] = mle_corr_core(m, omega_mle);
-        auto end = std::chrono::high_resolution_clock::now();
-        double elapsed = std::chrono::duration<double>(end - start).count();
-        total_mle_time += elapsed;
-        mle_iters = num_iters;
-        std::cout << "  Run " << (run + 1) << ": " << elapsed << " s, iters=" << num_iters << "\n";
+    {
+        ankerl::nanobench::Bench bench;
+        bench.title("MLE correlation")
+            .unit("op")
+            .warmup(1)
+            .epochs(5)
+            .minEpochIterations(1);
+
+        size_t mle_iters = 0;
+        bench.run("MLE_corr", [&] {
+            MleOracle omega_mle(n_sites, Sig, Y);
+            auto result = mle_corr_core(m, omega_mle);
+            mle_iters = std::get<1>(result);
+            ankerl::nanobench::doNotOptimizeAway(result);
+        });
+        std::cout << "  iters = " << mle_iters << "\n";
     }
-    std::cout << "  Avg time: " << (total_mle_time / num_runs) << " s\n";
-    std::cout << "  iters = " << mle_iters << "\n";
 
     return 0;
 }
