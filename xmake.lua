@@ -9,6 +9,7 @@ end
 add_requires("fmt", { alias = "fmt" })
 add_requires("doctest", { alias = "doctest" })
 add_requires("spdlog", { alias = "spdlog" })
+add_requires("nanobench", { alias = "nanobench" })
 
 if is_mode("coverage") then
 	add_cxflags("-ftest-coverage", "-fprofile-arcs", { force = true })
@@ -70,7 +71,7 @@ add_includedirs(ellalgo_inc, { public = true })
 add_includedirs(ldsgen_inc, { public = true })
 add_files("benchmark/source/*.cpp")
 add_files("source/qmi_oracle.cpp")
-add_packages("fmt")
+add_packages("fmt", "nanobench")
 
 target("EllAlgo")
 set_kind("static")
