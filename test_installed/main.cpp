@@ -1,8 +1,8 @@
-#include <corrsolver/linalg.hpp>
 #include <corrsolver/version.h>
 
 #include <cassert>
 #include <cmath>
+#include <corrsolver/linalg.hpp>
 
 auto main() -> int {
     assert(CORRSOLVER_VERSION_MAJOR == 1);

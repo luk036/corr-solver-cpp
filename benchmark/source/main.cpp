@@ -274,11 +274,7 @@ int main() {
     std::cout << "\n=== LSQ Correlation ===\n";
     {
         ankerl::nanobench::Bench bench;
-        bench.title("LSQ correlation")
-            .unit("op")
-            .warmup(1)
-            .epochs(5)
-            .minEpochIterations(1);
+        bench.title("LSQ correlation").unit("op").warmup(1).epochs(5).minEpochIterations(1);
 
         Arr lsq_coeffs;
         size_t lsq_iters = 0;
@@ -299,11 +295,7 @@ int main() {
     std::cout << "\n=== MLE Correlation ===\n";
     {
         ankerl::nanobench::Bench bench;
-        bench.title("MLE correlation")
-            .unit("op")
-            .warmup(1)
-            .epochs(5)
-            .minEpochIterations(1);
+        bench.title("MLE correlation").unit("op").warmup(1).epochs(5).minEpochIterations(1);
 
         size_t mle_iters = 0;
         bench.run("MLE_corr", [&] {
