@@ -61,7 +61,7 @@ CPMAddPackage("gh:TheLartians/PackageProject.cmake@1.8.0")
 # EllAlgo provides the oracle/arr types used across the public headers.
 CPMAddPackage(
   NAME EllAlgo
-  GIT_TAG v1.6.10
+  GIT_TAG v1.6.11
   GITHUB_REPOSITORY luk036/ellalgo-cpp
   OPTIONS "ELLALGO_BUILD_TESTS OFF" "ELLALGO_BUILD_STANDALONE OFF"
 )
@@ -119,7 +119,7 @@ packageProject(
   INCLUDE_DESTINATION include/${PROJECT_NAME}-${PROJECT_VERSION}
   VERSION_HEADER "${VERSION_HEADER_LOCATION}"
   COMPATIBILITY SameMajorVersion
-  DEPENDENCIES "EllAlgo 1.6.10"
+  DEPENDENCIES "EllAlgo 1.6.11"
 )
 
 # ---------------------------------------------------------------------------
