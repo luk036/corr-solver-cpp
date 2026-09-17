@@ -64,7 +64,12 @@ inline Arr diagonal(const Arr& a) {
  * @param a Input square matrix
  * @return Trace value
  */
-inline double trace(const Arr& a) { return sum(diagonal(a)); }
+inline double trace(const Arr& a) {
+    assert(a.is_2d() && a.rows() == a.cols());
+    double s = 0.0;
+    for (size_t i = 0; i < a.rows(); ++i) s += a(i, i);
+    return s;
+}
 
 /**
  * @brief Compute the Frobenius norm of an array.
@@ -74,7 +79,29 @@ inline double trace(const Arr& a) { return sum(diagonal(a)); }
  * @param a Input array
  * @return Frobenius norm
  */
-inline double norm(const Arr& a) { return std::sqrt(sum(a * a)); }
+inline double norm(const Arr& a) {
+    double s = 0.0;
+    for (size_t i = 0; i < a.size(); ++i) s += a[i] * a[i];
+    return std::sqrt(s);
+}
+
+/**
+ * @brief Frobenius inner product of two arrays.
+ *
+ * @f[
+ *     \langle A, B \rangle_F = \sum_{i}\sum_{j} A_{ij} B_{ij}
+ * @f]
+ *
+ * @param a First array
+ * @param b Second array
+ * @return Inner product
+ */
+inline double frob_inner(const Arr& a, const Arr& b) {
+    assert(a.size() == b.size());
+    double s = 0.0;
+    for (size_t i = 0; i < a.size(); ++i) s += a[i] * b[i];
+    return s;
+}
 
 // ---------------------------------------------------------------------------
 // Matrix-matrix multiplication: A * B  (A: m×k, B: k×n → result: m×n)
@@ -110,12 +137,15 @@ inline Arr matmul(const Arr& A, const Arr& B) {
     auto k = A.cols();
     auto n = B.cols();
     Arr out(m, n);
-    for (size_t i = 0; i < m; ++i)
-        for (size_t j = 0; j < n; ++j) {
-            double s = 0.0;
-            for (size_t t = 0; t < k; ++t) s += A(i, t) * B(t, j);
-            out(i, j) = s;
+    // i-k-j order: `B(t, :)` and `out(i, :)` are both contiguous, so the inner
+    // loop auto-vectorizes and B streams through cache. The i-j-t order this
+    // replaces walked B one column at a time (stride n), which is cache-hostile.
+    for (size_t i = 0; i < m; ++i) {
+        for (size_t t = 0; t < k; ++t) {
+            const auto a = A(i, t);
+            for (size_t j = 0; j < n; ++j) out(i, j) += a * B(t, j);
         }
+    }
     return out;
 }
 
