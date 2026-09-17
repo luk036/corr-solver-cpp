@@ -70,7 +70,7 @@ add_includedirs("include", { public = true })
 add_includedirs(ellalgo_inc, { public = true })
 add_includedirs(ldsgen_inc, { public = true })
 add_files("benchmark/source/*.cpp")
-add_files("source/qmi_oracle.cpp")
+add_files("source/*.cpp")
 add_packages("fmt", "nanobench")
 
 target("EllAlgo")
