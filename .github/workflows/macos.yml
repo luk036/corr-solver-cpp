@@ -2,48 +2,34 @@ name: MacOS
 
 on:
   push:
-    branches:
-      - master
-      - main
-      - dev
+    branches: [master, main, dev]
   pull_request:
-    branches:
-      - master
-      - main
-      - dev
+    branches: [master, main, dev]
 
 env:
   CTEST_OUTPUT_ON_FAILURE: 1
-  CPM_SOURCE_CACHE: ${{ github.workspace }}/cpm_modules
 
 jobs:
   build:
     runs-on: macos-latest
 
     steps:
-      - uses: actions/checkout@v3
-
-      - uses: actions/cache@v3
-        with:
-          path: "**/cpm_modules"
-          key: ${{ github.workflow }}-cpm-modules-clang20-${{ hashFiles('**/CMakeLists.txt', '**/*.cmake') }}
+      - uses: actions/checkout@v4
 
       - name: Install project dependencies
-        run: brew install openblas llvm@20
+        run: brew install llvm@20
 
-      - name: configure
+      - name: Configure
         run: |
           export PATH="/opt/homebrew/opt/llvm@20/bin:$PATH"
           export CC=clang
           export CXX=clang++
-          cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Debug -DCMAKE_POLICY_VERSION_MINIMUM="3.5" -Wno-dev
+          cmake -B build -DCMAKE_BUILD_TYPE=Release
 
-      - name: build
+      - name: Build
         run: |
           export PATH="/opt/homebrew/opt/llvm@20/bin:$PATH"
           cmake --build build -j4
 
-      - name: test
-        run: |
-          cd build/test
-          ctest --build-config Debug
+      - name: Test
+        run: ctest --test-dir build --output-on-failure

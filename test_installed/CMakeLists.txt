@@ -1,46 +1,18 @@
-cmake_minimum_required(VERSION 3.14 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.14)
 
-# ---- Include guards ----
+project(CorrSolverInstalledTest LANGUAGES CXX)
 
-if(PROJECT_SOURCE_DIR STREQUAL PROJECT_BINARY_DIR)
-  message(
-    FATAL_ERROR
-      "In-source builds not allowed. Please make a new directory (called a build directory) and run CMake from there."
-  )
-endif()
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
 
-project(CorrSolver LANGUAGES CXX)
+# Find dependencies first - CorrSolverConfig.cmake references EllAlgo::EllAlgo (installed alongside
+# the library by `cmake --install`).
+find_package(EllAlgo REQUIRED)
+find_package(CorrSolver REQUIRED)
 
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/../cmake")
+add_executable(corrsolver_installed_test main.cpp)
+target_link_libraries(corrsolver_installed_test PRIVATE CorrSolver::CorrSolver)
 
-# --- Import tools ----
-
-include(../cmake/tools.cmake)
-
-# ---- Dependencies (all installed by the parent build) ----
-
-include(../cmake/CPM.cmake)
-
-# Find dependencies first — CorrSolverConfig.cmake references fmt::fmt and EllAlgo::EllAlgo Note: do
-# NOT find_package(fmt) here — the installed fmt target conflicts with CPM-built fmt from EllAlgo's
-# transitive deps. Let CPMAddPackage(EllAlgo) pull in fmt via its own chain.
-CPMAddPackage(
-  NAME EllAlgo
-  GIT_TAG v1.6.8
-  GITHUB_REPOSITORY luk036/ellalgo-cpp
-  OPTIONS "INSTALL_ONLY YES"
-)
-find_package(OpenBLAS QUIET)
-if(OpenBLAS_FOUND)
-  message(STATUS "Found OpenBLAS: ${OpenBLAS_LIBRARIES}")
-else()
-  find_package(LAPACK REQUIRED)
-  find_package(BLAS REQUIRED)
-endif()
-find_package(${PROJECT_NAME} REQUIRED)
-
-set(SPECIFIC_LIBS EllAlgo::EllAlgo fmt::fmt ${OpenBLAS_LIBRARIES} ${LAPACK_LIBRARIES}
-                  ${BLAS_LIBRARIES}
-)
-
-add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/../standalone ${CMAKE_BINARY_DIR}/test_installed)
+enable_testing()
+add_test(NAME corrsolver_installed_test COMMAND corrsolver_installed_test)

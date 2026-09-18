@@ -3,5 +3,4 @@ channels:
   - conda-forge
 dependencies:
   - cmake
-  - openblas
   - doxygen

@@ -175,29 +175,40 @@ class MleOracle {
     std::vector<Arr> sig_;
     Lmi0Oracle<Arr> _lmi0;
     LmiOracle<Arr> _lmi;
+    // Scratch reused across calls: the oracle runs once per cutting-plane step.
+    Arr _R;
+    Arr _invR;
+    Arr _S;
+    Arr _SY;
+    Arr _V;
 
   public:
     MleOracle(size_t m, const std::vector<Arr>& Sig, const Arr& Y)
-        : Y_{Y}, sig_{Sig}, _lmi0(m, Sig), _lmi(m, Sig, 2.0 * Y) {}
+        : Y_{Y},
+          sig_{Sig},
+          _lmi0(m, Sig),
+          _lmi(m, Sig, 2.0 * Y),
+          _R(Y.rows(), Y.rows()),
+          _invR(Y.rows(), Y.rows()),
+          _S(Y.rows(), Y.rows()),
+          _SY(Y.rows(), Y.rows()),
+          _V(Y.rows(), Y.rows()) {}
 
     std::tuple<Cut, bool> assess_optim(const Arr& x, double& t) {
         if (auto* cut1 = this->_lmi.assess_feas(x)) return {*cut1, false};
         if (auto* cut0 = this->_lmi0.assess_feas(x)) return {*cut0, false};
 
         auto n = x.size();
-        auto m = this->Y_.rows();
         auto dim = this->_lmi0._mq._n;
 
-        Arr R(dim, dim);
-        this->_lmi0._mq.sqrt(R);
-        auto invR = inv(R);
-        auto S = matmul(invR, transpose(invR));
-        auto SY = matmul(S, this->Y_);
+        this->_lmi0._mq.sqrt(this->_R);
+        this->_invR = inv(this->_R);
+        this->_S = matmul(this->_invR, transpose(this->_invR));
+        this->_SY = matmul(this->_S, this->Y_);
 
-        auto diag = diagonal(R);
         double log_sum = 0.0;
-        for (size_t i = 0; i < diag.size(); ++i) log_sum += std::log(diag(i));
-        auto f1 = 2.0 * log_sum + trace(SY);
+        for (size_t i = 0; i < dim; ++i) log_sum += std::log(this->_R(i, i));
+        auto f1 = 2.0 * log_sum + trace(this->_SY);
         auto f = f1 - t;
         auto shrunk = false;
         if (f < 0.0) {
@@ -206,16 +217,19 @@ class MleOracle {
             shrunk = true;
         }
 
-        Arr g = zeros(n);
-        for (size_t i = 0; i < n; ++i) {
-            auto SFsi = matmul(S, this->sig_[i]);
-            auto tr = trace(SFsi);
-            for (size_t k = 0; k < m; ++k) {
-                // dot(row(SFsi, k), column(SY, k))
-                for (size_t j = 0; j < m; ++j) tr -= SFsi(k, j) * SY(j, k);
+        // g[i] = tr(S Sigma_i) - tr(Sigma_i S Y S) = <(S - SY S)^T, Sigma_i>
+        //      = <S - SY S, Sigma_i>   (Sigma_i is symmetric)
+        // Forming V once replaces a per-i O(n^3) matrix product with an O(n^2)
+        // inner product, taking the whole gradient from O(n^4) to O(n^3).
+        for (size_t a = 0; a < dim; ++a)
+            for (size_t b = 0; b < dim; ++b) {
+                double s = 0.0;
+                for (size_t k = 0; k < dim; ++k) s += this->_SY(a, k) * this->_S(k, b);
+                this->_V(a, b) = this->_S(a, b) - s;
             }
-            g(i) = tr;
-        }
+
+        Arr g = zeros(n);
+        for (size_t i = 0; i < n; ++i) g(i) = frob_inner(this->_V, this->sig_[i]);
         return {{std::move(g), f}, shrunk};
     }
 };
