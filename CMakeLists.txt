@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.14...3.22)
 
 project(
   CorrSolver
-  VERSION 1.2.7
+  VERSION 1.2.8
   LANGUAGES CXX
 )
 
@@ -61,7 +61,7 @@ CPMAddPackage("gh:TheLartians/PackageProject.cmake@1.8.0")
 # EllAlgo provides the oracle/arr types used across the public headers.
 CPMAddPackage(
   NAME EllAlgo
-  GIT_TAG v1.6.12
+  GIT_TAG v1.6.14
   GITHUB_REPOSITORY luk036/ellalgo-cpp
   OPTIONS "ELLALGO_BUILD_TESTS OFF" "ELLALGO_BUILD_STANDALONE OFF"
 )
