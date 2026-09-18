@@ -28,7 +28,7 @@ MathJax.Hub.Config({
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">CorrSolver<span id="projectnumber">&#160;1.2.7;  VERSION ${PROJECT_VERSION}</span>
+   <div id="projectname">CorrSolver<span id="projectnumber">&#160;1.2.8</span>
    </div>
   </td>
  </tr>
@@ -86,8 +86,8 @@ $(function() {
 🖇️ CorrSolverCpp</h1>
 <p>Correlation solver for modern C++</p>
 <ul>
-<li>This library requires C++17 or above.</li>
-<li>This library depends on EllAlgo, xtensor-blas and OpenBLAS.</li>
+<li>This library requires C++20 or above.</li>
+<li>This library depends on EllAlgo.</li>
 </ul>
 <h2><a class="anchor" id="autotoc_md1"></a>
 ✨ Features</h2>
@@ -102,7 +102,7 @@ $(function() {
 <li>Reproducible dependency management via <a href="https://github.com/TheLartians/CPM.cmake">CPM.cmake</a></li>
 <li>Installable target with automatic versioning information and header generation via <a href="https://github.com/TheLartians/PackageProject.cmake">PackageProject.cmake</a></li>
 <li>Automatic <a href="https://thelartians.github.io/ModernCppStarter">documentation</a> and deployment with <a href="https://www.doxygen.nl">Doxygen</a> and <a href="https://pages.github.com">GitHub Pages</a></li>
-<li>Support for sanitizer tools, and more</li>
+<li>Optional clang-tidy analysis and code coverage via gcovr</li>
 </ul>
 <h2><a class="anchor" id="autotoc_md2"></a>
 Usage</h2>
@@ -121,28 +121,27 @@ Adjust the template to your needs</h3>
 <li>Happy coding!</li>
 </ul>
 <p>Eventually, you can remove any unused files, such as the standalone directory or irrelevant github workflows for your project. Feel free to replace the License with one suited for your project.</p>
-<p>To cleanly separate the library and subproject code, the outer <code>CMakeList.txt</code> only defines the library itself while the tests and other subprojects are self-contained in their own directories. During development it is usually convenient to build all subprojects at once.</p>
+<p>All targets (library, standalone, benchmark, tests) are defined in a single root <code>CMakeLists.txt</code>, so a single configure step builds everything.</p>
 <h3><a class="anchor" id="autotoc_md4"></a>
 Build and run the standalone target</h3>
 <p>Use the following command to build and run the executable target.</p>
 <div class="fragment"><div class="line">cmake -S. -B build</div>
 <div class="line">cmake --build build</div>
-<div class="line">./build/standalone/CorrSolver --help</div>
+<div class="line">./build/CorrSolver --help</div>
 </div><!-- fragment --><h3><a class="anchor" id="autotoc_md5"></a>
 Build and run test suite</h3>
 <p>Use the following commands from the project's root directory to run the test suite.</p>
-<div class="fragment"><div class="line">cmake -S. -B build</div>
+<div class="fragment"><div class="line">cmake -S . -B build</div>
 <div class="line">cmake --build build</div>
-<div class="line">cd build/test</div>
-<div class="line">CTEST_OUTPUT_ON_FAILURE=1 ctest</div>
+<div class="line">ctest --test-dir build --output-on-failure</div>
 <div class="line"> </div>
 <div class="line"># or maybe simply call the executable:</div>
-<div class="line">./build/test/CorrSolverTests</div>
-</div><!-- fragment --><p>To collect code coverage information, run CMake with the <code>-DENABLE_TEST_COVERAGE=1</code> option.</p>
+<div class="line">./build/CorrSolverTests</div>
+</div><!-- fragment --><p>To collect code coverage information, run CMake with the <code>-DCORRSOLVER_ENABLE_COVERAGE=ON</code> option.</p>
 <h3><a class="anchor" id="autotoc_md6"></a>
 Run clang-format</h3>
 <p>Use the following commands from the project's root directory to check and fix C++ and CMake source style. This requires <em>clang-format</em>, <em>cmake-format</em> and <em>pyyaml</em> to be installed on the current system.</p>
-<div class="fragment"><div class="line">cmake -S . -B build/test</div>
+<div class="fragment"><div class="line">cmake -S . -B build</div>
 <div class="line"> </div>
 <div class="line"># view changes</div>
 <div class="line">cmake --build build --target format</div>
@@ -153,24 +152,20 @@ Run clang-format</h3>
 <h3><a class="anchor" id="autotoc_md7"></a>
 Build the documentation</h3>
 <p>The documentation is automatically built and <a href="https://luk036.github.io/corr-solver-cpp">published</a> whenever a <a href="https://help.github.com/en/github/administering-a-repository/managing-releases-in-a-repository">GitHub Release</a> is created. To manually build documentation, call the following command.</p>
-<div class="fragment"><div class="line">cmake -S . -B build</div>
+<div class="fragment"><div class="line">cmake -S . -B build -DCORRSOLVER_BUILD_DOCS=ON</div>
 <div class="line">cmake --build build --target GenerateDocs</div>
 <div class="line"># view the docs</div>
-<div class="line">open build/documentation/doxygen/html/index.html</div>
+<div class="line">open build/doxygen/html/index.html</div>
 </div><!-- fragment --><p>To build the documentation locally, you will need Doxygen, jinja2 and Pygments on installed your system.</p>
 <h3><a class="anchor" id="autotoc_md8"></a>
 Additional tools</h3>
-<p>The test and standalone subprojects include the <a href="cmake/tools.cmake">tools.cmake</a> file which is used to import additional tools on-demand through CMake configuration arguments. The following are currently supported.</p>
 <h4><a class="anchor" id="autotoc_md9"></a>
-Sanitizers</h4>
-<p>Sanitizers can be enabled by configuring CMake with &lsquo;-DUSE_SANITIZER=&lt;Address | Memory | MemoryWithOrigins | Undefined | Thread | Leak | 'Address;Undefined&rsquo;&gt;`.</p>
+Static analysis</h4>
+<p>clang-tidy can be enabled by configuring CMake with <code>-DCORRSOLVER_ENABLE_CLANG_TIDY=ON</code>; this provides a <code>clang-tidy</code> target that analyzes the public headers.</p>
 <h4><a class="anchor" id="autotoc_md10"></a>
-Static Analyzers</h4>
-<p>Static Analyzers can be enabled by setting <code>-DUSE_STATIC_ANALYZER=&lt;clang-tidy | iwyu | cppcheck&gt;</code>, or a combination of those in quotation marks, separated by semicolons. By default, analyzers will automatically find configuration files such as <code>.clang-format</code>. Additional arguments can be passed to the analyzers by setting the <code>CLANG_TIDY_ARGS</code>, <code>IWYU_ARGS</code> or <code>CPPCHECK_ARGS</code> variables.</p>
-<h4><a class="anchor" id="autotoc_md11"></a>
-Ccache</h4>
-<p>Ccache can be enabled by configuring with <code>-DUSE_CCACHE=&lt;ON | OFF&gt;</code>.</p>
-<h2><a class="anchor" id="autotoc_md12"></a>
+Code coverage</h4>
+<p>Code coverage (GCC/Clang, via gcovr) can be enabled by configuring CMake with <code>-DCORRSOLVER_ENABLE_COVERAGE=ON</code>; this provides a <code>coverage</code> target that runs the tests and writes an HTML report to <code>build/coverage/index.html</code>.</p>
+<h2><a class="anchor" id="autotoc_md11"></a>
 Related projects and alternatives</h2>
 <ul>
 <li><a href="https://github.com/viva64/pvs-studio-cmake-examples/tree/master/modern-cpp-starter"><b>ModernCppStarter &amp; PVS-Studio Static Code Analyzer</b></a>: Official instructions on how to use the ModernCppStarter with the PVS-Studio Static Code Analyzer.</li>

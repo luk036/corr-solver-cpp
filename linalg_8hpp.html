@@ -28,7 +28,7 @@ MathJax.Hub.Config({
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">CorrSolver<span id="projectnumber">&#160;1.2.7;  VERSION ${PROJECT_VERSION}</span>
+   <div id="projectname">CorrSolver<span id="projectnumber">&#160;1.2.8</span>
    </div>
   </td>
  </tr>
@@ -115,6 +115,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a1385376da699d3eb45f5ae7775154a40" id="r_a1385376da699d3eb45f5ae7775154a40"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="linalg_8hpp.html#a1385376da699d3eb45f5ae7775154a40">norm</a> (const Arr &amp;a)</td></tr>
 <tr class="memdesc:a1385376da699d3eb45f5ae7775154a40"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the Frobenius norm of an array.  <br /></td></tr>
 <tr class="separator:a1385376da699d3eb45f5ae7775154a40"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afb9cc0fb9e4859dc14a1360fb873b28d" id="r_afb9cc0fb9e4859dc14a1360fb873b28d"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="linalg_8hpp.html#afb9cc0fb9e4859dc14a1360fb873b28d">frob_inner</a> (const Arr &amp;a, const Arr &amp;b)</td></tr>
+<tr class="memdesc:afb9cc0fb9e4859dc14a1360fb873b28d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Frobenius inner product of two arrays.  <br /></td></tr>
+<tr class="separator:afb9cc0fb9e4859dc14a1360fb873b28d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8963faeed1bfdbe572752a12c6ba3b97" id="r_a8963faeed1bfdbe572752a12c6ba3b97"><td class="memItemLeft" align="right" valign="top">Arr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="linalg_8hpp.html#a8963faeed1bfdbe572752a12c6ba3b97">matmul</a> (const Arr &amp;A, const Arr &amp;B)</td></tr>
 <tr class="memdesc:a8963faeed1bfdbe572752a12c6ba3b97"><td class="mdescLeft">&#160;</td><td class="mdescRight">Multiply two matrices: A * B.  <br /></td></tr>
 <tr class="separator:a8963faeed1bfdbe572752a12c6ba3b97"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -253,6 +256,57 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Flattened 1D array </dd></dl>
+
+</div>
+</div>
+<a id="afb9cc0fb9e4859dc14a1360fb873b28d" name="afb9cc0fb9e4859dc14a1360fb873b28d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afb9cc0fb9e4859dc14a1360fb873b28d">&#9670;&#160;</a></span>frob_inner()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">double frob_inner </td>
+          <td>(</td>
+          <td class="paramtype">const Arr &amp;&#160;</td>
+          <td class="paramname"><em>a</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Arr &amp;&#160;</td>
+          <td class="paramname"><em>b</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Frobenius inner product of two arrays. </p>
+<p class="formulaDsp">
+\[
+    \langle A, B \rangle_F = \sum_{i}\sum_{j} A_{ij} B_{ij}
+\]
+</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">a</td><td>First array </td></tr>
+    <tr><td class="paramname">b</td><td>Second array </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Inner product </dd></dl>
 
 </div>
 </div>
