@@ -16,6 +16,7 @@ extern Arr create_2d_isotropic(const Arr&, size_t);
 extern std::vector<Arr> construct_poly_matrix(const Arr&, size_t);
 extern std::tuple<Arr, size_t> lsq_corr_poly2(const Arr&, const Arr&, size_t);
 extern std::tuple<Arr, size_t> mle_corr_poly(const Arr&, const Arr&, size_t);
+extern std::tuple<Arr, size_t> cccp_corr_poly(const Arr&, const Arr&, size_t);
 
 int main() {
     constexpr size_t nx = 10;
@@ -97,6 +98,21 @@ int main() {
             ankerl::nanobench::doNotOptimizeAway(result);
         });
         std::cout << "  iters = " << mle_iters << "\n";
+    }
+
+    // --- CCP benchmark ---
+    std::cout << "\n=== CCP Correlation ===\n";
+    {
+        ankerl::nanobench::Bench bench;
+        bench.title("CCP correlation").unit("op").warmup(1).epochs(5).minEpochIterations(1);
+
+        size_t cccp_iters = 0;
+        bench.run("CCP_corr", [&] {
+            auto result = cccp_corr_poly(Y, site, m);
+            cccp_iters = std::get<1>(result);
+            ankerl::nanobench::doNotOptimizeAway(result);
+        });
+        std::cout << "  iters = " << cccp_iters << "\n";
     }
 
     return 0;

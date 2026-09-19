@@ -247,3 +247,116 @@ std::tuple<Arr, size_t> mle_corr_poly(const Arr& Y, const Arr& site, size_t m) {
     auto omega = MleOracle(Y.rows(), Sig, Y);
     return mle_corr_core(m, omega);
 }
+
+// === CCP (convex-concave procedure) MLE ===
+//
+// f(Omega) = log det Omega + Tr(Omega^{-1} Y) is a difference of convex
+// functions: h(Omega) = Tr(Omega^{-1} Y) is convex and g(Omega) = -log det
+// Omega is convex. CCP majorizes f at Omega_k by linearizing g (the tangent of
+// a convex function is a lower bound), giving the convex surrogate
+//     Tr(Omega^{-1} Y) + Tr(Omega_k^{-1} Omega) + const,
+// which the same cutting-plane driver can minimize. Its gradient at Omega_k
+// equals grad f at Omega_k, so a CCP fixed point is a stationary point of the
+// true MLE. Unlike MleOracle, no hard 2Y constraint is imposed.
+Arr corr_omega(const Arr& x, const std::vector<Arr>& Sig) {
+    auto n = Sig[0].rows();
+    Arr Om(n, n);
+    for (size_t r = 0; r < n; ++r)
+        for (size_t c = 0; c < n; ++c) {
+            double s = 0.0;
+            for (size_t i = 0; i < x.size(); ++i) s += x(i) * Sig[i](r, c);
+            Om(r, c) = s;
+        }
+    return Om;
+}
+
+double corr_mle_obj(const Arr& x, const std::vector<Arr>& Sig, const Arr& Y) {
+    auto Om = corr_omega(x, Sig);
+    auto L = cholesky(Om);
+    double logdet = 0.0;
+    for (size_t i = 0; i < L.rows(); ++i) logdet += 2.0 * std::log(L(i, i));
+    return logdet + trace(matmul(inv(Om), Y));
+}
+
+class CccpMleOracle {
+    using Cut = std::pair<Arr, double>;
+    Arr Y_;
+    std::vector<Arr> sig_;
+    Lmi0Oracle<Arr> _lmi0;
+    Arr _mk;
+    Arr _R;
+    Arr _invR;
+    Arr _S;
+    Arr _SY;
+    Arr _SYS;
+
+  public:
+    CccpMleOracle(size_t ndim, const std::vector<Arr>& Sig, const Arr& Y, const Arr& M)
+        : Y_{Y},
+          sig_{Sig},
+          _lmi0(ndim, Sig),
+          _mk(zeros(Sig.size())),
+          _R(Y.rows(), Y.rows()),
+          _invR(Y.rows(), Y.rows()),
+          _S(Y.rows(), Y.rows()),
+          _SY(Y.rows(), Y.rows()),
+          _SYS(Y.rows(), Y.rows()) {
+        for (size_t i = 0; i < Sig.size(); ++i) this->_mk(i) = trace(matmul(M, Sig[i]));
+    }
+
+    std::tuple<Cut, bool> assess_optim(const Arr& x, double& t) {
+        if (auto* cut = this->_lmi0.assess_feas(x)) return {*cut, false};
+
+        auto n = x.size();
+
+        this->_lmi0._mq.sqrt(this->_R);
+        this->_invR = inv_upper_tri(this->_R);
+        this->_S = matmul(this->_invR, transpose(this->_invR));
+        this->_SY = matmul(this->_S, this->Y_);
+        this->_SYS = matmul(this->_SY, this->_S);
+
+        double h = trace(this->_SY);
+        for (size_t i = 0; i < n; ++i) h += x(i) * this->_mk(i);
+        auto f = h - t;
+        auto shrunk = false;
+        if (f < 0.0) {
+            t = h;
+            f = 0.0;
+            shrunk = true;
+        }
+
+        Arr g = zeros(n);
+        for (size_t i = 0; i < n; ++i)
+            g(i) = -frob_inner(this->sig_[i], this->_SYS) + this->_mk(i);
+        return {{std::move(g), f}, shrunk};
+    }
+};
+
+auto cccp_corr_core(const std::vector<Arr>& Sig, const Arr& Y, Arr x) {
+    auto f_old = 1e100;
+    size_t total_iters = 0;
+    for (size_t k = 0; k < 50; ++k) {
+        auto M = inv(corr_omega(x, Sig));
+        auto omega = CccpMleOracle(Y.rows(), Sig, Y, M);
+        auto ellip = Ell<Arr>(100.0, x);
+        auto t = 1e100;
+        auto [x_new, iters] = cutting_plane_optim(omega, ellip, t);
+        total_iters += iters;
+        if (x_new.size() != x.size()) break;
+        auto f_new = corr_mle_obj(x_new, Sig, Y);
+        if (std::abs(f_old - f_new) < 1e-8) {
+            x = x_new;
+            break;
+        }
+        f_old = f_new;
+        x = x_new;
+    }
+    return std::make_tuple(std::move(x), total_iters);
+}
+
+std::tuple<Arr, size_t> cccp_corr_poly(const Arr& Y, const Arr& site, size_t m) {
+    auto Sig = construct_poly_matrix(site, m);
+    auto [x_lsq, lsq_iters] = lsq_corr_poly2(Y, site, m);
+    (void)lsq_iters;
+    return cccp_corr_core(Sig, Y, std::move(x_lsq));
+}
