@@ -248,6 +248,37 @@ inline Arr inv(const Arr& A) {
 }
 
 // ---------------------------------------------------------------------------
+// Inverse of an upper-triangular matrix via back substitution.
+// `inv` above assumes a symmetric SPD matrix; applying it to the Cholesky
+// factor R (upper triangular, A = R^T R) silently returns diag(1/R_ii) instead
+// of R^{-1}. This routine inverts R properly.
+// ---------------------------------------------------------------------------
+
+/**
+ * @brief Invert an upper-triangular matrix by back substitution.
+ *
+ * @f[
+ *     (R^{-1})_{ij} = \frac{1}{R_{ii}}\Bigl(\delta_{ij}
+ *         - \sum_{k=i+1}^{j} R_{ik} (R^{-1})_{kj}\Bigr), \quad i \le j
+ * @f]
+ *
+ * @param r Upper-triangular matrix with non-zero diagonal
+ * @return Inverse matrix (upper triangular)
+ */
+inline Arr inv_upper_tri(const Arr& r) {
+    auto n = r.rows();
+    Arr x(n, n);
+    for (size_t j = 0; j < n; ++j) {
+        for (size_t i = j + 1; i-- > 0;) {
+            double s = (i == j) ? 1.0 : 0.0;
+            for (size_t k = i + 1; k <= j; ++k) s -= r(i, k) * x(k, j);
+            x(i, j) = s / r(i, i);
+        }
+    }
+    return x;
+}
+
+// ---------------------------------------------------------------------------
 // Random number generation
 // ---------------------------------------------------------------------------
 

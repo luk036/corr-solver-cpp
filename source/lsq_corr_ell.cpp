@@ -202,7 +202,7 @@ class MleOracle {
         auto dim = this->_lmi0._mq._n;
 
         this->_lmi0._mq.sqrt(this->_R);
-        this->_invR = inv(this->_R);
+        this->_invR = inv_upper_tri(this->_R);
         this->_S = matmul(this->_invR, transpose(this->_invR));
         this->_SY = matmul(this->_S, this->Y_);
 
