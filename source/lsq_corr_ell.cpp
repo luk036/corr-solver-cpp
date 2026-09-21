@@ -1,4 +1,5 @@
 #include <cmath>
+#include <corrsolver/bspline.hpp>
 #include <corrsolver/linalg.hpp>
 #include <corrsolver/qmi_oracle.hpp>
 #include <cstddef>
@@ -146,7 +147,8 @@ class LsqOracle {
     }
 };
 
-auto lsq_corr_core2(const Arr& Y, size_t m, LsqOracle& omega) {
+template <class Oracle>
+auto lsq_corr_core2(const Arr& Y, size_t m, Oracle& omega) {
     auto normY = 100.0 * norm(Y);
     auto normY2 = 32.0 * normY * normY;
     std::valarray<double> val(256.0, m + 1);
@@ -157,6 +159,7 @@ auto lsq_corr_core2(const Arr& Y, size_t m, LsqOracle& omega) {
     auto ellip = Ell<Arr>(val, x);
     auto t = 1e100;
     auto [x_best, num_iters] = cutting_plane_optim(omega, ellip, t);
+    if (x_best.size() != m + 1) return std::make_tuple(Arr{}, num_iters);
     Arr a(m);
     for (size_t i = 0; i < m; ++i) a(i) = x_best(i);
     return std::make_tuple(std::move(a), num_iters);
@@ -166,6 +169,21 @@ std::tuple<Arr, size_t> lsq_corr_poly2(const Arr& Y, const Arr& site, size_t m) 
     auto Sig = construct_poly_matrix(site, m);
     auto omega = LsqOracle(Y.rows(), Sig, Y);
     return lsq_corr_core2(Y, m, omega);
+}
+
+std::tuple<Arr, size_t> lsq_corr_generic(const Arr& Y, const std::vector<Arr>& Sigma,
+                                         std::optional<size_t> n_coeff) {
+    auto m = Sigma.size();
+    auto omega = LsqOracle(Y.rows(), Sigma, Y);
+    if (n_coeff) {
+        auto wrapped = MonoDecreasingOracle2<LsqOracle>(omega, n_coeff);
+        return lsq_corr_core2(Y, m, wrapped);
+    }
+    return lsq_corr_core2(Y, m, omega);
+}
+
+std::tuple<Arr, size_t> lsq_corr_bspline(const Arr& Y, const Arr& site, size_t m) {
+    return lsq_corr_generic(Y, generate_bspline_info(site, m).Sigma, m);
 }
 
 // === MleOracle ===
@@ -359,4 +377,43 @@ std::tuple<Arr, size_t> cccp_corr_poly(const Arr& Y, const Arr& site, size_t m) 
     auto [x_lsq, lsq_iters] = lsq_corr_poly2(Y, site, m);
     (void)lsq_iters;
     return cccp_corr_core(Sig, Y, std::move(x_lsq));
+}
+
+std::tuple<Arr, size_t> cccp_corr_step(const std::vector<Arr>& Sig, const Arr& Y, Arr x,
+                                       std::optional<size_t> n_coeff) {
+    auto M = inv(corr_omega(x, Sig));
+    auto omega = CccpMleOracle(Y.rows(), Sig, Y, M);
+    auto ellip = Ell<Arr>(100.0, x);
+    auto t = 1e100;
+    if (n_coeff) {
+        auto wrapped = MonoDecreasingOracle2<CccpMleOracle>(omega, n_coeff);
+        return cutting_plane_optim(wrapped, ellip, t);
+    }
+    return cutting_plane_optim(omega, ellip, t);
+}
+
+std::tuple<Arr, size_t> cccp_corr_generic(const std::vector<Arr>& Sig, const Arr& Y, Arr x,
+                                          std::optional<size_t> n_coeff) {
+    auto f_old = 1e100;
+    size_t total_iters = 0;
+    for (size_t k = 0; k < 50; ++k) {
+        auto [x_new, iters] = cccp_corr_step(Sig, Y, x, n_coeff);
+        total_iters += iters;
+        if (x_new.size() != x.size()) break;
+        auto f_new = corr_mle_obj(x_new, Sig, Y);
+        if (std::abs(f_old - f_new) < 1e-8) {
+            x = x_new;
+            break;
+        }
+        f_old = f_new;
+        x = x_new;
+    }
+    return std::make_tuple(std::move(x), total_iters);
+}
+
+std::tuple<Arr, size_t> cccp_corr_bspline(const Arr& Y, const Arr& site, size_t m) {
+    auto [x0, lsq_iters] = lsq_corr_bspline(Y, site, m);
+    (void)lsq_iters;
+    auto Sigma = generate_bspline_info(site, m).Sigma;
+    return cccp_corr_generic(Sigma, Y, std::move(x0), m);
 }
