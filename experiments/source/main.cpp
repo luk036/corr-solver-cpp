@@ -2,26 +2,21 @@
 #include <algorithm>
 #include <cmath>
 #include <corrsolver/bspline.hpp>
+#include <corrsolver/corr_solver.hpp>
 #include <corrsolver/eigen.hpp>
 #include <corrsolver/halton.hpp>
+#include <corrsolver/kernels.hpp>
 #include <corrsolver/linalg.hpp>
 #include <cstddef>
 #include <cstdio>
 #include <filesystem>
 #include <fstream>
 #include <optional>
+#include <random>
 #include <string>
 #include <tuple>
 #include <utility>
 #include <vector>
-
-extern std::vector<Arr> construct_poly_matrix(const Arr&, size_t);
-extern std::tuple<Arr, size_t> lsq_corr_generic(const Arr&, const std::vector<Arr>&, std::optional<size_t>);
-extern std::tuple<Arr, size_t> cccp_corr_step(const std::vector<Arr>&, const Arr&, Arr, std::optional<size_t>);
-extern std::tuple<Arr, size_t> lsq_corr_bspline(const Arr&, const Arr&, size_t);
-extern std::tuple<Arr, size_t> cccp_corr_bspline(const Arr&, const Arr&, size_t);
-extern Arr corr_omega(const Arr&, const std::vector<Arr>&);
-extern double corr_mle_obj(const Arr&, const std::vector<Arr>&, const Arr&);
 
 namespace {
 
@@ -69,12 +64,12 @@ Data make_data() {
     d.true_cov = Arr(N_SITE, N_SITE);
     for (size_t i = 0; i < N_SITE; ++i)
         for (size_t j = 0; j < N_SITE; ++j) {
-            double dd = d.D(i, j);
-            d.true_cov(i, j) = 4.0 * std::exp(-0.12 * dd * dd);
+            const double dd = d.D(i, j);
+            d.true_cov(i, j) = 4.0 * gaussian_kernel(dd, 0.12);
         }
     d.xg = linspace(0.0, d.dmax, N_GRID);
     d.ftrue = Arr(N_GRID);
-    for (size_t j = 0; j < N_GRID; ++j) d.ftrue(j) = 4.0 * std::exp(-0.12 * d.xg(j) * d.xg(j));
+    for (size_t j = 0; j < N_GRID; ++j) d.ftrue(j) = 4.0 * gaussian_kernel(d.xg(j), 0.12);
     return d;
 }
 
@@ -83,17 +78,17 @@ Arr make_Y(const Arr& D, size_t N) {
     Arr S(n, n);
     for (size_t i = 0; i < n; ++i)
         for (size_t j = 0; j < n; ++j) {
-            double dd = D(i, j);
-            S(i, j) = std::exp(-0.12 * dd * dd);
+            const double dd = D(i, j);
+            S(i, j) = gaussian_kernel(dd, 0.12);
         }
     auto A = cholesky(S);
-    random_seed(5);
+    std::mt19937_64 rng(5);
     Arr Y(n, n);
     for (size_t k = 0; k < N; ++k) {
-        auto x = randn(n);
+        auto x = randn(n, rng);
         for (size_t i = 0; i < n; ++i) x(i) *= 2.0;
         auto y = dot(A, x);
-        auto noise = randn(n);
+        auto noise = randn(n, rng);
         for (size_t i = 0; i < n; ++i) y(i) += 1e-5 * noise(i);
         for (size_t i = 0; i < n; ++i)
             for (size_t j = 0; j < n; ++j) Y(i, j) += y(i) * y(j);
@@ -101,16 +96,6 @@ Arr make_Y(const Arr& D, size_t N) {
     for (size_t i = 0; i < n; ++i)
         for (size_t j = 0; j < n; ++j) Y(i, j) /= static_cast<double>(N);
     return Y;
-}
-
-Arr poly_curve(const Arr& c, const Arr& xg) {
-    Arr out(xg.size());
-    for (size_t j = 0; j < xg.size(); ++j) {
-        double v = 0.0;
-        for (size_t i = c.size(); i-- > 0;) v = v * xg(j) + c(i);
-        out(j) = v;
-    }
-    return out;
 }
 
 size_t count_increasing(const Arr& curve) {
@@ -170,15 +155,16 @@ struct Fit {
 
 Fit run_lsq(const Data& dat, const Variant& v, const Arr& Y) {
     Fit f;
-    auto [c, iters] = lsq_corr_generic(Y, v.Sigma, v.n_coeff);
-    f.iters = iters;
-    if (c.size() != v.Sigma.size()) return f;
+    const auto fit = lsq_corr_generic(Y, v.Sigma, v.n_coeff);
+    f.iters = fit.iters;
+    if (!fit.ok || fit.coeffs.size() != v.Sigma.size()) return f;
     f.ok = true;
-    f.coeffs = c;
-    auto Om = corr_omega(c, v.Sigma);
+    f.coeffs = fit.coeffs;
+    auto Om = corr_omega(f.coeffs, v.Sigma);
     f.rel_err = norm(Om - dat.true_cov) / norm(dat.true_cov);
     f.min_eig = min_eig(Om);
-    auto curve = v.is_bs ? eval_bspline_curve(v.t, v.k, c, dat.xg) : poly_curve(c, dat.xg);
+    auto curve = v.is_bs ? eval_bspline_curve(v.t, v.k, f.coeffs, dat.xg)
+                         : eval_poly_curve(f.coeffs, dat.xg);
     f.n_inc = count_increasing(curve);
     return f;
 }
@@ -258,25 +244,23 @@ void experiment3(const Data& dat, const std::vector<Variant>& vs, const Arr& Y, 
 
 void run_ccp(const Variant& v, const Arr& Y, size_t N, std::ofstream& csv, const char* method,
              bool show_min_eig) {
-    auto [x0, lsq_iters] = lsq_corr_generic(Y, v.Sigma, v.n_coeff);
-    (void)lsq_iters;
-    if (x0.size() != v.Sigma.size()) {
+    const auto lsq = lsq_corr_generic(Y, v.Sigma, v.n_coeff);
+    if (!lsq.ok || lsq.coeffs.size() != v.Sigma.size()) {
         std::printf("%-10s FAIL\n", method);
         csv << N << "," << method << ",FAIL,,,\n";
         return;
     }
-    double f0 = corr_mle_obj(x0, v.Sigma, Y);
-    Arr x = x0;
+    Arr x = lsq.coeffs;
+    double f0 = corr_mle_obj(x, v.Sigma, Y);
     double f_old = 1e100;
     size_t rounds = 0;
     double f1 = f0;
     for (size_t k = 0; k < 50; ++k) {
-        auto [xn, iters] = cccp_corr_step(v.Sigma, Y, x, v.n_coeff);
-        (void)iters;
-        if (xn.size() != x.size()) break;
-        double f = corr_mle_obj(xn, v.Sigma, Y);
+        auto step = cccp_corr_step(v.Sigma, Y, x, v.n_coeff);
+        if (!step.ok) break;
+        double f = corr_mle_obj(step.coeffs, v.Sigma, Y);
         ++rounds;
-        x = xn;
+        x = std::move(step.coeffs);
         f1 = f;
         if (std::abs(f_old - f) < 1e-8) break;
         f_old = f;

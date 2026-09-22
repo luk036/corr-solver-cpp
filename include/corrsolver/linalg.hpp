@@ -7,8 +7,12 @@
 /// Minimal linear algebra helpers for Arr, replacing xtensor-blas operations.
 /// For small FIR/correlation problems, naive O(n^3) is sufficient.
 
+#include <cassert>
+#include <cmath>
+#include <cstddef>
 #include <ellalgo/arr.hpp>
 #include <random>
+#include <utility>
 
 // ---------------------------------------------------------------------------
 // Matrix helpers
@@ -297,18 +301,19 @@ inline std::mt19937_64& global_rng() {
  */
 inline void random_seed(unsigned seed) { global_rng().seed(seed); }
 
-/**
- * @brief Generate a vector of standard normal random numbers.
- * @param n Number of elements
- * @return 1D array of i.i.d. N(0,1) samples
- */
-inline Arr randn(size_t n) {
-    auto& rng = global_rng();
+inline Arr randn(size_t n, std::mt19937_64& rng) {
     std::normal_distribution<double> dist(0.0, 1.0);
     Arr out(n);
     for (size_t i = 0; i < n; ++i) out(i) = dist(rng);
     return out;
 }
+
+/**
+ * @brief Generate a vector of standard normal random numbers.
+ * @param n Number of elements
+ * @return 1D array of i.i.d. N(0,1) samples
+ */
+inline Arr randn(size_t n) { return randn(n, global_rng()); }
 
 // ---------------------------------------------------------------------------
 // meshgrid: returns {XX, YY} where XX and YY are 2D grids

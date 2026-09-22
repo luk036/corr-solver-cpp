@@ -1,6 +1,8 @@
 #define ANKERL_NANOBENCH_IMPLEMENT
 #include <nanobench.h>
 
+#include <corrsolver/corr_solver.hpp>
+#include <corrsolver/sites.hpp>
 #include <cstddef>
 #include <cstdint>
 #include <ellalgo/arr.hpp>
@@ -9,14 +11,6 @@
 #include <tuple>
 #include <vector>
 
-// Implementation lives in source/lsq_corr_ell.cpp; this benchmark only drives it
-// so that fixes and optimizations cannot drift between the two copies.
-extern Arr create_2d_sites(size_t, size_t);
-extern Arr create_2d_isotropic(const Arr&, size_t);
-extern std::vector<Arr> construct_poly_matrix(const Arr&, size_t);
-extern std::tuple<Arr, size_t> lsq_corr_poly2(const Arr&, const Arr&, size_t);
-extern std::tuple<Arr, size_t> mle_corr_poly(const Arr&, const Arr&, size_t);
-extern std::tuple<Arr, size_t> cccp_corr_poly(const Arr&, const Arr&, size_t);
 
 int main() {
     constexpr size_t nx = 10;
@@ -75,8 +69,8 @@ int main() {
         size_t lsq_iters = 0;
         bench.run("LSQ_corr", [&] {
             auto result = lsq_corr_poly2(Y, site, m);
-            lsq_coeffs = std::get<0>(result);
-            lsq_iters = std::get<1>(result);
+            lsq_coeffs = result.coeffs;
+            lsq_iters = result.iters;
             ankerl::nanobench::doNotOptimizeAway(result);
         });
         std::cout << "  coeffs = [";
@@ -94,7 +88,7 @@ int main() {
         size_t mle_iters = 0;
         bench.run("MLE_corr", [&] {
             auto result = mle_corr_poly(Y, site, m);
-            mle_iters = std::get<1>(result);
+            mle_iters = result.iters;
             ankerl::nanobench::doNotOptimizeAway(result);
         });
         std::cout << "  iters = " << mle_iters << "\n";
@@ -109,7 +103,7 @@ int main() {
         size_t cccp_iters = 0;
         bench.run("CCP_corr", [&] {
             auto result = cccp_corr_poly(Y, site, m);
-            cccp_iters = std::get<1>(result);
+            cccp_iters = result.iters;
             ankerl::nanobench::doNotOptimizeAway(result);
         });
         std::cout << "  iters = " << cccp_iters << "\n";

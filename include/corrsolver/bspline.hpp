@@ -5,6 +5,8 @@
 
 #pragma once
 
+#include <corrsolver/geometry.hpp>
+#include <corrsolver/types.hpp>
 #include <cstddef>
 #include <ellalgo/arr.hpp>
 #include <optional>
@@ -12,16 +14,11 @@
 #include <utility>
 #include <vector>
 
-using Cut = std::pair<Arr, double>;
-
 struct BSplineInfo {
     std::vector<Arr> Sigma;
     Arr t;
     size_t k;
 };
-
-/// Defined in source/lsq_corr_ell.cpp.
-Arr construct_distance_matrix(const Arr& site);
 
 /// Clamped knot vector: (k+1) zeros, m-k-1 interior knots, (k+1) copies of dmax.
 Arr clamped_knots(double dmax, size_t m, size_t k = 2);

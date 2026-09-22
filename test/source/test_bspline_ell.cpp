@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <cmath>
 #include <corrsolver/bspline.hpp>
+#include <corrsolver/corr_solver.hpp>
 #include <corrsolver/eigen.hpp>
 #include <corrsolver/halton.hpp>
 #include <cstddef>
@@ -12,8 +13,6 @@
 #include <stdexcept>
 #include <tuple>
 #include <vector>
-
-extern std::vector<Arr> construct_poly_matrix(const Arr&, size_t);
 
 namespace {
 
