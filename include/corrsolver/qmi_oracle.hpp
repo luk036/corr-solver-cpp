@@ -27,6 +27,7 @@ template <typename Arr036> class QmiOracle {
     size_t _nx = 0;
     size_t _count = 0;
     size_t _n;
+    double _witness_norm_sq = 0.0;
 
   public:
     size_t _m;
@@ -42,4 +43,8 @@ template <typename Arr036> class QmiOracle {
     QmiOracle(const std::vector<Arr036>& F, Arr036 F0);
     auto update(double t) -> void { this->_t = t; }
     auto assess_feas(const Arr036& x) -> std::optional<Cut>;
+
+    /// Squared norm of the witness over the failed block from the last
+    /// infeasible assess_feas call; zero after a feasible one.
+    auto witness_norm_sq() const -> double { return this->_witness_norm_sq; }
 };

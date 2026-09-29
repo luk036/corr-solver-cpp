@@ -12,6 +12,7 @@ template <typename Arr036> auto QmiOracle<Arr036>::assess_feas(const Arr036& x)
     -> std::optional<typename QmiOracle<Arr036>::Cut> {
     this->_count = 0;
     this->_nx = x.size();
+    this->_witness_norm_sq = 0.0;
 
     auto getA = [&x, this](size_t i, size_t j) -> double {
         assert(i >= j);
@@ -37,6 +38,7 @@ template <typename Arr036> auto QmiOracle<Arr036>::assess_feas(const Arr036& x)
     auto v_len = stop - start;
     Arr036 v(v_len);
     for (size_t c = 0; c < v_len; ++c) v(c) = wit_vec(start + c);
+    for (size_t c = 0; c < v_len; ++c) this->_witness_norm_sq += v(c) * v(c);
 
     auto ncols = this->m_Fx.cols();
     Arr036 Fxp(stop - start, ncols);

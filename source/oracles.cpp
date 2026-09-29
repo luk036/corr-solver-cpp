@@ -25,16 +25,8 @@ std::tuple<Cut, bool> LsqOracle::assess_optim(const Arr& x, double& t) {
 
     if (auto cut1 = this->_qmi.assess_feas(v)) {
         const auto& [g1, f1] = *cut1;
-        const auto& Q = this->_qmi._mq;
-        const auto& [start, stop] = Q.pos;
-        Arr wit_vec = zeros(this->_qmi._m);
-        Q.set_witness_vec(wit_vec);
-
-        double v2norm2 = 0.0;
-        for (size_t i = start; i < stop; ++i) v2norm2 += wit_vec(i) * wit_vec(i);
-
         for (size_t i = 0; i < n - 1; ++i) g(i) = g1(i);
-        g(n - 1) = -v2norm2;
+        g(n - 1) = -this->_qmi.witness_norm_sq();
         return {{std::move(g), f1}, false};
     }
     g(n - 1) = 1.0;
@@ -58,7 +50,7 @@ std::tuple<Cut, bool> MleOracle::assess_optim(const Arr& x, double& t) {
     if (auto* cut0 = this->_lmi0.assess_feas(x)) return {*cut0, false};
 
     auto n = x.size();
-    auto dim = this->_lmi0._mq._n;
+    auto dim = this->Y_.rows();
 
     this->_scratch.update(this->_lmi0, this->Y_);
     const auto& S = this->_scratch.S;
