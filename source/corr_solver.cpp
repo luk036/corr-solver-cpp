@@ -65,7 +65,7 @@ namespace {
 template <class Oracle, class Core>
 auto with_mono(Oracle& omega, std::optional<size_t> n_coeff, Core&& core) {
     if (n_coeff) {
-        auto wrapped = MonoDecreasingOracle2<Oracle>(omega, n_coeff);
+        auto wrapped = MonoDecreasingOracle<Oracle>(omega, n_coeff);
         return core(wrapped);
     }
     return core(omega);
@@ -89,29 +89,6 @@ FitResult run_mle_core(size_t m, MleOracle& omega) {
     auto [x_best, num_iters] = cutting_plane_optim(omega, ellip, t);
     const bool ok = (x_best.size() == m);
     return {std::move(x_best), num_iters, ok};
-}
-
-FitResult run_cccp_core(const std::vector<Arr>& Sig, const Arr& Y, Arr x) {
-    auto f_old = 1e100;
-    size_t total_iters = 0;
-    for (size_t k = 0; k < 50; ++k) {
-        auto M = inv(corr_omega(x, Sig));
-        auto omega = CccpMleOracle(Y.rows(), Sig, Y, M);
-        auto guess = cccp_initial_guess(x);
-        auto ellip = make_ellipsoid(guess);
-        auto t = kInitialT;
-        auto [x_new, iters] = cutting_plane_optim(omega, ellip, t);
-        total_iters += iters;
-        if (x_new.size() != x.size()) break;
-        auto f_new = corr_mle_obj(x_new, Sig, Y);
-        if (std::abs(f_old - f_new) < 1e-8) {
-            x = x_new;
-            break;
-        }
-        f_old = f_new;
-        x = x_new;
-    }
-    return {std::move(x), total_iters, true};
 }
 
 }
@@ -142,7 +119,7 @@ FitResult mle_corr_poly(const Arr& Y, const Arr& site, size_t m) {
 FitResult cccp_corr_poly(const Arr& Y, const Arr& site, size_t m) {
     auto Sig = construct_poly_matrix(site, m);
     auto lsq = lsq_corr_poly2(Y, site, m);
-    return run_cccp_core(Sig, Y, std::move(lsq.coeffs));
+    return cccp_corr_generic(Sig, Y, std::move(lsq.coeffs), std::nullopt);
 }
 
 FitResult cccp_corr_step(const std::vector<Arr>& Sig, const Arr& Y, Arr x,

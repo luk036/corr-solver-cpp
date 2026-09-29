@@ -241,7 +241,7 @@ TEST_CASE("mono oracle returns first violation") {
 
 TEST_CASE("mono decreasing oracle2 delegates and constrains leading coeffs") {
     MockBasis basis;
-    MonoDecreasingOracle2<MockBasis> oracle(basis);
+    MonoDecreasingOracle<MockBasis> oracle(basis);
     const Arr x = {3.0, 2.0, 1.0, 0.5};
     double t = 1.0;
     const auto res = oracle.assess_optim(x, t);
@@ -249,7 +249,7 @@ TEST_CASE("mono decreasing oracle2 delegates and constrains leading coeffs") {
     CHECK(basis.called);
 
     MockBasis basis2;
-    MonoDecreasingOracle2<MockBasis> oracle2(basis2, std::optional<size_t>(2));
+    MonoDecreasingOracle<MockBasis> oracle2(basis2, std::optional<size_t>(2));
     const Arr y = {1.0, 2.0, 5.0, 6.0};
     double t2 = 1.0;
     const auto res2 = oracle2.assess_optim(y, t2);
@@ -263,7 +263,7 @@ TEST_CASE("mono decreasing oracle2 delegates and constrains leading coeffs") {
     CHECK(cut2.second == doctest::Approx(1.0));
 
     MockBasis basis3;
-    MonoDecreasingOracle2<MockBasis> oracle3(basis3, std::optional<size_t>(2));
+    MonoDecreasingOracle<MockBasis> oracle3(basis3, std::optional<size_t>(2));
     const Arr z = {2.0, 1.0, 5.0, 6.0};
     double t3 = 1.0;
     const auto res3 = oracle3.assess_optim(z, t3);

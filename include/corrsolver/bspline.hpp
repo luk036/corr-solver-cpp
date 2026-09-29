@@ -37,12 +37,12 @@ std::optional<Cut> mono_oracle(const Arr& x);
 
 /// Enforce monotone non-increasing coefficients on the leading n_coeff entries,
 /// then delegate to the wrapped basis oracle.
-template <class Basis> class MonoDecreasingOracle2 {
+template <class Basis> class MonoDecreasingOracle {
     Basis& basis_;
     std::optional<size_t> n_coeff_;
 
   public:
-    explicit MonoDecreasingOracle2(Basis& basis, std::optional<size_t> n_coeff = std::nullopt)
+    explicit MonoDecreasingOracle(Basis& basis, std::optional<size_t> n_coeff = std::nullopt)
         : basis_(basis), n_coeff_(n_coeff) {}
 
     std::tuple<Cut, bool> assess_optim(const Arr& x, double& t) {
@@ -58,3 +58,6 @@ template <class Basis> class MonoDecreasingOracle2 {
         return basis_.assess_optim(x, t);
     }
 };
+
+/// Backward-compatible alias for @ref MonoDecreasingOracle.
+template <class Basis> using MonoDecreasingOracle2 = MonoDecreasingOracle<Basis>;
