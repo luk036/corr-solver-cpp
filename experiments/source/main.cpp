@@ -7,6 +7,7 @@
 #include <corrsolver/halton.hpp>
 #include <corrsolver/kernels.hpp>
 #include <corrsolver/linalg.hpp>
+#include <corrsolver/sites.hpp>
 #include <cstddef>
 #include <cstdio>
 #include <filesystem>
@@ -77,25 +78,9 @@ Arr make_Y(const Arr& D, size_t N) {
     const size_t n = D.rows();
     Arr S(n, n);
     for (size_t i = 0; i < n; ++i)
-        for (size_t j = 0; j < n; ++j) {
-            const double dd = D(i, j);
-            S(i, j) = gaussian_kernel(dd, 0.12);
-        }
-    auto A = cholesky(S);
+        for (size_t j = 0; j < n; ++j) S(i, j) = gaussian_kernel(D(i, j), 0.12);
     std::mt19937_64 rng(5);
-    Arr Y(n, n);
-    for (size_t k = 0; k < N; ++k) {
-        auto x = randn(n, rng);
-        for (size_t i = 0; i < n; ++i) x(i) *= 2.0;
-        auto y = dot(A, x);
-        auto noise = randn(n, rng);
-        for (size_t i = 0; i < n; ++i) y(i) += 1e-5 * noise(i);
-        for (size_t i = 0; i < n; ++i)
-            for (size_t j = 0; j < n; ++j) Y(i, j) += y(i) * y(j);
-    }
-    for (size_t i = 0; i < n; ++i)
-        for (size_t j = 0; j < n; ++j) Y(i, j) /= static_cast<double>(N);
-    return Y;
+    return sample_covariance(S, N, &rng);
 }
 
 size_t count_increasing(const Arr& curve) {
