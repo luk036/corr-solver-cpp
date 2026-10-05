@@ -39,12 +39,12 @@ Arr sample_covariance(const Arr& Sigma, size_t N, std::mt19937_64* rng, double v
     return Y;
 }
 
-Arr create_2d_isotropic(const Arr& site, size_t N, std::mt19937_64* rng) {
-    const double sdkern = 0.3;
+Arr create_2d_isotropic(const Arr& site, size_t N, std::mt19937_64* rng, double rate, double var,
+                        double tau) {
     auto D = construct_distance_matrix(site);
     auto n = D.rows();
     Arr Sig(n, n);
     for (size_t i = 0; i < n; ++i)
-        for (size_t j = 0; j < n; ++j) Sig(i, j) = exponential_kernel(D(i, j), sdkern);
-    return sample_covariance(Sig, N, rng);
+        for (size_t j = 0; j < n; ++j) Sig(i, j) = exponential_kernel(D(i, j), rate);
+    return sample_covariance(Sig, N, rng, var, tau);
 }
