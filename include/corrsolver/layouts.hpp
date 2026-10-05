@@ -4,6 +4,7 @@
 
 #pragma once
 
+#include <corrsolver/solver_config.hpp>
 #include <cstddef>
 #include <ellalgo/arr.hpp>
 #include <ellalgo/ell.hpp>
@@ -21,13 +22,13 @@ struct InitialGuess {
 };
 
 /// Augmented (coeffs..., t) layout for the least-squares optimization.
-InitialGuess lsq_initial_guess(const Arr& Y, size_t m);
+InitialGuess lsq_initial_guess(const Arr& Y, size_t m, const SolverConfig& cfg = {});
 
 /// Plain coefficient layout for the maximum-likelihood fit.
-InitialGuess mle_initial_guess(size_t m);
+InitialGuess mle_initial_guess(size_t m, const SolverConfig& cfg = {});
 
 /// Plain coefficient layout for one CCP round, centred on x.
-InitialGuess cccp_initial_guess(const Arr& x);
+InitialGuess cccp_initial_guess(const Arr& x, const SolverConfig& cfg = {});
 
 /// Build the ellipsoid for a guess, consuming its center point.
 Ell<Arr> make_ellipsoid(InitialGuess& guess);
