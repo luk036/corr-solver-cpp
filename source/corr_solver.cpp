@@ -71,81 +71,81 @@ auto with_mono(Oracle& omega, std::optional<size_t> n_coeff, Core&& core) {
     return core(omega);
 }
 
-FitResult run_lsq_core(const Arr& Y, size_t m, auto& omega) {
-    auto guess = lsq_initial_guess(Y, m);
+FitResult run_lsq_core(const Arr& Y, size_t m, auto& omega, const SolverConfig& cfg) {
+    auto guess = lsq_initial_guess(Y, m, cfg);
     auto ellip = make_ellipsoid(guess);
     auto t = kInitialT;
-    auto [x_best, num_iters] = cutting_plane_optim(omega, ellip, t);
+    auto [x_best, num_iters] = cutting_plane_optim(omega, ellip, t, cfg.options());
     if (x_best.size() != m + 1) return {Arr{}, num_iters, false};
     Arr a(m);
     for (size_t i = 0; i < m; ++i) a(i) = x_best(i);
     return {std::move(a), num_iters, true};
 }
 
-FitResult run_mle_core(size_t m, MleOracle& omega) {
-    auto guess = mle_initial_guess(m);
+FitResult run_mle_core(size_t m, MleOracle& omega, const SolverConfig& cfg) {
+    auto guess = mle_initial_guess(m, cfg);
     auto ellip = make_ellipsoid(guess);
     auto t = kInitialT;
-    auto [x_best, num_iters] = cutting_plane_optim(omega, ellip, t);
+    auto [x_best, num_iters] = cutting_plane_optim(omega, ellip, t, cfg.options());
     const bool ok = (x_best.size() == m);
     return {std::move(x_best), num_iters, ok};
 }
 
 }
 
-FitResult lsq_corr_poly2(const Arr& Y, const Arr& site, size_t m) {
+FitResult lsq_corr_poly2(const Arr& Y, const Arr& site, size_t m, const SolverConfig& cfg) {
     auto Sig = construct_poly_matrix(site, m);
     auto omega = LsqOracle(Y.rows(), Sig, Y);
-    return run_lsq_core(Y, m, omega);
+    return run_lsq_core(Y, m, omega, cfg);
 }
 
 FitResult lsq_corr_generic(const Arr& Y, const std::vector<Arr>& Sigma,
-                           std::optional<size_t> n_coeff) {
+                           std::optional<size_t> n_coeff, const SolverConfig& cfg) {
     auto m = Sigma.size();
     auto omega = LsqOracle(Y.rows(), Sigma, Y);
-    return with_mono(omega, n_coeff, [&](auto& o) { return run_lsq_core(Y, m, o); });
+    return with_mono(omega, n_coeff, [&](auto& o) { return run_lsq_core(Y, m, o, cfg); });
 }
 
-FitResult lsq_corr_bspline(const Arr& Y, const Arr& site, size_t m) {
-    return lsq_corr_generic(Y, generate_bspline_info(site, m).Sigma, m);
+FitResult lsq_corr_bspline(const Arr& Y, const Arr& site, size_t m, const SolverConfig& cfg) {
+    return lsq_corr_generic(Y, generate_bspline_info(site, m).Sigma, m, cfg);
 }
 
-FitResult mle_corr_poly(const Arr& Y, const Arr& site, size_t m) {
+FitResult mle_corr_poly(const Arr& Y, const Arr& site, size_t m, const SolverConfig& cfg) {
     auto Sig = construct_poly_matrix(site, m);
     auto omega = MleOracle(Y.rows(), Sig, Y);
-    return run_mle_core(m, omega);
+    return run_mle_core(m, omega, cfg);
 }
 
-FitResult cccp_corr_poly(const Arr& Y, const Arr& site, size_t m) {
+FitResult cccp_corr_poly(const Arr& Y, const Arr& site, size_t m, const SolverConfig& cfg) {
     auto Sig = construct_poly_matrix(site, m);
-    auto lsq = lsq_corr_poly2(Y, site, m);
-    return cccp_corr_generic(Sig, Y, std::move(lsq.coeffs), std::nullopt);
+    auto lsq = lsq_corr_poly2(Y, site, m, cfg);
+    return cccp_corr_generic(Sig, Y, std::move(lsq.coeffs), std::nullopt, cfg);
 }
 
 FitResult cccp_corr_step(const std::vector<Arr>& Sig, const Arr& Y, Arr x,
-                         std::optional<size_t> n_coeff) {
+                         std::optional<size_t> n_coeff, const SolverConfig& cfg) {
     auto M = inv(corr_omega(x, Sig));
     auto omega = CccpMleOracle(Y.rows(), Sig, Y, M);
     return with_mono(omega, n_coeff, [&](auto& o) {
-        auto guess = cccp_initial_guess(x);
+        auto guess = cccp_initial_guess(x, cfg);
         auto ellip = make_ellipsoid(guess);
         auto t = kInitialT;
-        auto [x_new, iters] = cutting_plane_optim(o, ellip, t);
+        auto [x_new, iters] = cutting_plane_optim(o, ellip, t, cfg.options());
         const bool ok = (x_new.size() == x.size());
         return FitResult{std::move(x_new), iters, ok};
     });
 }
 
 FitResult cccp_corr_generic(const std::vector<Arr>& Sig, const Arr& Y, Arr x,
-                            std::optional<size_t> n_coeff) {
+                            std::optional<size_t> n_coeff, const SolverConfig& cfg) {
     auto f_old = 1e100;
     size_t total_iters = 0;
-    for (size_t k = 0; k < 50; ++k) {
-        auto step = cccp_corr_step(Sig, Y, x, n_coeff);
+    for (size_t k = 0; k < cfg.cccp_max_rounds; ++k) {
+        auto step = cccp_corr_step(Sig, Y, x, n_coeff, cfg);
         total_iters += step.iters;
         if (!step.ok) break;
         auto f_new = corr_mle_obj(step.coeffs, Sig, Y);
-        if (std::abs(f_old - f_new) < 1e-8) {
+        if (std::abs(f_old - f_new) < cfg.cccp_tol) {
             x = std::move(step.coeffs);
             break;
         }
@@ -155,8 +155,8 @@ FitResult cccp_corr_generic(const std::vector<Arr>& Sig, const Arr& Y, Arr x,
     return {std::move(x), total_iters, true};
 }
 
-FitResult cccp_corr_bspline(const Arr& Y, const Arr& site, size_t m) {
-    auto lsq = lsq_corr_bspline(Y, site, m);
+FitResult cccp_corr_bspline(const Arr& Y, const Arr& site, size_t m, const SolverConfig& cfg) {
+    auto lsq = lsq_corr_bspline(Y, site, m, cfg);
     auto Sigma = generate_bspline_info(site, m).Sigma;
-    return cccp_corr_generic(Sigma, Y, std::move(lsq.coeffs), m);
+    return cccp_corr_generic(Sigma, Y, std::move(lsq.coeffs), m, cfg);
 }

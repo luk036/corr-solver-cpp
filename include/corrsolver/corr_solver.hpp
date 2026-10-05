@@ -4,6 +4,7 @@
 
 #pragma once
 
+#include <corrsolver/solver_config.hpp>
 #include <cstddef>
 #include <ellalgo/arr.hpp>
 #include <optional>
@@ -30,29 +31,29 @@ double corr_mle_obj(const Arr& x, const std::vector<Arr>& Sig, const Arr& Y);
 Arr eval_poly_curve(const Arr& c, const Arr& x);
 
 /// Least-squares fit with the augmented (coeffs..., t) variable.
-FitResult lsq_corr_poly2(const Arr& Y, const Arr& site, size_t m);
+FitResult lsq_corr_poly2(const Arr& Y, const Arr& site, size_t m, const SolverConfig& cfg = {});
 
 /// Least-squares fit on an explicit basis; enforces monotone coefficients on
 /// the leading entries when @p n_coeff is set.
 FitResult lsq_corr_generic(const Arr& Y, const std::vector<Arr>& Sigma,
-                           std::optional<size_t> n_coeff);
+                           std::optional<size_t> n_coeff, const SolverConfig& cfg = {});
 
 /// Least-squares fit on the quadratic B-spline basis.
-FitResult lsq_corr_bspline(const Arr& Y, const Arr& site, size_t m);
+FitResult lsq_corr_bspline(const Arr& Y, const Arr& site, size_t m, const SolverConfig& cfg = {});
 
 /// Maximum-likelihood fit subject to 2Y >= Omega >= 0.
-FitResult mle_corr_poly(const Arr& Y, const Arr& site, size_t m);
+FitResult mle_corr_poly(const Arr& Y, const Arr& site, size_t m, const SolverConfig& cfg = {});
 
 /// CCP fit with the polynomial basis, warm-started from the least-squares fit.
-FitResult cccp_corr_poly(const Arr& Y, const Arr& site, size_t m);
+FitResult cccp_corr_poly(const Arr& Y, const Arr& site, size_t m, const SolverConfig& cfg = {});
 
 /// One CCP round on an explicit basis.
 FitResult cccp_corr_step(const std::vector<Arr>& Sig, const Arr& Y, Arr x,
-                         std::optional<size_t> n_coeff);
+                         std::optional<size_t> n_coeff, const SolverConfig& cfg = {});
 
 /// CCP fit on an explicit basis until the objective stalls.
 FitResult cccp_corr_generic(const std::vector<Arr>& Sig, const Arr& Y, Arr x,
-                            std::optional<size_t> n_coeff);
+                            std::optional<size_t> n_coeff, const SolverConfig& cfg = {});
 
 /// CCP fit on the quadratic B-spline basis.
-FitResult cccp_corr_bspline(const Arr& Y, const Arr& site, size_t m);
+FitResult cccp_corr_bspline(const Arr& Y, const Arr& site, size_t m, const SolverConfig& cfg = {});
