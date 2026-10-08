@@ -1,6 +1,6 @@
+#include <cmath>
 #include <corrsolver/linalg.hpp>
 #include <corrsolver/oracles.hpp>
-#include <cmath>
 #include <cstddef>
 #include <ellalgo/oracles/ldlt_mgr.hpp>
 #include <tuple>

@@ -10,35 +10,35 @@
 
 namespace {
 
-// de Boor's algorithm for the k+1 nonzero basis functions of span i at u.
-// u may lie outside [t(i), t(i+1)) to obtain the polynomial extension.
-void basis_funs(double u, size_t i, size_t k, const Arr& t, std::vector<double>& N) {
-    std::vector<double> left(k + 1);
-    std::vector<double> right(k + 1);
-    N.assign(k + 1, 0.0);
-    N[0] = 1.0;
-    for (size_t j = 1; j <= k; ++j) {
-        left[j] = u - t(i + 1 - j);
-        right[j] = t(i + j) - u;
-        double saved = 0.0;
-        for (size_t r = 0; r < j; ++r) {
-            double temp = N[r] / (right[r + 1] + left[j - r]);
-            N[r] = saved + right[r + 1] * temp;
-            saved = left[j - r] * temp;
+    // de Boor's algorithm for the k+1 nonzero basis functions of span i at u.
+    // u may lie outside [t(i), t(i+1)) to obtain the polynomial extension.
+    void basis_funs(double u, size_t i, size_t k, const Arr& t, std::vector<double>& N) {
+        std::vector<double> left(k + 1);
+        std::vector<double> right(k + 1);
+        N.assign(k + 1, 0.0);
+        N[0] = 1.0;
+        for (size_t j = 1; j <= k; ++j) {
+            left[j] = u - t(i + 1 - j);
+            right[j] = t(i + j) - u;
+            double saved = 0.0;
+            for (size_t r = 0; r < j; ++r) {
+                double temp = N[r] / (right[r + 1] + left[j - r]);
+                N[r] = saved + right[r + 1] * temp;
+                saved = left[j - r] * temp;
+            }
+            N[j] = saved;
         }
-        N[j] = saved;
     }
-}
 
-size_t find_span(const Arr& t, size_t k, size_t n, double x) {
-    if (x >= t(n)) return n - 1;
-    if (x < t(k)) return k;
-    size_t i = k;
-    while (i + 1 < n && x >= t(i + 1)) ++i;
-    return i;
-}
+    size_t find_span(const Arr& t, size_t k, size_t n, double x) {
+        if (x >= t(n)) return n - 1;
+        if (x < t(k)) return k;
+        size_t i = k;
+        while (i + 1 < n && x >= t(i + 1)) ++i;
+        return i;
+    }
 
-}
+}  // namespace
 
 Arr clamped_knots(double dmax, size_t m, size_t k) {
     auto full = linspace(0.0, dmax, m - k + 1);
@@ -88,8 +88,8 @@ Arr eval_bspline_curve(const Arr& t, size_t k, const Arr& c, const Arr& x) {
 BSplineInfo generate_bspline_info(const Arr& site, size_t m) {
     const size_t k = 2;
     if (m < k + 1)
-        throw std::invalid_argument("quadratic B-spline needs m >= " + std::to_string(k + 1) +
-                                    " control points, got " + std::to_string(m));
+        throw std::invalid_argument("quadratic B-spline needs m >= " + std::to_string(k + 1)
+                                    + " control points, got " + std::to_string(m));
     auto D = construct_distance_matrix(site);
     double dmax = 0.0;
     for (size_t i = 0; i < D.size(); ++i) dmax = std::max(dmax, D(i));

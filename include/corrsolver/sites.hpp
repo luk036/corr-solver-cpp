@@ -20,5 +20,5 @@ Arr create_2d_isotropic(const Arr& site, size_t N = 1000U, std::mt19937_64* rng 
 /// Average @p N draws of @f$ y y^T @f$ with @f$ y \sim N(0, var^2 \Sigma + tau^2 I) @f$.
 /// When @p rng is null a fresh engine seeded with 5 is used, keeping the
 /// deterministic output.
-Arr sample_covariance(const Arr& Sigma, size_t N, std::mt19937_64* rng = nullptr,
-                      double var = 2.0, double tau = 0.00001);
+Arr sample_covariance(const Arr& Sigma, size_t N, std::mt19937_64* rng = nullptr, double var = 2.0,
+                      double tau = 0.00001);

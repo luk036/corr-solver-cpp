@@ -58,62 +58,62 @@ inline double min_eig(const Arr& A) { return jacobi_eigvals(A).front(); }
 
 namespace dd_detail {
 
-struct DD {
-    double hi = 0.0;
-    double lo = 0.0;
-};
+    struct DD {
+        double hi = 0.0;
+        double lo = 0.0;
+    };
 
-inline DD quick_two_sum(double a, double b) {
-    double s = a + b;
-    return {s, b - (s - a)};
-}
+    inline DD quick_two_sum(double a, double b) {
+        double s = a + b;
+        return {s, b - (s - a)};
+    }
 
-inline DD two_sum(double a, double b) {
-    double s = a + b;
-    double bb = s - a;
-    return {s, (a - (s - bb)) + (b - bb)};
-}
+    inline DD two_sum(double a, double b) {
+        double s = a + b;
+        double bb = s - a;
+        return {s, (a - (s - bb)) + (b - bb)};
+    }
 
-inline DD two_prod(double a, double b) {
-    double p = a * b;
-    return {p, std::fma(a, b, -p)};
-}
+    inline DD two_prod(double a, double b) {
+        double p = a * b;
+        return {p, std::fma(a, b, -p)};
+    }
 
-inline DD dd_add(DD a, DD b) {
-    DD s = two_sum(a.hi, b.hi);
-    s.lo += a.lo + b.lo;
-    return quick_two_sum(s.hi, s.lo);
-}
+    inline DD dd_add(DD a, DD b) {
+        DD s = two_sum(a.hi, b.hi);
+        s.lo += a.lo + b.lo;
+        return quick_two_sum(s.hi, s.lo);
+    }
 
-inline DD dd_neg(DD a) { return {-a.hi, -a.lo}; }
+    inline DD dd_neg(DD a) { return {-a.hi, -a.lo}; }
 
-inline DD dd_sub(DD a, DD b) { return dd_add(a, dd_neg(b)); }
+    inline DD dd_sub(DD a, DD b) { return dd_add(a, dd_neg(b)); }
 
-inline DD dd_mul(DD a, DD b) {
-    DD p = two_prod(a.hi, b.hi);
-    p.lo += a.hi * b.lo + a.lo * b.hi;
-    return quick_two_sum(p.hi, p.lo);
-}
+    inline DD dd_mul(DD a, DD b) {
+        DD p = two_prod(a.hi, b.hi);
+        p.lo += a.hi * b.lo + a.lo * b.hi;
+        return quick_two_sum(p.hi, p.lo);
+    }
 
-inline DD dd_div(DD a, DD b) {
-    double q1 = a.hi / b.hi;
-    DD r = dd_sub(a, dd_mul(b, {q1, 0.0}));
-    double q2 = r.hi / b.hi;
-    r = dd_sub(r, dd_mul(b, {q2, 0.0}));
-    double q3 = r.hi / b.hi;
-    DD q = two_sum(q1, q2);
-    q.lo += q3;
-    return quick_two_sum(q.hi, q.lo);
-}
+    inline DD dd_div(DD a, DD b) {
+        double q1 = a.hi / b.hi;
+        DD r = dd_sub(a, dd_mul(b, {q1, 0.0}));
+        double q2 = r.hi / b.hi;
+        r = dd_sub(r, dd_mul(b, {q2, 0.0}));
+        double q3 = r.hi / b.hi;
+        DD q = two_sum(q1, q2);
+        q.lo += q3;
+        return quick_two_sum(q.hi, q.lo);
+    }
 
-inline DD dd_sqrt(DD a) {
-    if (a.hi <= 0.0) return {0.0, 0.0};
-    double x = std::sqrt(a.hi);
-    DD diff = dd_sub(a, two_prod(x, x));
-    return quick_two_sum(x, diff.hi / (2.0 * x));
-}
+    inline DD dd_sqrt(DD a) {
+        if (a.hi <= 0.0) return {0.0, 0.0};
+        double x = std::sqrt(a.hi);
+        DD diff = dd_sub(a, two_prod(x, x));
+        return quick_two_sum(x, diff.hi / (2.0 * x));
+    }
 
-}
+}  // namespace dd_detail
 
 /// 2-norm condition number of the design matrix whose column k is vec(Sigma[k]).
 /// The m x m Gram matrix and its Jacobi eigen-decomposition are carried in
@@ -146,11 +146,12 @@ inline double design_cond(const std::vector<Arr>& Sigma) {
                 changed = true;
                 DD app = at(p, p);
                 DD aqq = at(q, q);
-                DD theta = dd_detail::dd_div(dd_detail::dd_sub(aqq, app), DD{2.0 * apq.hi, 2.0 * apq.lo});
+                DD theta = dd_detail::dd_div(dd_detail::dd_sub(aqq, app),
+                                             DD{2.0 * apq.hi, 2.0 * apq.lo});
                 DD abtheta = (theta.hi >= 0.0) ? theta : dd_detail::dd_neg(theta);
                 DD denom = dd_detail::dd_add(
-                    abtheta,
-                    dd_detail::dd_sqrt(dd_detail::dd_add(DD{1.0, 0.0}, dd_detail::dd_mul(theta, theta))));
+                    abtheta, dd_detail::dd_sqrt(
+                                 dd_detail::dd_add(DD{1.0, 0.0}, dd_detail::dd_mul(theta, theta))));
                 DD tt = dd_detail::dd_div(DD{(theta.hi >= 0.0) ? 1.0 : -1.0, 0.0}, denom);
                 DD cc = dd_detail::dd_div(
                     DD{1.0, 0.0},
@@ -160,8 +161,10 @@ inline double design_cond(const std::vector<Arr>& Sigma) {
                     if (r == p || r == q) continue;
                     DD arp = at(r, p);
                     DD arq = at(r, q);
-                    DD np = dd_detail::dd_sub(dd_detail::dd_mul(cc, arp), dd_detail::dd_mul(ss, arq));
-                    DD nq = dd_detail::dd_add(dd_detail::dd_mul(ss, arp), dd_detail::dd_mul(cc, arq));
+                    DD np
+                        = dd_detail::dd_sub(dd_detail::dd_mul(cc, arp), dd_detail::dd_mul(ss, arq));
+                    DD nq
+                        = dd_detail::dd_add(dd_detail::dd_mul(ss, arp), dd_detail::dd_mul(cc, arq));
                     at(r, p) = np;
                     at(p, r) = np;
                     at(r, q) = nq;

@@ -11,7 +11,6 @@
 #include <tuple>
 #include <vector>
 
-
 int main() {
     constexpr size_t nx = 10;
     constexpr size_t ny = 8;

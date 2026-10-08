@@ -16,35 +16,35 @@
 
 namespace {
 
-double dmax_of(const Arr& D) {
-    double dmax = 0.0;
-    for (size_t i = 0; i < D.size(); ++i) dmax = std::max(dmax, D(i));
-    return dmax;
-}
-
-double d_span_of(const Arr& site) {
-    double s = 0.0;
-    for (size_t j = 0; j < site.cols(); ++j) {
-        double diff = site(site.rows() - 1, j) - site(0, j);
-        s += diff * diff;
+    double dmax_of(const Arr& D) {
+        double dmax = 0.0;
+        for (size_t i = 0; i < D.size(); ++i) dmax = std::max(dmax, D(i));
+        return dmax;
     }
-    return std::sqrt(s);
-}
 
-Arr legacy_knots(double d_span, size_t m, size_t k) {
-    return linspace(0.0, 1.2 * d_span, m + k + 1);
-}
-
-struct MockBasis {
-    bool called = false;
-    std::tuple<Cut, bool> assess_optim(const Arr& x, double& t) {
-        called = true;
-        (void)t;
-        return {{zeros(x.size()), 0.0}, true};
+    double d_span_of(const Arr& site) {
+        double s = 0.0;
+        for (size_t j = 0; j < site.cols(); ++j) {
+            double diff = site(site.rows() - 1, j) - site(0, j);
+            s += diff * diff;
+        }
+        return std::sqrt(s);
     }
-};
 
-}
+    Arr legacy_knots(double d_span, size_t m, size_t k) {
+        return linspace(0.0, 1.2 * d_span, m + k + 1);
+    }
+
+    struct MockBasis {
+        bool called = false;
+        std::tuple<Cut, bool> assess_optim(const Arr& x, double& t) {
+            called = true;
+            (void)t;
+            return {{zeros(x.size()), 0.0}, true};
+        }
+    };
+
+}  // namespace
 
 TEST_CASE("halton sites match reference rows") {
     const auto site = create_2d_sites_halton(5, 4);
@@ -135,8 +135,8 @@ TEST_CASE("design cond poly") {
                           // double-double result.
                           {10, 34546585337.19029, 1e-8}};
     for (const auto& c : cases)
-        CHECK(design_cond(construct_poly_matrix(site, c.m)) ==
-              doctest::Approx(c.ref).epsilon(c.eps));
+        CHECK(design_cond(construct_poly_matrix(site, c.m))
+              == doctest::Approx(c.ref).epsilon(c.eps));
 }
 
 TEST_CASE("design cond clamped bspline") {
@@ -201,8 +201,9 @@ TEST_CASE("design cond on a controlled m=10 matrix") {
     for (size_t k = 0; k < N; ++k) {
         Sig[k] = Arr(N);
         for (size_t i = 0; i < N; ++i) {
-            double q = (k == 0) ? std::sqrt(1.0 / N)
-                                : std::sqrt(2.0 / N) * std::cos(pi * (2.0 * i + 1.0) * k / (2.0 * N));
+            double q = (k == 0)
+                           ? std::sqrt(1.0 / N)
+                           : std::sqrt(2.0 / N) * std::cos(pi * (2.0 * i + 1.0) * k / (2.0 * N));
             Sig[k](i) = std::sqrt(d[i]) * q;
         }
     }

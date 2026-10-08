@@ -1,9 +1,9 @@
-#include <corrsolver/corr_solver.hpp>
+#include <cmath>
 #include <corrsolver/bspline.hpp>
+#include <corrsolver/corr_solver.hpp>
 #include <corrsolver/layouts.hpp>
 #include <corrsolver/linalg.hpp>
 #include <corrsolver/oracles.hpp>
-#include <cmath>
 #include <cstddef>
 #include <ellalgo/cutting_plane.hpp>
 #include <ellalgo/ell.hpp>
@@ -61,37 +61,37 @@ Arr eval_poly_curve(const Arr& c, const Arr& x) {
 
 namespace {
 
-/// Run a core against the raw oracle, or against the monotone-decorated one.
-template <class Oracle, class Core>
-auto with_mono(Oracle& omega, std::optional<size_t> n_coeff, Core&& core) {
-    if (n_coeff) {
-        auto wrapped = MonoDecreasingOracle<Oracle>(omega, n_coeff);
-        return core(wrapped);
+    /// Run a core against the raw oracle, or against the monotone-decorated one.
+    template <class Oracle, class Core>
+    auto with_mono(Oracle& omega, std::optional<size_t> n_coeff, Core&& core) {
+        if (n_coeff) {
+            auto wrapped = MonoDecreasingOracle<Oracle>(omega, n_coeff);
+            return core(wrapped);
+        }
+        return core(omega);
     }
-    return core(omega);
-}
 
-FitResult run_lsq_core(const Arr& Y, size_t m, auto& omega, const SolverConfig& cfg) {
-    auto guess = lsq_initial_guess(Y, m, cfg);
-    auto ellip = make_ellipsoid(guess);
-    auto t = kInitialT;
-    auto [x_best, num_iters] = cutting_plane_optim(omega, ellip, t, cfg.options());
-    if (x_best.size() != m + 1) return {Arr{}, num_iters, false};
-    Arr a(m);
-    for (size_t i = 0; i < m; ++i) a(i) = x_best(i);
-    return {std::move(a), num_iters, true};
-}
+    FitResult run_lsq_core(const Arr& Y, size_t m, auto& omega, const SolverConfig& cfg) {
+        auto guess = lsq_initial_guess(Y, m, cfg);
+        auto ellip = make_ellipsoid(guess);
+        auto t = kInitialT;
+        auto [x_best, num_iters] = cutting_plane_optim(omega, ellip, t, cfg.options());
+        if (x_best.size() != m + 1) return {Arr{}, num_iters, false};
+        Arr a(m);
+        for (size_t i = 0; i < m; ++i) a(i) = x_best(i);
+        return {std::move(a), num_iters, true};
+    }
 
-FitResult run_mle_core(size_t m, MleOracle& omega, const SolverConfig& cfg) {
-    auto guess = mle_initial_guess(m, cfg);
-    auto ellip = make_ellipsoid(guess);
-    auto t = kInitialT;
-    auto [x_best, num_iters] = cutting_plane_optim(omega, ellip, t, cfg.options());
-    const bool ok = (x_best.size() == m);
-    return {std::move(x_best), num_iters, ok};
-}
+    FitResult run_mle_core(size_t m, MleOracle& omega, const SolverConfig& cfg) {
+        auto guess = mle_initial_guess(m, cfg);
+        auto ellip = make_ellipsoid(guess);
+        auto t = kInitialT;
+        auto [x_best, num_iters] = cutting_plane_optim(omega, ellip, t, cfg.options());
+        const bool ok = (x_best.size() == m);
+        return {std::move(x_best), num_iters, ok};
+    }
 
-}
+}  // namespace
 
 FitResult lsq_corr_poly2(const Arr& Y, const Arr& site, size_t m, const SolverConfig& cfg) {
     auto Sig = construct_poly_matrix(site, m);
