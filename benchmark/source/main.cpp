@@ -29,30 +29,33 @@ int main() {
         std::ofstream fout("benchmark_data.bin", std::ios::binary);
         uint64_t n = n_sites;
         fout.write(reinterpret_cast<const char*>(&n), sizeof(n));
-        for (size_t i = 0; i < n_sites; ++i)
+        for (size_t i = 0; i < n_sites; ++i) {
             for (size_t j = 0; j < n_sites; ++j) {
                 double val = Y(i, j);
                 fout.write(reinterpret_cast<const char*>(&val), sizeof(val));
             }
+        }
         // Write site matrix
         uint64_t ns = site.rows();
         uint64_t nd = site.cols();
         fout.write(reinterpret_cast<const char*>(&ns), sizeof(ns));
         fout.write(reinterpret_cast<const char*>(&nd), sizeof(nd));
-        for (size_t i = 0; i < ns; ++i)
+        for (size_t i = 0; i < ns; ++i) {
             for (size_t j = 0; j < nd; ++j) {
                 double val = site(i, j);
                 fout.write(reinterpret_cast<const char*>(&val), sizeof(val));
             }
+        }
         // Write poly matrix Sig
         uint64_t nk = Sig.size();
         fout.write(reinterpret_cast<const char*>(&nk), sizeof(nk));
         for (size_t k = 0; k < nk; ++k) {
-            for (size_t i = 0; i < ns; ++i)
+            for (size_t i = 0; i < ns; ++i) {
                 for (size_t j = 0; j < ns; ++j) {
                     double val = Sig[k](i, j);
                     fout.write(reinterpret_cast<const char*>(&val), sizeof(val));
                 }
+            }
         }
         fout.close();
         std::cout << "Data exported to benchmark_data.bin\n";
