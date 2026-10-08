@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['matmul_0',['matmul',['../linalg_8hpp.html#a8963faeed1bfdbe572752a12c6ba3b97',1,'linalg.hpp']]],
-  ['meshgrid_1',['meshgrid',['../linalg_8hpp.html#a7c20aac185212e060e54a31c1166335a',1,'linalg.hpp']]]
+  ['inv_0',['inv',['../linalg_8hpp.html#aa2ad6c28b9b339ae95e37c34e3de2a90',1,'linalg.hpp']]],
+  ['inv_5fupper_5ftri_1',['inv_upper_tri',['../linalg_8hpp.html#a8b6085841d02fe7d1c3d91f1b8e11892',1,'linalg.hpp']]]
 ];

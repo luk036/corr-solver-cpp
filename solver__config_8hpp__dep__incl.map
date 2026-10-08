@@ -1,0 +1,7 @@
+<map id="corrsolver/solver_config.hpp" name="corrsolver/solver_config.hpp">
+<area shape="rect" id="Node000001" title="Numeric configuration for the cutting&#45;plane solver cores." alt="" coords="99,5,305,31"/>
+<area shape="rect" id="Node000002" href="$corr__solver_8hpp.html" title="Fitting correlation/error&#45;correction polynomials to biased covariance matrices." alt="" coords="5,79,196,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="176,41,119,81,116,76,173,36"/>
+<area shape="rect" id="Node000003" href="$layouts_8hpp.html" title="Initial&#45;guess strategies for the cutting&#45;plane drivers." alt="" coords="220,79,387,104"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="231,36,288,76,285,81,228,41"/>
+</map>

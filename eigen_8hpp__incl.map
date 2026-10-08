@@ -1,0 +1,13 @@
+<map id="corrsolver/eigen.hpp" name="corrsolver/eigen.hpp">
+<area shape="rect" id="Node000001" title="Symmetric Jacobi eigenvalue solver and design&#45;matrix conditioning helper." alt="" coords="160,5,315,31"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,79,91,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="208,33,93,76,91,71,206,28"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="115,79,178,104"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="224,33,174,72,171,68,221,29"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="202,79,273,104"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="240,31,240,65,235,65,235,31"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="297,79,412,104"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="258,28,325,69,322,74,255,33"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="437,79,499,104"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="275,28,424,74,423,79,274,33"/>
+</map>

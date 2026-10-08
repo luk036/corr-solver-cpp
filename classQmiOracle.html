@@ -28,7 +28,7 @@ MathJax.Hub.Config({
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">CorrSolver<span id="projectnumber">&#160;1.2.8</span>
+   <div id="projectname">CorrSolver<span id="projectnumber">&#160;1.2.9</span>
    </div>
   </td>
  </tr>
@@ -97,6 +97,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:ab40dedf0732abe1f71fd1d7991a2dce9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afbcdac5ed122a03af083cebe6d8f5276" id="r_afbcdac5ed122a03af083cebe6d8f5276"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classQmiOracle.html#afbcdac5ed122a03af083cebe6d8f5276">assess_feas</a> (const Arr036 &amp;x) -&gt; std::optional&lt; Cut &gt;</td></tr>
 <tr class="separator:afbcdac5ed122a03af083cebe6d8f5276"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4d3a865511eef4014572c8002f1304b1" id="r_a4d3a865511eef4014572c8002f1304b1"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classQmiOracle.html#a4d3a865511eef4014572c8002f1304b1">witness_norm_sq</a> () const -&gt; double</td></tr>
+<tr class="separator:a4d3a865511eef4014572c8002f1304b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
@@ -192,6 +194,34 @@ template&lt;typename Arr036 &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
+
+</div>
+</div>
+<a id="a4d3a865511eef4014572c8002f1304b1" name="a4d3a865511eef4014572c8002f1304b1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4d3a865511eef4014572c8002f1304b1">&#9670;&#160;</a></span>witness_norm_sq()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Arr036 &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto <a class="el" href="classQmiOracle.html">QmiOracle</a>&lt; Arr036 &gt;::witness_norm_sq </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const -&gt; double </td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Squared norm of the witness over the failed block from the last infeasible assess_feas call; zero after a feasible one. </p>
 
 </div>
 </div>

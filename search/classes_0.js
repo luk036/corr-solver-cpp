@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['qmioracle_0',['QmiOracle',['../classQmiOracle.html',1,'']]]
+  ['bsplineinfo_0',['BSplineInfo',['../structBSplineInfo.html',1,'']]]
 ];

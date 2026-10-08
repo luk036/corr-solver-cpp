@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['trace_0',['trace',['../linalg_8hpp.html#a2de9d2d8ad79a5f64d57347c0313d4d9',1,'linalg.hpp']]],
-  ['transpose_1',['transpose',['../linalg_8hpp.html#aa8d6aa1be090cd8f70ddb4cf4b47409f',1,'linalg.hpp']]]
+  ['optim_5fcut_0',['optim_cut',['../oracles_8hpp.html#ac6aa4da2f71b729667c3c60355286493',1,'oracles.hpp']]],
+  ['options_1',['options',['../structSolverConfig.html#a2280c98cce070589789903238e2afc5d',1,'SolverConfig']]]
 ];

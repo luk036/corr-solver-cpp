@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['norm_0',['norm',['../linalg_8hpp.html#a1385376da699d3eb45f5ae7775154a40',1,'linalg.hpp']]]
+  ['jacobi_5feigvals_0',['jacobi_eigvals',['../eigen_8hpp.html#a518d9af3ba38c331adddcb381f91e03b',1,'eigen.hpp']]]
 ];

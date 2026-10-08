@@ -28,7 +28,7 @@ MathJax.Hub.Config({
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">CorrSolver<span id="projectnumber">&#160;1.2.8</span>
+   <div id="projectname">CorrSolver<span id="projectnumber">&#160;1.2.9</span>
    </div>
   </td>
  </tr>
@@ -88,12 +88,21 @@ $(function() {
 
 <p>Minimal linear algebra helpers for Arr (transpose, matmul, Cholesky, inverse, etc.).  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &lt;ellalgo/arr.hpp&gt;</code><br />
+<div class="textblock"><code>#include &lt;cassert&gt;</code><br />
+<code>#include &lt;cmath&gt;</code><br />
+<code>#include &lt;cstddef&gt;</code><br />
+<code>#include &lt;ellalgo/arr.hpp&gt;</code><br />
 <code>#include &lt;random&gt;</code><br />
+<code>#include &lt;utility&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for linalg.hpp:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="linalg_8hpp__incl.svg" width="222" height="110"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="linalg_8hpp__incl.svg" width="583" height="110"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+</div><div class="textblock"><div class="dynheader">
+This graph shows which files directly or indirectly include this file:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="linalg_8hpp__dep__incl.svg" width="178" height="110"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 </div>
 <p><a href="linalg_8hpp_source.html">Go to the source code of this file.</a></p>
@@ -127,12 +136,17 @@ Functions</h2></td></tr>
 <tr class="memitem:aa2ad6c28b9b339ae95e37c34e3de2a90" id="r_aa2ad6c28b9b339ae95e37c34e3de2a90"><td class="memItemLeft" align="right" valign="top">Arr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="linalg_8hpp.html#aa2ad6c28b9b339ae95e37c34e3de2a90">inv</a> (const Arr &amp;A)</td></tr>
 <tr class="memdesc:aa2ad6c28b9b339ae95e37c34e3de2a90"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the inverse of a symmetric positive definite matrix via Cholesky.  <br /></td></tr>
 <tr class="separator:aa2ad6c28b9b339ae95e37c34e3de2a90"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8b6085841d02fe7d1c3d91f1b8e11892" id="r_a8b6085841d02fe7d1c3d91f1b8e11892"><td class="memItemLeft" align="right" valign="top">Arr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="linalg_8hpp.html#a8b6085841d02fe7d1c3d91f1b8e11892">inv_upper_tri</a> (const Arr &amp;r)</td></tr>
+<tr class="memdesc:a8b6085841d02fe7d1c3d91f1b8e11892"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invert an upper-triangular matrix by back substitution.  <br /></td></tr>
+<tr class="separator:a8b6085841d02fe7d1c3d91f1b8e11892"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae1b2c4a839f654f2f16115a1b7d7b42a" id="r_ae1b2c4a839f654f2f16115a1b7d7b42a"><td class="memItemLeft" align="right" valign="top">std::mt19937_64 &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="linalg_8hpp.html#ae1b2c4a839f654f2f16115a1b7d7b42a">global_rng</a> ()</td></tr>
 <tr class="memdesc:ae1b2c4a839f654f2f16115a1b7d7b42a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the global Mersenne Twister random number generator.  <br /></td></tr>
 <tr class="separator:ae1b2c4a839f654f2f16115a1b7d7b42a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a04b0e01fdfe9cb7643d34af17a53a853" id="r_a04b0e01fdfe9cb7643d34af17a53a853"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="linalg_8hpp.html#a04b0e01fdfe9cb7643d34af17a53a853">random_seed</a> (unsigned seed)</td></tr>
 <tr class="memdesc:a04b0e01fdfe9cb7643d34af17a53a853"><td class="mdescLeft">&#160;</td><td class="mdescRight">Seed the global random number generator.  <br /></td></tr>
 <tr class="separator:a04b0e01fdfe9cb7643d34af17a53a853"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8661ae3b0422dcde2e67d7b779dc2066" id="r_a8661ae3b0422dcde2e67d7b779dc2066"><td class="memItemLeft" align="right" valign="top">Arr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="linalg_8hpp.html#a8661ae3b0422dcde2e67d7b779dc2066">randn</a> (size_t n, std::mt19937_64 &amp;rng)</td></tr>
+<tr class="separator:a8661ae3b0422dcde2e67d7b779dc2066"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aec7819e5e7015d782192e3d4df679d79" id="r_aec7819e5e7015d782192e3d4df679d79"><td class="memItemLeft" align="right" valign="top">Arr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="linalg_8hpp.html#aec7819e5e7015d782192e3d4df679d79">randn</a> (size_t n)</td></tr>
 <tr class="memdesc:aec7819e5e7015d782192e3d4df679d79"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generate a vector of standard normal random numbers.  <br /></td></tr>
 <tr class="separator:aec7819e5e7015d782192e3d4df679d79"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -376,6 +390,47 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="a8b6085841d02fe7d1c3d91f1b8e11892" name="a8b6085841d02fe7d1c3d91f1b8e11892"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8b6085841d02fe7d1c3d91f1b8e11892">&#9670;&#160;</a></span>inv_upper_tri()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Arr inv_upper_tri </td>
+          <td>(</td>
+          <td class="paramtype">const Arr &amp;&#160;</td>
+          <td class="paramname"><em>r</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Invert an upper-triangular matrix by back substitution. </p>
+<p class="formulaDsp">
+\[
+    (R^{-1})_{ij} = \frac{1}{R_{ii}}\Bigl(\delta_{ij}
+        - \sum_{k=i+1}^{j} R_{ik} (R^{-1})_{kj}\Bigr), \quad i \le j
+\]
+</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">r</td><td>Upper-triangular matrix with non-zero diagonal </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Inverse matrix (upper triangular) </dd></dl>
+
+</div>
+</div>
 <a id="a8963faeed1bfdbe572752a12c6ba3b97" name="a8963faeed1bfdbe572752a12c6ba3b97"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a8963faeed1bfdbe572752a12c6ba3b97">&#9670;&#160;</a></span>matmul()</h2>
 
@@ -512,7 +567,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="aec7819e5e7015d782192e3d4df679d79" name="aec7819e5e7015d782192e3d4df679d79"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aec7819e5e7015d782192e3d4df679d79">&#9670;&#160;</a></span>randn()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aec7819e5e7015d782192e3d4df679d79">&#9670;&#160;</a></span>randn() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -543,6 +598,42 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>1D array of i.i.d. N(0,1) samples </dd></dl>
+
+</div>
+</div>
+<a id="a8661ae3b0422dcde2e67d7b779dc2066" name="a8661ae3b0422dcde2e67d7b779dc2066"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8661ae3b0422dcde2e67d7b779dc2066">&#9670;&#160;</a></span>randn() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Arr randn </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>n</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::mt19937_64 &amp;&#160;</td>
+          <td class="paramname"><em>rng</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
 
 </div>
 </div>

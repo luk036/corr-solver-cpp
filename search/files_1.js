@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['linalg_2ehpp_0',['linalg.hpp',['../linalg_8hpp.html',1,'']]]
+  ['bspline_2ehpp_0',['bspline.hpp',['../bspline_8hpp.html',1,'']]]
 ];

@@ -1,10 +1,17 @@
 var searchData=
 [
-  ['randn_0',['randn',['../linalg_8hpp.html#aec7819e5e7015d782192e3d4df679d79',1,'linalg.hpp']]],
-  ['random_5fseed_1',['random_seed',['../linalg_8hpp.html#a04b0e01fdfe9cb7643d34af17a53a853',1,'linalg.hpp']]],
-  ['readme_2emd_2',['README.md',['../README_8md.html',1,'']]],
-  ['related_20projects_20and_20alternatives_3',['Related projects and alternatives',['../index.html#autotoc_md11',1,'']]],
-  ['run_20clang_20format_4',['Run clang-format',['../index.html#autotoc_md6',1,'']]],
-  ['run_20test_20suite_5',['Build and run test suite',['../index.html#autotoc_md5',1,'']]],
-  ['run_20the_20standalone_20target_6',['Build and run the standalone target',['../index.html#autotoc_md4',1,'']]]
+  ['make_5fellipsoid_0',['make_ellipsoid',['../layouts_8hpp.html#aeeab1356cd7f4d3301a9fe7126c64cdc',1,'layouts.hpp']]],
+  ['matmul_1',['matmul',['../linalg_8hpp.html#a8963faeed1bfdbe572752a12c6ba3b97',1,'linalg.hpp']]],
+  ['max_5fiters_2',['max_iters',['../structSolverConfig.html#ae254a5d88dc08770cfcab78ce709731f',1,'SolverConfig']]],
+  ['meshgrid_3',['meshgrid',['../linalg_8hpp.html#a7c20aac185212e060e54a31c1166335a',1,'linalg.hpp']]],
+  ['min_5feig_4',['min_eig',['../eigen_8hpp.html#ad7b29068d61f588cd829c51be75340b0',1,'eigen.hpp']]],
+  ['mle_5fcorr_5fpoly_5',['mle_corr_poly',['../corr__solver_8hpp.html#ad8144148f01f4cef01d0ec85f302343c',1,'corr_solver.hpp']]],
+  ['mle_5finitial_5fguess_6',['mle_initial_guess',['../layouts_8hpp.html#a32f36d5cc063c8ed880e6f436efc3002',1,'layouts.hpp']]],
+  ['mle_5fr0_7',['mle_r0',['../structSolverConfig.html#a891e11136eccfbf53dd9c4bdba4daa2d',1,'SolverConfig']]],
+  ['mleoracle_8',['mleoracle',['../classMleOracle.html',1,'MleOracle'],['../classMleOracle.html#a859ab66206b35e43c3baae11278c0a88',1,'MleOracle::MleOracle()']]],
+  ['mlescratch_9',['mlescratch',['../structMleScratch.html',1,'MleScratch'],['../structMleScratch.html#a7521478369eba6a4a225f5e3e7fff3a6',1,'MleScratch::MleScratch()']]],
+  ['moderncppstarter_20documentation_10',['ModernCppStarter Documentation',['../about.html#doc',1,'']]],
+  ['mono_5foracle_11',['mono_oracle',['../bspline_8hpp.html#a16f70f5366f1f7c0065ab79fd41cb175',1,'bspline.hpp']]],
+  ['monodecreasingoracle_12',['monodecreasingoracle',['../classMonoDecreasingOracle.html#ae7d0481be3012ccdfce86b49a2c6a9a1',1,'MonoDecreasingOracle::MonoDecreasingOracle()'],['../classMonoDecreasingOracle.html',1,'MonoDecreasingOracle&lt; Basis &gt;']]],
+  ['monodecreasingoracle2_13',['MonoDecreasingOracle2',['../bspline_8hpp.html#a5e6ae8e858d626939cee5699316c6045',1,'bspline.hpp']]]
 ];

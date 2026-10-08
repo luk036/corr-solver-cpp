@@ -1,0 +1,22 @@
+<map id="corrsolver/bspline.hpp" name="corrsolver/bspline.hpp">
+<area shape="rect" id="Node000001" title="Quadratic B&#45;spline basis (clamped knots, scipy&#45;compatible extrapolation) and the monotone&#45;decreasing ..." alt="" coords="405,5,572,31"/>
+<area shape="rect" id="Node000002" href="$geometry_8hpp.html" title="Pairwise distance geometry for site layouts." alt="" coords="5,79,185,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="426,33,173,79,172,74,425,28"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="166,152,281,177"/>
+<area shape="poly" id="edge7_Node000001_Node000003" title=" " alt="" coords="408,33,314,53,276,66,250,81,241,93,234,108,227,139,222,138,229,106,236,90,247,77,273,61,313,48,406,28"/>
+<area shape="rect" id="Node000004" href="$types_8hpp.html" title="Shared type aliases." alt="" coords="261,79,415,104"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="466,33,376,75,374,70,463,28"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="365,152,425,177"/>
+<area shape="poly" id="edge10_Node000001_Node000005" title=" " alt="" coords="483,33,412,142,408,139,479,30"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="491,79,561,104"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="497,30,516,65,511,68,492,32"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="586,79,661,104"/>
+<area shape="poly" id="edge8_Node000001_Node000007" title=" " alt="" coords="512,28,590,70,588,74,509,33"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="685,79,740,104"/>
+<area shape="poly" id="edge9_Node000001_Node000008" title=" " alt="" coords="525,28,673,75,672,80,524,33"/>
+<area shape="rect" id="Node000009" title=" " alt="" coords="764,79,827,104"/>
+<area shape="poly" id="edge11_Node000001_Node000009" title=" " alt="" coords="542,28,751,76,750,81,541,33"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="117,102,191,143,189,147,115,106"/>
+<area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="321,106,255,147,252,142,318,102"/>
+<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="350,103,379,139,375,143,345,106"/>
+</map>
