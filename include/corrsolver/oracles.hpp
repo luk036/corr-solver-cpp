@@ -1,5 +1,5 @@
 /** @file oracles.hpp
- *  @brief Separation oracles for the LSQ, MLE and CCP correlation fits.
+ *  @brief Separation oracles for the LSQ and CCP correlation fits.
  */
 
 #pragma once
@@ -10,12 +10,11 @@
 #include <cstddef>
 #include <ellalgo/arr.hpp>
 #include <ellalgo/oracles/lmi0_oracle.hpp>
-#include <ellalgo/oracles/lmi_oracle.hpp>
 #include <tuple>
 #include <utility>
 #include <vector>
 
-/// Cholesky-based scratch shared by the MLE and CCP oracles: the factor R with
+/// Cholesky-based scratch shared by the CCP oracle: the factor R with
 /// Omega(x) = R^T R, S = R^-T R^-1, and SY = S Y.
 struct MleScratch {
     Arr R;
@@ -53,21 +52,6 @@ class LsqOracle {
 
   public:
     LsqOracle(size_t m, const std::vector<Arr>& F, const Arr& F0) : _qmi(F, F0), _lmi0(m, F) {}
-    std::tuple<Cut, bool> assess_optim(const Arr& x, double& t);
-};
-
-/// Maximum-likelihood oracle for min log det Omega + Tr(Omega^-1 Y) s.t.
-/// 2Y >= Omega >= 0.
-class MleOracle {
-    Arr Y_;
-    std::vector<Arr> sig_;
-    Lmi0Oracle<Arr> _lmi0;
-    LmiOracle<Arr> _lmi;
-    MleScratch _scratch;
-    Arr _V;
-
-  public:
-    MleOracle(size_t m, const std::vector<Arr>& Sig, const Arr& Y);
     std::tuple<Cut, bool> assess_optim(const Arr& x, double& t);
 };
 

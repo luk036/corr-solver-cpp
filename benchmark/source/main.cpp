@@ -81,21 +81,6 @@ int main() {
         std::cout << "  iters = " << lsq_iters << "\n";
     }
 
-    // --- MLE benchmark ---
-    std::cout << "\n=== MLE Correlation ===\n";
-    {
-        ankerl::nanobench::Bench bench;
-        bench.title("MLE correlation").unit("op").warmup(1).epochs(5).minEpochIterations(1);
-
-        size_t mle_iters = 0;
-        bench.run("MLE_corr", [&] {
-            auto result = mle_corr_poly(Y, site, m);
-            mle_iters = result.iters;
-            ankerl::nanobench::doNotOptimizeAway(result);
-        });
-        std::cout << "  iters = " << mle_iters << "\n";
-    }
-
     // --- CCP benchmark ---
     std::cout << "\n=== CCP Correlation ===\n";
     {

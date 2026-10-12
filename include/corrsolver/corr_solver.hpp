@@ -41,9 +41,6 @@ FitResult lsq_corr_generic(const Arr& Y, const std::vector<Arr>& Sigma,
 /// Least-squares fit on the quadratic B-spline basis.
 FitResult lsq_corr_bspline(const Arr& Y, const Arr& site, size_t m, const SolverConfig& cfg = {});
 
-/// Maximum-likelihood fit subject to 2Y >= Omega >= 0.
-FitResult mle_corr_poly(const Arr& Y, const Arr& site, size_t m, const SolverConfig& cfg = {});
-
 /// CCP fit with the polynomial basis, warm-started from the least-squares fit.
 FitResult cccp_corr_poly(const Arr& Y, const Arr& site, size_t m, const SolverConfig& cfg = {});
 

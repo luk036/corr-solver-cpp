@@ -37,43 +37,6 @@ std::tuple<Cut, bool> LsqOracle::assess_optim(const Arr& x, double& t) {
     return {{std::move(g), 0.0}, true};
 }
 
-MleOracle::MleOracle(size_t m, const std::vector<Arr>& Sig, const Arr& Y)
-    : Y_{Y},
-      sig_{Sig},
-      _lmi0(m, Sig),
-      _lmi(m, Sig, 2.0 * Y),
-      _scratch(Y.rows()),
-      _V(Y.rows(), Y.rows()) {}
-
-std::tuple<Cut, bool> MleOracle::assess_optim(const Arr& x, double& t) {
-    if (auto* cut1 = this->_lmi.assess_feas(x)) return {*cut1, false};
-    if (auto* cut0 = this->_lmi0.assess_feas(x)) return {*cut0, false};
-
-    auto n = x.size();
-    auto dim = this->Y_.rows();
-
-    this->_scratch.update(this->_lmi0, this->Y_);
-    const auto& S = this->_scratch.S;
-    const auto& SY = this->_scratch.SY;
-
-    double log_sum = 0.0;
-    for (size_t i = 0; i < dim; ++i) log_sum += std::log(this->_scratch.R(i, i));
-    auto f1 = 2.0 * log_sum + trace(SY);
-
-    // g[i] = tr(S Sigma_i) - tr(Sigma_i S Y S) = <(S - SY S)^T, Sigma_i>
-    //      = <S - SY S, Sigma_i>   (Sigma_i is symmetric)
-    for (size_t a = 0; a < dim; ++a)
-        for (size_t b = 0; b < dim; ++b) {
-            double s = 0.0;
-            for (size_t k = 0; k < dim; ++k) s += SY(a, k) * S(k, b);
-            this->_V(a, b) = S(a, b) - s;
-        }
-
-    Arr g = zeros(n);
-    for (size_t i = 0; i < n; ++i) g(i) = frob_inner(this->_V, this->sig_[i]);
-    return optim_cut(std::move(g), f1, t);
-}
-
 CccpMleOracle::CccpMleOracle(size_t ndim, const std::vector<Arr>& Sig, const Arr& Y, const Arr& M)
     : Y_{Y},
       sig_{Sig},

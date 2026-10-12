@@ -82,15 +82,6 @@ namespace {
         return {std::move(a), num_iters, true};
     }
 
-    FitResult run_mle_core(size_t m, MleOracle& omega, const SolverConfig& cfg) {
-        auto guess = mle_initial_guess(m, cfg);
-        auto ellip = make_ellipsoid(guess);
-        auto t = kInitialT;
-        auto [x_best, num_iters] = cutting_plane_optim(omega, ellip, t, cfg.options());
-        const bool ok = (x_best.size() == m);
-        return {std::move(x_best), num_iters, ok};
-    }
-
 }  // namespace
 
 FitResult lsq_corr_poly2(const Arr& Y, const Arr& site, size_t m, const SolverConfig& cfg) {
@@ -108,12 +99,6 @@ FitResult lsq_corr_generic(const Arr& Y, const std::vector<Arr>& Sigma,
 
 FitResult lsq_corr_bspline(const Arr& Y, const Arr& site, size_t m, const SolverConfig& cfg) {
     return lsq_corr_generic(Y, generate_bspline_info(site, m).Sigma, m, cfg);
-}
-
-FitResult mle_corr_poly(const Arr& Y, const Arr& site, size_t m, const SolverConfig& cfg) {
-    auto Sig = construct_poly_matrix(site, m);
-    auto omega = MleOracle(Y.rows(), Sig, Y);
-    return run_mle_core(m, omega, cfg);
 }
 
 FitResult cccp_corr_poly(const Arr& Y, const Arr& site, size_t m, const SolverConfig& cfg) {

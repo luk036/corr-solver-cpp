@@ -14,12 +14,6 @@ InitialGuess lsq_initial_guess(const Arr& Y, size_t m, const SolverConfig& cfg) 
     return {std::move(x), std::move(radii), 0.0};
 }
 
-InitialGuess mle_initial_guess(size_t m, const SolverConfig& cfg) {
-    Arr x = zeros(m);
-    x[0] = 4.0;
-    return {std::move(x), {}, cfg.mle_r0};
-}
-
 InitialGuess cccp_initial_guess(const Arr& x, const SolverConfig& cfg) {
     return {x, {}, cfg.mle_r0};
 }

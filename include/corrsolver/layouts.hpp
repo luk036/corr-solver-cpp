@@ -24,9 +24,6 @@ struct InitialGuess {
 /// Augmented (coeffs..., t) layout for the least-squares optimization.
 InitialGuess lsq_initial_guess(const Arr& Y, size_t m, const SolverConfig& cfg = {});
 
-/// Plain coefficient layout for the maximum-likelihood fit.
-InitialGuess mle_initial_guess(size_t m, const SolverConfig& cfg = {});
-
 /// Plain coefficient layout for one CCP round, centred on x.
 InitialGuess cccp_initial_guess(const Arr& x, const SolverConfig& cfg = {});
 
