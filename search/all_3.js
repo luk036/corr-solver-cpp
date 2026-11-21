@@ -7,7 +7,7 @@ var searchData=
   ['cccp_5finitial_5fguess_4',['cccp_initial_guess',['../layouts_8hpp.html#a871aec501b43dcc4cb148c308f5e5415',1,'layouts.hpp']]],
   ['cccp_5fmax_5frounds_5',['cccp_max_rounds',['../structSolverConfig.html#a194fd5185e4b0303d254eb2a4d3c9051',1,'SolverConfig']]],
   ['cccp_5ftol_6',['cccp_tol',['../structSolverConfig.html#a2ec18d40fc8150e40e4e68cec6e704c6',1,'SolverConfig']]],
-  ['cccpmleoracle_7',['cccpmleoracle',['../classCccpMleOracle.html',1,'CccpMleOracle'],['../classCccpMleOracle.html#acba308188f81b123eadee9cde5762f5e',1,'CccpMleOracle::CccpMleOracle()']]],
+  ['cccpmleoracle_7',['CccpMleOracle',['../classCccpMleOracle.html',1,'CccpMleOracle'],['../classCccpMleOracle.html#acba308188f81b123eadee9cde5762f5e',1,'CccpMleOracle::CccpMleOracle()']]],
   ['cholesky_8',['cholesky',['../linalg_8hpp.html#a60bd392fb6daa4fdc8bd0a3167adeb84',1,'linalg.hpp']]],
   ['clamped_5fknots_9',['clamped_knots',['../bspline_8hpp.html#ad1e6c00bb63ef82dcb082062dd5a859c',1,'bspline.hpp']]],
   ['clang_20format_10',['Run clang-format',['../index.html#autotoc_md6',1,'']]],

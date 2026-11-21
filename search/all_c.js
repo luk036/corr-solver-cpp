@@ -10,5 +10,5 @@ var searchData=
   ['lsq_5ffrob_5fscale_7',['lsq_frob_scale',['../structSolverConfig.html#a8ee06482b875ffe46db79ed7b55635d3',1,'SolverConfig']]],
   ['lsq_5finitial_5fguess_8',['lsq_initial_guess',['../layouts_8hpp.html#a4e8f50d80c0ffed693f8b3d9301d5bf7',1,'layouts.hpp']]],
   ['lsq_5fnorm_5fscale_9',['lsq_norm_scale',['../structSolverConfig.html#a38c38075515148928ece5e7d5e1ad903',1,'SolverConfig']]],
-  ['lsqoracle_10',['lsqoracle',['../classLsqOracle.html',1,'LsqOracle'],['../classLsqOracle.html#ad69b9afdfe43c8b3623b7059c2f16227',1,'LsqOracle::LsqOracle()']]]
+  ['lsqoracle_10',['LsqOracle',['../classLsqOracle.html',1,'LsqOracle'],['../classLsqOracle.html#ad69b9afdfe43c8b3623b7059c2f16227',1,'LsqOracle::LsqOracle()']]]
 ];

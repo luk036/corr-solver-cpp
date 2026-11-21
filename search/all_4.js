@@ -10,5 +10,6 @@ var searchData=
   ['dd_5fsub_7',['dd_sub',['../namespacedd__detail.html#a5fb5811e13aaae3d620976d8df99c50c',1,'dd_detail']]],
   ['design_5fcond_8',['design_cond',['../eigen_8hpp.html#aab063b653e1cf6016d0ce17d04372cdd',1,'eigen.hpp']]],
   ['diagonal_9',['diagonal',['../linalg_8hpp.html#a5163a9062e5c61aa334325e07ec7c648',1,'linalg.hpp']]],
-  ['documentation_10',['documentation',['../index.html#autotoc_md7',1,'Build the documentation'],['../about.html#doc',1,'ModernCppStarter Documentation']]]
+  ['documentation_10',['ModernCppStarter Documentation',['../about.html#doc',1,'']]],
+  ['documentation_11',['Build the documentation',['../index.html#autotoc_md7',1,'']]]
 ];
